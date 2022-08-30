@@ -1,0 +1,253 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>web-biz-service请求库方法汇总</title>
+  </head>
+  <body>
+    <div id="app">
+      <el-container style="height: 100vh">
+        <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
+          <el-menu class="el-menu-vertical-demo" :default-active="activeBizName">
+            <el-menu-item :index="''" @click="menuClick('')">
+              <span>全部</span>
+            </el-menu-item>
+            <el-menu-item :index="bizName" v-for="(data, bizName, index) in descMap" :key="bizName" @click="menuClick(bizName)">
+              <span>{{bizName}}-{{data?.desc || ''}}</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-container>
+          <el-header class="shadow-md flex justify-center items-center relative">
+            <div class="w-2/4 flex justify-center items-center">
+              <el-select v-model="searchType" size="large" placeholder="请选择搜索类型">
+                <el-option label="请求名称" value="1"></el-option>
+                <el-option label="请求URL" value="2"></el-option>
+                <el-option label="请求描述" value="3"></el-option>
+              </el-select>
+              <el-input size="large" placeholder="请输入内容" v-model="searchValue" class="input-with-select" clearable @change="search" @clear="search"> </el-input>
+              <el-button size="large" type="primary" @click="search">搜索</el-button>
+              <el-button size="large" plain type="primary" @click="reset">重置</el-button>
+            </div>
+            <el-link class="absolute top-1/2 right-6 transform -translate-y-2/4" type="primary" href="https://greasyfork.org/zh-CN/scripts/450328-swaggerskiptocustommethods" target="_blank">脚本工具</el-link>
+          </el-header>
+          <el-main>
+            <el-table :data="tableData" row-key="methodName" :expand-row-keys="expands" @row-click="clickRowHandle" v-loading="loading">
+              <el-table-column type="expand">
+                <template v-slot="props">
+                  <el-row class="px-10 py-5">
+                    <el-col :span="24" class="mb-3">
+                      <h3 class="font-bold text-md mb-1">请求示例</h3>
+                      <code> {{getExample(props.row)}} </code>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-descriptions title="请求参数" :column="1">
+                        <el-descriptions-item :label="key" v-for="(value, key) in getParams(props.row)">{{value || ''}}</el-descriptions-item>
+                      </el-descriptions>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-descriptions title="请求结果" :column="1">
+                        <el-descriptions-item :label="key" v-for="(value, key) in getResponse(props.row)">{{value || ''}}</el-descriptions-item>
+                      </el-descriptions>
+                    </el-col>
+                  </el-row>
+                </template>
+              </el-table-column>
+              <el-table-column label="请求名称" prop="methodName"> </el-table-column>
+              <el-table-column label="所属模块" prop="bizName" width="280px">
+                <template #default="scope">
+                  <el-tag>{{scope.row.subBiz || scope.row.bizName}}</el-tag> -
+                  <span class="text-sm text-gray-600">{{descMap[scope.row.subBiz || scope.row.bizName]?.desc || ''}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="请求描述" prop="summary"> </el-table-column>
+              <el-table-column label="请求URL" prop="url"> </el-table-column>
+              <el-table-column label="请求类型" prop="methods" width="150px">
+                <template #default="scope">
+                  <el-tag size="large" :type="methodColorType[scope.row.methods]" effect="dark">{{scope.row.methods.toUpperCase()}}</el-tag>
+                </template>
+              </el-table-column>
+
+              <el-table-column label="请求版本" align="center" width="120px">
+                <template #default="scope">
+                  <el-tag>{{scope.row.version}}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="文档地址" align="center" width="150px">
+                <template #default="scope">
+                  <el-link type="info" @click="skipSwagger(scope.row)" v-if="descMap[scope.row.bizName]?.doc">查看</el-link>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-main>
+        </el-container>
+      </el-container>
+    </div>
+
+    <script>
+      const App = {
+        mounted() {
+          fetch('biz.json')
+            .then((res) => res.json())
+            .then((res) => {
+              this.bizData = res;
+              this.search();
+              this.loading = false;
+            });
+        },
+        data() {
+          return {
+            // 当前选中biz模块
+            activeBizName: '',
+            // json数据
+            bizData: {},
+            // 搜索类型
+            searchType: '1',
+            // 搜索值
+            searchValue: '',
+            // 最终展示结果
+            tableData: [],
+            // 要展开的行，数值的元素是row的key值
+            expands: [],
+            // 加载
+            loading: true,
+          };
+        },
+        computed: {
+          // biz模块信息说明
+          descMap() {
+            return {
+              gcsBiz: { desc: 'GPS点位服务', doc: 'http://10.8.109.235:7319' },
+              cgsBiz: { desc: '认知服务(文字转语音)', doc: 'http://10.8.109.235:3378' },
+              mmtBiz: { desc: '拍传服务', doc: 'http://10.8.109.235:17599' },
+              aggsBiz: { desc: '聚合查询服务', doc: 'http://10.8.109.235:3885' },
+              authBiz: { desc: '认证授权服务', doc: 'http://10.8.109.235:9810' },
+              edmsBiz: { desc: '调度服务', doc: 'http://10.8.109.235:3333' },
+              orgsBiz: { desc: '组织架构服务', doc: 'http://10.8.109.242:10270' },
+              eventBiz: { desc: '事件服务', doc: 'http://10.8.109.235:3088' },
+              preplanBiz: { desc: '事件服务-预案', doc: 'http://10.8.109.235:3088' },
+              taskBiz: { desc: '事件服务-任务', doc: 'http://10.8.109.235:3088' },
+              associatedBiz: { desc: '事件服务-事件关联', doc: 'http://10.8.109.235:3088' },
+              viscsBiz: { desc: '可视化配置服务', doc: 'http://10.8.109.231:12360' },
+              alarmBiz: { desc: '告警服务', doc: 'http://10.8.109.235:20173' },
+              quartzBiz: { desc: '定时任务服务', doc: 'http://10.8.109.235:5198' },
+              geoDataBiz: { desc: '地理数据服务', doc: 'http://10.8.109.235:3098' },
+              fileStorageBiz: { desc: '文件存储服务', doc: 'http://10.8.109.235:17591' },
+              geoAnalysisBiz: { desc: '地理分析服务', doc: 'http://10.8.109.235:3099' },
+              preplanAnalysisBiz: { desc: '预案分析服务', doc: 'http://10.8.109.235:3089' },
+              modelAnalysisBiz: { desc: '模型分析服务', doc: 'http://10.8.109.235:20175' },
+              videoFusionServiceBiz: { desc: '视频融合服务', doc: 'http://10.8.109.235:3078' },
+              facilityBiz: { desc: '设施服务层(不维护)', doc: 'http://10.8.109.235:3078' },
+              resourceBiz: { desc: '静态资源服务', doc: '' },
+            };
+          },
+          // 搜索关系映射
+          searchKeyMap() {
+            return { 1: 'methodName', 2: 'url', 3: 'summary' }[this.searchType];
+          },
+          // 请求类型演示映射
+          methodColorType: () => ({ get: '', post: 'success', put: 'warning', delete: 'danger' }),
+        },
+
+        methods: {
+          // 搜索
+          search() {
+            this.expands = [];
+            const specialBiz = ['preplanBiz', 'taskBiz', 'associatedBiz', 'eventBiz'];
+            let list = Object.entries(this.bizData).reduce((pre, [bizName, fnList]) => pre.concat(fnList.map((i) => ({ ...i, bizName }))), []);
+            if (this.activeBizName) {
+              list = specialBiz.includes(this.activeBizName) ? list.filter((i) => i.subBiz === this.activeBizName) : this.bizData[this.activeBizName].map((i) => ({ ...i, bizName: this.activeBizName }));
+            }
+            if (this.searchValue) {
+              list = list
+                .reduce((pre, item) => {
+                  const { flag, compatTotal } = this.fuzzyMatch(item[this.searchKeyMap], this.searchValue);
+                  return flag ? [...pre, { ...item, compatTotal }] : pre;
+                }, [])
+                .sort((a, b) => b.compatTotal - a.compatTotal);
+            }
+            this.tableData = list;
+          },
+          // 重置
+          reset() {
+            this.searchValue = '';
+            this.search();
+          },
+          // 参数格式化
+          getParams(data) {
+            const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
+            return formatParamsData.reduce((obj, i) => {
+              let str = `参数类型：${i?.in === 'header' ? 'headers' : i.type} 参数说明：${i?.description || '空'} ${i?.default ? ' 默认值：' + i?.default : ''} ${i?.required ? '（必填）' : ''}`;
+              return { ...obj, [i.key]: str };
+            }, {});
+          },
+          // 响应格式化
+          getResponse(data) {
+            if (!data.responses) return {};
+            return data.responses.reduce((pre, i) => ({ ...pre, [i.key]: i.description }), {});
+          },
+          // 请求示例生成
+          getExample(data) {
+            const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
+            const requiredParams = formatParamsData.filter((i) => i.required);
+            return `this.${data.subBiz || data.bizName}.${data.methodName}(${!formatParamsData.length ? '' : requiredParams.length === 1 ? requiredParams?.[0]?.key : 'params'})`;
+          },
+          // 跳转文档地址
+          skipSwagger(data) {
+            try {
+              let hash = `#operations-${data.tag}-${data?.operationId || data.methods + data.url.replace(/\/|\{|\}/g, '_')}`;
+              window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}${hash}`);
+            } catch (error) {
+              window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}`);
+            }
+          },
+          // 模糊匹配
+          fuzzyMatch(str, key) {
+            let index = -1,
+              flag = false,
+              compatTotal = str.split(key)?.length ?? 0;
+
+            for (let i = 0, arr = key.split(''); i < arr.length; i++) {
+              if (str.indexOf(arr[i]) < 0) {
+                break;
+              } else {
+                let match = str.matchAll(RegExp(arr[i], 'gi'));
+                let next = match.next();
+                while (!next.done) {
+                  if (next.value.index > index) {
+                    index = next.value.index;
+                    if (i === arr.length - 1) {
+                      flag = true;
+                    }
+                    break;
+                  }
+                  next = match.next();
+                }
+              }
+            }
+            return { flag, compatTotal };
+          },
+          // 左侧菜单点击
+          menuClick(val) {
+            this.activeBizName = val;
+            this.search();
+          },
+          // 表格行点击
+          clickRowHandle(row, column, event) {
+            if (column.label === '文档地址') return;
+            if (this.expands.includes(row.methodName)) {
+              this.expands = this.expands.filter((val) => val !== row.methodName);
+            } else {
+              this.expands.push(row.methodName);
+            }
+          },
+        },
+      };
+      Vue.createApp(App).use(ElementPlus).mount('#app');
+    </script>
+  </body>
+</html>
