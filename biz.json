@@ -6151,80 +6151,46 @@
 			"summary": "获取所有的上下文信息",
 			"version": "v1",
 			"methodName": "getClientContext",
-			"parameters": null,
-			"responses": [
+			"parameters": [
 				{
-					"key": "item1",
-					"type": "object",
-					"description": "系统用户",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						},
-						{
-							"key": "3"
-						},
-						{
-							"key": "4"
-						},
-						{
-							"key": "5"
-						},
-						{
-							"key": "6"
-						},
-						{
-							"key": "7"
-						},
-						{
-							"key": "8"
-						},
-						{
-							"key": "9"
-						},
-						{
-							"key": "10"
-						},
-						{
-							"key": "11"
-						},
-						{
-							"key": "12"
-						},
-						{
-							"key": "13"
-						},
-						{
-							"key": "14"
-						},
-						{
-							"key": "15"
-						},
-						{
-							"key": "16"
-						},
-						{
-							"key": "17"
-						}
-					]
+					"key": "Type",
+					"description": "客户端类型,0表示SignalR,1表示TCP",
+					"default": null,
+					"in": "query"
 				},
 				{
-					"key": "item2",
+					"key": "Keyword",
 					"type": "string",
-					"description": "",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
 					"required": false
 				},
 				{
-					"key": "item3",
-					"type": "string",
-					"description": "",
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
 				}
 			],
@@ -7518,13 +7484,6 @@
 			"methodName": "getPhoneLines",
 			"parameters": [
 				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -7536,6 +7495,13 @@
 					"type": "integer",
 					"description": "页容量",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -8566,13 +8532,6 @@
 			"methodName": "getDraftFaxList",
 			"parameters": [
 				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -8584,6 +8543,13 @@
 					"type": "integer",
 					"description": "页容量",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -9293,13 +9259,6 @@
 			"methodName": "getNightServicesStatus",
 			"parameters": [
 				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -9311,6 +9270,13 @@
 					"type": "integer",
 					"description": "页容量",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -42526,6 +42492,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "number",
+					"type": "string",
+					"description": "自定义的会议室号码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "presenter",
 					"type": "object",
 					"description": "账号",
@@ -43042,6 +43015,13 @@
 			"methodName": "addMcuDataById",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -43053,13 +43033,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -43535,6 +43508,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -43546,13 +43526,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -44108,16 +44081,23 @@
 					"in": "query"
 				},
 				{
+					"key": "key",
+					"type": "string",
+					"description": "关键字（用户账户/ID、接口、操作类型）",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "date_start",
 					"type": "string",
-					"description": "记录起始时间",
+					"description": "记录起始时间(默认3小时前)",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "date_stop",
 					"type": "string",
-					"description": "记录终结时间",
+					"description": "记录终结时间(默认当前时间)",
 					"default": null,
 					"in": "query"
 				},
@@ -44131,124 +44111,28 @@
 				{
 					"key": "service",
 					"type": "string",
-					"description": "记录归属服务",
+					"description": "记录归属服务gateway/vs 默认：gateway（操作日志）",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "user_ip",
 					"type": "string",
-					"description": "",
+					"description": "用户IP",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "product",
 					"type": "integer",
-					"description": "产品",
+					"description": "产品(应用)",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "Uri",
 					"type": "string",
-					"description": "Uri",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Operation",
-			"tag": "Operation",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "按条件查询操作",
-			"version": "v1",
-			"methodName": "searchOperation",
-			"parameters": [
-				{
-					"key": "usr_id",
-					"type": "string",
-					"description": "用户ID",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "date_start",
-					"type": "string",
-					"description": "记录起始时间",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "date_stop",
-					"type": "string",
-					"description": "记录终结时间",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "sort_field",
-					"type": "string",
-					"description": "排序字段",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "service",
-					"type": "string",
-					"description": "记录归属服务",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "user_ip",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "product",
-					"type": "integer",
-					"description": "产品",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "Uri",
-					"type": "string",
-					"description": "Uri",
+					"description": "url",
 					"default": null,
 					"in": "query"
 				},
@@ -44469,65 +44353,37 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "分级平台ID",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
 					"required": false
 				},
 				{
-					"key": "net",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "",
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
-				},
-				{
-					"key": "clientTerminalType",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "model",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "osDescription",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "machineInfo",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "status",
-					"description": "",
-					"required": false,
-					"details": null
 				}
 			],
 			"requestBody": null
@@ -44935,68 +44791,37 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "分级平台ID",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": false
-				},
-				{
-					"key": "ipAddress",
-					"type": "array",
-					"description": "网络地址",
-					"required": false
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "服务器名称",
-					"required": false
-				},
-				{
-					"key": "authInfo",
-					"type": "object",
-					"description": "认证信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						}
-					]
-				},
-				{
-					"key": "osDescription",
-					"type": "string",
-					"description": "操作系统",
-					"required": false
-				},
-				{
-					"key": "extension",
-					"type": "string",
-					"description": "硬件信息",
-					"required": false
-				},
-				{
-					"key": "network",
-					"type": "string",
-					"description": "网络类型",
-					"required": false
-				},
-				{
-					"key": "status",
+					"key": "totalCount",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
-					"required": false,
-					"details": null
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -45520,8 +45345,22 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "分级平台ID",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -45687,27 +45526,6 @@
 					"required": true,
 					"default": null,
 					"in": "path"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "platformId",
-					"default": null,
-					"in": "query"
 				}
 			],
 			"responses": [
@@ -45724,7 +45542,29 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/NC/{id}/trunk_group_configs",
@@ -45735,6 +45575,21 @@
 			"version": "v1",
 			"methodName": "getNcTrunkGroupConfigs",
 			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
 				{
 					"key": "page",
 					"type": "integer",
@@ -45747,21 +45602,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "platformId",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -45864,42 +45704,37 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "分级平台ID",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "networkInterface",
-					"type": "string",
-					"description": "接入网段",
-					"required": false
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "网络名称",
-					"required": false
-				},
-				{
-					"key": "boundWidth",
+					"key": "totalCount",
 					"type": "integer",
-					"description": "带宽",
+					"description": "总数",
 					"required": false
 				},
 				{
-					"key": "status",
-					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
-					"required": false,
-					"details": null
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -46126,82 +45961,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Petstore/{id}",
-			"tag": "Petstore",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "通过ID获取Pet",
-			"version": "v1",
-			"methodName": "getPetstoreById",
-			"operationId": "GetPet",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "integer",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "integer",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "",
-					"required": true
-				},
-				{
-					"key": "category",
-					"type": "object",
-					"description": "",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				},
-				{
-					"key": "photoUrls",
-					"type": "array",
-					"description": "",
-					"required": true
-				},
-				{
-					"key": "tags",
-					"type": "array",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "status",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "additionalProperties",
-					"type": "object",
-					"description": "",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
 			"url": "/api/Platforms",
 			"tag": "Platforms",
 			"subBiz": null,
@@ -46284,53 +46043,36 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "分级平台ID",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "ipAddress",
-					"type": "string",
-					"description": "接入IP",
-					"required": false
-				},
-				{
-					"key": "managerAddress",
-					"type": "string",
-					"description": "平台管理地址",
-					"required": false
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "描述",
-					"required": false
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "名称",
-					"required": false
-				},
-				{
-					"key": "status",
+					"key": "totalCount",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
-					"required": false,
-					"details": null
+					"description": "总数",
+					"required": false
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "扩展信息",
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
 				}
 			],
@@ -46607,6 +46349,547 @@
 				}
 			],
 			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/PositionEquipment",
+			"tag": "PositionEquipment",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索定点装备",
+			"version": "v1",
+			"methodName": "getPositionEquipment",
+			"operationId": "GetPositionEquipments",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/PositionEquipment",
+			"tag": "PositionEquipment",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "增加定点装备",
+			"version": "v1",
+			"methodName": "addPositionEquipment",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "装备标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "装备名称",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "equipmentType",
+					"type": "integer",
+					"description": "装备类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "collectionCycle",
+					"type": "number",
+					"description": "采集周期",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "isOnline",
+					"type": "boolean",
+					"description": "是否在线",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "装备名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "equipmentType",
+					"type": "integer",
+					"description": "装备类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "collectionCycle",
+					"type": "number",
+					"description": "采集周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/PositionEquipment/{id}",
+			"tag": "PositionEquipment",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取定点装备",
+			"version": "v1",
+			"methodName": "getPositionEquipmentById",
+			"operationId": "GetPositionEquipment",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "装备标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "装备名称",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "equipmentType",
+					"type": "integer",
+					"description": "装备类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "collectionCycle",
+					"type": "number",
+					"description": "采集周期",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "isOnline",
+					"type": "boolean",
+					"description": "是否在线",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/PositionEquipment/{id}",
+			"tag": "PositionEquipment",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新定点装备",
+			"version": "v1",
+			"methodName": "editPositionEquipment",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "装备名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "equipmentType",
+					"type": "integer",
+					"description": "装备类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "collectionCycle",
+					"type": "number",
+					"description": "采集周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/PositionEquipment/{id}",
+			"tag": "PositionEquipment",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除定点装备",
+			"version": "v1",
+			"methodName": "deletePositionEquipment",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Overview",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "总览",
+			"version": "v1",
+			"methodName": "getOverview",
+			"operationId": "Overview",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Overview/Asset",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "运行状态分析",
+			"version": "v1",
+			"methodName": "getAssetOverview",
+			"operationId": "AssetOverview",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Overview/Geteway",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "网关分析",
+			"version": "v1",
+			"methodName": "getGatewayOverview",
+			"operationId": "GetewayOverview",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Overview/Alarm",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "告警分析",
+			"version": "v1",
+			"methodName": "getAlarmOverview",
+			"operationId": "AlarmOverview",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Overview/AlarmSource",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "告警源分析",
+			"version": "v1",
+			"methodName": "getAlarmSourceOverview",
+			"operationId": "AlarmSourceOverview",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Overview/AlarmType",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "告警类型分析",
+			"version": "v1",
+			"methodName": "getAlarmTypeOverview",
+			"operationId": "AlarmTypeOverview",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
 			"requestBody": null
 		},
 		{
