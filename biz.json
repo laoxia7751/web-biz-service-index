@@ -2768,6 +2768,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -2828,20 +2842,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -4492,6 +4492,56 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/roles/{role}/permissionDatas/functionModule",
+			"tag": "DataPermission",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "移除指定功能权限类型的数据权限关系",
+			"version": "v1",
+			"methodName": "unbindPermissionData",
+			"parameters": [
+				{
+					"key": "role",
+					"type": "string",
+					"description": "角色Id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "data",
+					"type": "string",
+					"description": "权限数据",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/roles/{role}/permissionDatas/functionModule",
+			"tag": "DataPermission",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "绑定指定功能权限类型的数据权限关系",
+			"version": "v1",
+			"methodName": "bindPermissionData",
+			"parameters": [
+				{
+					"key": "role",
+					"type": "string",
+					"description": "角色Id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": []
 		},
 		{
 			"url": "/api/functions/root",
@@ -10938,6 +10988,18 @@
 					"type": "string",
 					"description": "关联ID（可选）",
 					"required": false
+				},
+				{
+					"key": "departmentIds",
+					"type": "array",
+					"description": "父节点Id集合（包含全部的）",
+					"required": false
+				},
+				{
+					"key": "departmentPaths",
+					"type": "array",
+					"description": "联系人部门路径",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -11047,6 +11109,13 @@
 							"key": "4"
 						}
 					],
+					"in": "requestBody"
+				},
+				{
+					"key": "departmentIds",
+					"type": "array",
+					"description": "父节点Id集合（包含全部的）",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -11207,6 +11276,18 @@
 					"key": "relatedId",
 					"type": "string",
 					"description": "关联ID（可选）",
+					"required": false
+				},
+				{
+					"key": "departmentIds",
+					"type": "array",
+					"description": "父节点Id集合（包含全部的）",
+					"required": false
+				},
+				{
+					"key": "departmentPaths",
+					"type": "array",
+					"description": "联系人部门路径",
 					"required": false
 				}
 			],
@@ -13703,6 +13784,12 @@
 					"details": null
 				},
 				{
+					"key": "departmentPath",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
 					"key": "level",
 					"type": "integer",
 					"description": "节点当前层级",
@@ -13949,7 +14036,7 @@
 				{
 					"key": "configType",
 					"type": "integer",
-					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：3)",
+					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：4)",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -13983,7 +14070,7 @@
 				{
 					"key": "configType",
 					"type": "integer",
-					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：3)",
+					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：4)",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -44074,16 +44161,29 @@
 			"methodName": "getOperation",
 			"parameters": [
 				{
-					"key": "usr_id",
+					"key": "key",
 					"type": "string",
-					"description": "用户ID",
+					"description": "关键字（用户账户/ID、接口、操作类型）",
 					"default": null,
 					"in": "query"
 				},
 				{
-					"key": "key",
+					"key": "product",
+					"type": "integer",
+					"description": "产品(应用)",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "operation_type",
+					"description": "操作类型 0-全部；1-成功；2-失败",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
 					"type": "string",
-					"description": "关键字（用户账户/ID、接口、操作类型）",
+					"description": "分级",
 					"default": null,
 					"in": "query"
 				},
@@ -44123,9 +44223,9 @@
 					"in": "query"
 				},
 				{
-					"key": "product",
-					"type": "integer",
-					"description": "产品(应用)",
+					"key": "usr_id",
+					"type": "string",
+					"description": "用户ID",
 					"default": null,
 					"in": "query"
 				},
