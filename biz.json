@@ -3918,6 +3918,12 @@
 					"type": "boolean",
 					"description": "同意展示（前端使用）",
 					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -4011,6 +4017,12 @@
 					"key": "showConsent",
 					"type": "boolean",
 					"description": "同意展示（前端使用）",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
 					"required": false
 				}
 			],
@@ -11481,6 +11493,47 @@
 			]
 		},
 		{
+			"url": "/api/Import/ImportXlsOrganization",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "Xls组织架构文件导入",
+			"version": "v1",
+			"methodName": "importOrganizationXls",
+			"parameters": [
+				{
+					"key": "pid",
+					"type": "string",
+					"description": "pid",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "workSheet",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "syncResourceChanged",
+					"type": "boolean",
+					"description": "",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": []
+		},
+		{
 			"url": "/api/Export/Organization/{pid}",
 			"tag": "DataHandle",
 			"subBiz": null,
@@ -13675,6 +13728,189 @@
 			],
 			"responses": null,
 			"requestBody": []
+		},
+		{
+			"url": "/api/groups/self/groups",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询所有包含当前用户的组列表（不包含组成员信息）",
+			"version": "v2",
+			"methodName": "getSelfGroups",
+			"parameters": [
+				{
+					"key": "Type",
+					"type": "integer",
+					"description": "组类型(所有类型组：0（预案组和个人组），个人组：2，预案组类型：3，临时组：4)",
+					"default": 3,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/groups/{id}/move",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "组内移动成员",
+			"version": "v2",
+			"methodName": "moveGroupMember",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "beforeMemberId",
+					"type": "string",
+					"description": "移入位置前面的成员Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "afterMemberId",
+					"type": "string",
+					"description": "移入位置后面的成员Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "移动所在的组GroupId",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/groups/{id}/top",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "组内置顶成员",
+			"version": "v2",
+			"methodName": "topGroupMember",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "移动所在的组GroupId",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/groups/{id}/move/group",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "同级移动同类型的组",
+			"version": "v2",
+			"methodName": "moveGroups",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "beforeGroupId",
+					"type": "string",
+					"description": "移入位置前面的GroupId",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "afterGroupId",
+					"type": "string",
+					"description": "移入位置后面的GroupId",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/organizations/{id}",
@@ -41694,7 +41930,7 @@
 				{
 					"key": "layoutType",
 					"type": "integer",
-					"description": "画面布局类型1:One,单画面; 2:Two,两画面（等分）; 4:Four,四画面（等分）; 9:Nine,九画面（等分; 16:Sixteen,十六画面（等分）; 25:TwentyFive,二十五画面（等分）; 36:ThirtySix,三十六画面（等分）; 49:FortyNine,四十九画面（等分）; 50:OnePlusFour,五画面（1+4）; 60:OnePlusFive,六画面（1+5）; 70:OnePlusSix,七画面（1+6）; 80:OnePlusSeven,八画面（1+7）; 100:OnePlusNine,十画面（1+9）; 130:OnePlusThirteen,十三画面（1+12）; 170:OnePlusSixteen,十七画面（1+16）; 210:OnePlusTwenty,二十一画面（1+20）; 1000:TwoPlusEight,十画面（2+8）; ",
+					"description": "画面布局类型1:One,单画面; 2:Two,两画面（等分）; 4:Four,四画面（等分）; 9:Nine,九画面（等分; 16:Sixteen,十六画面（等分）; 25:TwentyFive,二十五画面（等分）; 36:ThirtySix,三十六画面（等分）; 49:FortyNine,四十九画面（等分）; 50:OnePlusFour,五画面（1+4）; 80:OnePlusSeven,八画面（1+7）; 100:OnePlusNine,十画面（1+9）; 130:OnePlusThirteen,十三画面（1+12）; 170:OnePlusSixteen,十七画面（1+16）; 210:OnePlusTwenty,二十一画面（1+20）; 1000:TwoPlusEight,十画面（2+8）; ",
 					"required": false,
 					"details": null
 				},
@@ -41778,7 +42014,7 @@
 				{
 					"key": "layoutType",
 					"type": "integer",
-					"description": "画面布局类型1:One,单画面; 2:Two,两画面（等分）; 4:Four,四画面（等分）; 9:Nine,九画面（等分; 16:Sixteen,十六画面（等分）; 25:TwentyFive,二十五画面（等分）; 36:ThirtySix,三十六画面（等分）; 49:FortyNine,四十九画面（等分）; 50:OnePlusFour,五画面（1+4）; 60:OnePlusFive,六画面（1+5）; 70:OnePlusSix,七画面（1+6）; 80:OnePlusSeven,八画面（1+7）; 100:OnePlusNine,十画面（1+9）; 130:OnePlusThirteen,十三画面（1+12）; 170:OnePlusSixteen,十七画面（1+16）; 210:OnePlusTwenty,二十一画面（1+20）; 1000:TwoPlusEight,十画面（2+8）; ",
+					"description": "画面布局类型1:One,单画面; 2:Two,两画面（等分）; 4:Four,四画面（等分）; 9:Nine,九画面（等分; 16:Sixteen,十六画面（等分）; 25:TwentyFive,二十五画面（等分）; 36:ThirtySix,三十六画面（等分）; 49:FortyNine,四十九画面（等分）; 50:OnePlusFour,五画面（1+4）; 80:OnePlusSeven,八画面（1+7）; 100:OnePlusNine,十画面（1+9）; 130:OnePlusThirteen,十三画面（1+12）; 170:OnePlusSixteen,十七画面（1+16）; 210:OnePlusTwenty,二十一画面（1+20）; 1000:TwoPlusEight,十画面（2+8）; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -43099,7 +43335,7 @@
 			"methods": "get",
 			"summary": "获取符合查询条件的MCU",
 			"version": "v1",
-			"methodName": "addMcuDataById",
+			"methodName": "getMcuData",
 			"parameters": [
 				{
 					"key": "platformId",
@@ -43249,6 +43485,169 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/MCUData/{id}",
+			"tag": "MCUData",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取MCU",
+			"version": "v1",
+			"methodName": "getMcuDataById",
+			"operationId": "GetMCU",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "MCU名称",
+					"required": false
+				},
+				{
+					"key": "accessKeyID",
+					"type": "string",
+					"description": "授权码",
+					"required": false
+				},
+				{
+					"key": "accessKeySecret",
+					"type": "string",
+					"description": "秘钥",
+					"required": false
+				},
+				{
+					"key": "domain",
+					"type": "string",
+					"description": "IP地址",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "拓展信息",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/MCUData/{id}",
+			"tag": "MCUData",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新MCU",
+			"version": "v1",
+			"methodName": "editMcuData",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "MCU名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "accessKeyID",
+					"type": "string",
+					"description": "授权码",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "accessKeySecret",
+					"type": "string",
+					"description": "秘钥",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "domain",
+					"type": "string",
+					"description": "拉流地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"description": "MCU拓展信息",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/MCUData/{id}",
+			"tag": "MCUData",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除MCU",
+			"version": "v1",
+			"methodName": "deleteMcuData",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/PlatformData/default",
@@ -44161,43 +44560,23 @@
 			"methodName": "getOperation",
 			"parameters": [
 				{
-					"key": "key",
+					"key": "usr_id",
 					"type": "string",
-					"description": "关键字（用户账户/ID、接口、操作类型）",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "product",
-					"type": "integer",
-					"description": "产品(应用)",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "operation_type",
-					"description": "操作类型 0-全部；1-成功；2-失败",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级",
+					"description": "用户ID",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "date_start",
 					"type": "string",
-					"description": "记录起始时间(默认3小时前)",
+					"description": "记录起始时间",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "date_stop",
 					"type": "string",
-					"description": "记录终结时间(默认当前时间)",
+					"description": "记录终结时间",
 					"default": null,
 					"in": "query"
 				},
@@ -44211,17 +44590,71 @@
 				{
 					"key": "service",
 					"type": "string",
-					"description": "记录归属服务gateway/vs 默认：gateway（操作日志）",
+					"description": "记录归属服务",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "user_ip",
 					"type": "string",
-					"description": "用户IP",
+					"description": "",
 					"default": null,
 					"in": "query"
 				},
+				{
+					"key": "product",
+					"type": "integer",
+					"description": "产品",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Uri",
+					"type": "string",
+					"description": "Uri",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Operation",
+			"tag": "Operation",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "按条件查询操作",
+			"version": "v1",
+			"methodName": "searchOperation",
+			"parameters": [
 				{
 					"key": "usr_id",
 					"type": "string",
@@ -44230,9 +44663,51 @@
 					"in": "query"
 				},
 				{
+					"key": "date_start",
+					"type": "string",
+					"description": "记录起始时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "date_stop",
+					"type": "string",
+					"description": "记录终结时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "sort_field",
+					"type": "string",
+					"description": "排序字段",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "service",
+					"type": "string",
+					"description": "记录归属服务",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "user_ip",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "product",
+					"type": "integer",
+					"description": "产品",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "Uri",
 					"type": "string",
-					"description": "url",
+					"description": "Uri",
 					"default": null,
 					"in": "query"
 				},
@@ -44451,13 +44926,6 @@
 			"operationId": "GetAllClient",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -44469,6 +44937,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -44889,13 +45364,6 @@
 			"methodName": "getMachines",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -44907,6 +45375,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -44989,7 +45464,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null
 				}
@@ -45055,7 +45530,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -45142,7 +45617,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null
 				}
@@ -45229,7 +45704,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -45443,13 +45918,6 @@
 			"operationId": "GetAll",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -45461,6 +45929,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -45684,13 +46159,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -45702,6 +46170,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -45802,13 +46277,6 @@
 			"operationId": "GetAllNetwork",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -45820,6 +46288,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -45876,7 +46351,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null
 				}
@@ -45913,7 +46388,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -45974,7 +46449,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null
 				}
@@ -46032,7 +46507,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46141,13 +46616,6 @@
 			"operationId": "GetAllPlatform",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -46159,6 +46627,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -46221,7 +46696,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null
 				},
@@ -46271,7 +46746,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46345,7 +46820,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null
 				},
@@ -46416,7 +46891,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接",
+					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46461,6 +46936,13 @@
 			"methodName": "getPositionEquipment",
 			"operationId": "GetPositionEquipments",
 			"parameters": [
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
 				{
 					"key": "platformId",
 					"type": "string",
@@ -46524,7 +47006,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "",
+					"description": "联系人信息",
 					"required": false,
 					"details": [
 						{
@@ -46541,7 +47023,7 @@
 				{
 					"key": "equipmentType",
 					"type": "integer",
-					"description": "装备类型",
+					"description": "装备类型0:IndividualSoldier,单兵; 1:ControlTheBall,布控球; 2:UAV,无人机; ",
 					"required": false,
 					"details": null
 				},
@@ -46575,7 +47057,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "",
+					"description": "联系人信息",
 					"required": false,
 					"details": [
 						{
@@ -46593,7 +47075,7 @@
 				{
 					"key": "equipmentType",
 					"type": "integer",
-					"description": "装备类型",
+					"description": "装备类型0:IndividualSoldier,单兵; 1:ControlTheBall,布控球; 2:UAV,无人机; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46656,7 +47138,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "",
+					"description": "联系人信息",
 					"required": false,
 					"details": [
 						{
@@ -46673,7 +47155,7 @@
 				{
 					"key": "equipmentType",
 					"type": "integer",
-					"description": "装备类型",
+					"description": "装备类型0:IndividualSoldier,单兵; 1:ControlTheBall,布控球; 2:UAV,无人机; ",
 					"required": false,
 					"details": null
 				},
@@ -46728,7 +47210,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "",
+					"description": "联系人信息",
 					"required": false,
 					"details": [
 						{
@@ -46746,7 +47228,7 @@
 				{
 					"key": "equipmentType",
 					"type": "integer",
-					"description": "装备类型",
+					"description": "装备类型0:IndividualSoldier,单兵; 1:ControlTheBall,布控球; 2:UAV,无人机; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46795,7 +47277,7 @@
 			"methods": "get",
 			"summary": "总览",
 			"version": "v1",
-			"methodName": "getOverview",
+			"methodName": "getStatisticsOverview",
 			"operationId": "Overview",
 			"parameters": [
 				{
@@ -46823,14 +47305,13 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Statistics/Overview/Asset",
+			"url": "/api/Statistics/Overview/Client",
 			"tag": "Statistics",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "运行状态分析",
+			"summary": "客户端总览",
 			"version": "v1",
-			"methodName": "getAssetOverview",
-			"operationId": "AssetOverview",
+			"methodName": "getStatisticsClientOverview",
 			"parameters": [
 				{
 					"key": "platformId",
@@ -46857,116 +47338,13 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Statistics/Overview/Geteway",
+			"url": "/api/Statistics/Overview/Terminal",
 			"tag": "Statistics",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "网关分析",
+			"summary": "终端总览",
 			"version": "v1",
-			"methodName": "getGatewayOverview",
-			"operationId": "GetewayOverview",
-			"parameters": [
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "platformId",
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Statistics/Overview/Alarm",
-			"tag": "Statistics",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "告警分析",
-			"version": "v1",
-			"methodName": "getAlarmOverview",
-			"operationId": "AlarmOverview",
-			"parameters": [
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "platformId",
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Statistics/Overview/AlarmSource",
-			"tag": "Statistics",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "告警源分析",
-			"version": "v1",
-			"methodName": "getAlarmSourceOverview",
-			"operationId": "AlarmSourceOverview",
-			"parameters": [
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "platformId",
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Statistics/Overview/AlarmType",
-			"tag": "Statistics",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "告警类型分析",
-			"version": "v1",
-			"methodName": "getAlarmTypeOverview",
-			"operationId": "AlarmTypeOverview",
+			"methodName": "getStatisticsTerminalOverview",
 			"parameters": [
 				{
 					"key": "platformId",
@@ -46999,7 +47377,7 @@
 			"methods": "put",
 			"summary": "获取终端总览",
 			"version": "v1",
-			"methodName": "getTerminalsOverview",
+			"methodName": "getTerminals",
 			"operationId": "TerminalOverview",
 			"parameters": [
 				{

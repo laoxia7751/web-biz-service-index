@@ -2,10 +2,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="https://unpkg.com/element-plus"></script>
+    <link rel="stylesheet" href="./assets/index.css" />
+    <link href="./assets/tailwind.min.css" rel="stylesheet" />
+    <script src="./assets/vue.global.js"></script>
+    <script src="./assets/index.full.js"></script>
     <title>web-biz-service请求库方法汇总</title>
   </head>
   <body>
@@ -34,7 +34,7 @@
               <el-button size="large" plain type="primary" @click="reset">重置</el-button>
             </div>
             <div class="absolute top-1/2 right-10 transform -translate-y-2/4">
-              <el-tag class="" type="primary">版本：1.5.7-beta.3</el-tag>
+              <el-tag class="" type="primary">版本：1.5.7</el-tag>
               　
               <el-link class="" type="primary" href="https://greasyfork.org/zh-CN/scripts/450328-swaggerskiptocustommethods" target="_blank">油猴脚本工具</el-link>
             </div>
@@ -131,7 +131,7 @@
               aggsBiz: { desc: '聚合查询服务', doc: 'http://10.8.109.235:3885' },
               authBiz: { desc: '认证授权服务', doc: 'http://10.8.109.235:9810' },
               edmsBiz: { desc: '调度服务', doc: 'http://10.8.109.235:3333' },
-              orgsBiz: { desc: '组织架构服务', doc: 'http://10.8.109.242:10270' },
+              orgsBiz: { desc: '组织架构服务', doc: 'http://10.8.109.232:10270' },
               eventBiz: { desc: '事件服务', doc: 'http://10.8.109.235:3088' },
               preplanBiz: { desc: '事件服务-预案', doc: 'http://10.8.109.235:3088' },
               taskBiz: { desc: '事件服务-任务', doc: 'http://10.8.109.235:3088' },
