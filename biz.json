@@ -3643,7 +3643,6 @@
 					"key": "preplanId",
 					"type": "string",
 					"description": "预案ID",
-					"required": true,
 					"default": null,
 					"in": "query"
 				},
@@ -8348,6 +8347,13 @@
 			"methodName": "getPhoneLines",
 			"parameters": [
 				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -8359,13 +8365,6 @@
 					"type": "integer",
 					"description": "页容量",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -9396,6 +9395,13 @@
 			"methodName": "getDraftFaxList",
 			"parameters": [
 				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -9407,13 +9413,6 @@
 					"type": "integer",
 					"description": "页容量",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -10103,6 +10102,13 @@
 			"methodName": "getNightServicesStatus",
 			"parameters": [
 				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -10114,13 +10120,6 @@
 					"type": "integer",
 					"description": "页容量",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -17632,6 +17631,13 @@
 					"required": false,
 					"details": null,
 					"in": "requestBody"
+				},
+				{
+					"key": "associatePreplanId",
+					"type": "string",
+					"description": "关联预案ID",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -18309,6 +18315,13 @@
 					"required": false,
 					"details": null,
 					"in": "requestBody"
+				},
+				{
+					"key": "associatePreplanId",
+					"type": "string",
+					"description": "关联预案ID",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -18349,20 +18362,6 @@
 			"version": "v1",
 			"methodName": "getRunningEvents",
 			"parameters": [
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
 				{
 					"key": "keyword",
 					"type": "string",
@@ -18424,6 +18423,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -45015,7 +45028,8 @@
 			"responses": [
 				{
 					"key": "defaultPlatformType",
-					"description": "",
+					"type": "integer",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
 					"required": false,
 					"details": null
 				},
@@ -45027,9 +45041,14 @@
 				},
 				{
 					"key": "yealinkConfigs",
-					"description": "",
+					"type": "object",
+					"description": "亿联平台配置集合",
 					"required": false,
-					"details": null
+					"details": [
+						{
+							"key": "0"
+						}
+					]
 				},
 				{
 					"key": "tencentConfigs",
@@ -45707,7 +45726,7 @@
 				{
 					"key": "key",
 					"type": "string",
-					"description": "关键字（用户账户/ID、操作类型）",
+					"description": "关键字:用户账号、用户ID、操作类型（查询/删除/更新/新增）",
 					"default": null,
 					"in": "query"
 				},
@@ -45823,7 +45842,7 @@
 				{
 					"key": "key",
 					"type": "string",
-					"description": "关键字（用户账户/ID、操作类型）",
+					"description": "关键字:用户账号、用户ID、操作类型（查询/删除/更新/新增）",
 					"default": null,
 					"in": "query"
 				},
