@@ -771,6 +771,206 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/MultimediaTransfers",
+			"tag": "MultimediaTransfers",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建拍传",
+			"version": "v1",
+			"methodName": "addMultimediaTransfers",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "拍传ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "拍传名称",
+					"required": false
+				},
+				{
+					"key": "templateId",
+					"type": "string",
+					"description": "拍传模板Id",
+					"required": false
+				},
+				{
+					"key": "templateName",
+					"type": "string",
+					"description": "拍传模板名称",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false
+				},
+				{
+					"key": "fileGroupId",
+					"type": "string",
+					"description": "文件组Id",
+					"required": false
+				},
+				{
+					"key": "fileCount",
+					"type": "integer",
+					"description": "文件数量",
+					"required": false
+				},
+				{
+					"key": "userId",
+					"type": "string",
+					"description": "拍传用户id",
+					"required": false
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名称",
+					"required": false
+				},
+				{
+					"key": "organizationId",
+					"type": "string",
+					"description": "组织机构Id",
+					"required": false
+				},
+				{
+					"key": "organizationName",
+					"type": "string",
+					"description": "组织机构名称",
+					"required": false
+				},
+				{
+					"key": "uploadTime",
+					"type": "string",
+					"description": "上传时间",
+					"required": false
+				},
+				{
+					"key": "company",
+					"type": "string",
+					"description": "单位名称",
+					"required": false
+				},
+				{
+					"key": "companyAddress",
+					"type": "string",
+					"description": "单位地址",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台Id",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "拍传名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "templateId",
+					"type": "string",
+					"description": "拍传模板Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "fileGroupId",
+					"type": "string",
+					"description": "文件组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "uploadTime",
+					"type": "string",
+					"description": "文件上传时间",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "fileCount",
+					"type": "integer",
+					"description": "文件数量",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "company",
+					"type": "string",
+					"description": "单位名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "companyAddress",
+					"type": "string",
+					"description": "单位地址",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/MultimediaTransfers/{id}",
 			"tag": "MultimediaTransfers",
 			"subBiz": null,
@@ -1004,6 +1204,98 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Templates",
+			"tag": "Templates",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建拍传模板",
+			"version": "v1",
+			"methodName": "addTemplates",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "拍传模板ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "拍传模板名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": false
+				},
+				{
+					"key": "placeHolders",
+					"type": "array",
+					"description": "模板占位符",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台Id",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "拍传模板名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "placeHolders",
+					"type": "array",
+					"description": "模板占位符",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Templates/{id}",
 			"tag": "Templates",
 			"subBiz": null,
@@ -1080,6 +1372,91 @@
 					"required": false
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Templates/{id}",
+			"tag": "Templates",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新拍传模板",
+			"version": "v1",
+			"methodName": "editTemplates",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "拍传模板名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "placeHolders",
+					"type": "array",
+					"description": "模板占位符",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Templates/{id}",
+			"tag": "Templates",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除拍传模板",
+			"version": "v1",
+			"methodName": "deleteTemplates",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		}
 	],
@@ -2141,100 +2518,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Camera",
-			"tag": "Camera",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "监控搜索",
-			"version": "v1",
-			"methodName": "getCameras",
-			"parameters": [
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Camera/label",
-			"tag": "Camera",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "监控标签",
-			"version": "v1",
-			"methodName": "getCameraLabels",
-			"parameters": [
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
 			"url": "/api/DetectionTasks",
 			"tag": "DetectionTasks",
 			"subBiz": null,
@@ -2508,13 +2791,6 @@
 					"in": "query"
 				},
 				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -2656,13 +2932,6 @@
 					"key": "is_sort",
 					"type": "boolean",
 					"description": "是否排序",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
 					"default": null,
 					"in": "query"
 				},
@@ -3068,6 +3337,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3128,20 +3411,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -3398,62 +3667,8 @@
 					"description": "是否查询下级行政区域设施",
 					"required": true,
 					"in": "requestBody"
-				},
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"required": false,
-					"in": "requestBody"
 				}
 			]
-		},
-		{
-			"url": "/api/Facilities/Layer",
-			"tag": "Facilities",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取图层",
-			"version": "v1",
-			"methodName": "getFacilityLayers",
-			"parameters": [
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
 		},
 		{
 			"url": "/api/GbLowerDomains",
@@ -3596,53 +3811,6 @@
 					"type": "number",
 					"description": "纬度",
 					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Groups",
-			"tag": "Groups",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "组搜索",
-			"version": "v1",
-			"methodName": "searchGroups",
-			"parameters": [
-				{
-					"key": "preplanId",
-					"type": "string",
-					"description": "预案ID",
 					"default": null,
 					"in": "query"
 				},
@@ -3822,6 +3990,54 @@
 			"methodName": "getNode",
 			"parameters": null,
 			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Preplans/{id}/group",
+			"tag": "Preplans",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索",
+			"version": "v1",
+			"methodName": "searchPreplanGroups",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
 			"requestBody": null
 		},
 		{
@@ -4507,134 +4723,6 @@
 				}
 			],
 			"requestBody": null
-		},
-		{
-			"url": "/api/Terminals",
-			"tag": "Terminals",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "终端搜索",
-			"version": "v1",
-			"methodName": "getTerminals",
-			"parameters": [
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "keyword",
-					"type": "string",
-					"description": "关键词",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "prefixAreaCode",
-					"type": "string",
-					"description": "行政区域码前缀查询，使用英文\",\"隔开，传入完整的行政区域码也会分割处理为区域码前缀",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "terminalType",
-					"description": "终端类型:0:固定电话,1:对讲终端,2:视频会议终端,3:监控终端,4:执法仪,5:布控球,6:移动集群车载台",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/ThirdPlatforms",
-			"tag": "ThirdPlatforms",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "第三方平台搜索",
-			"version": "v1",
-			"methodName": "getThirdPlatforms",
-			"parameters": [
-				{
-					"key": "domainId",
-					"type": "string",
-					"description": "领域ID",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "keyword",
-					"type": "string",
-					"description": "关键词",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "prefixAreaCode",
-					"type": "string",
-					"description": "行政区域码前缀查询，使用英文\",\"隔开，传入完整的行政区域码也会分割处理为区域码前缀",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
 		}
 	],
 	"authBiz": [
@@ -5247,6 +5335,42 @@
 			]
 		},
 		{
+			"url": "/api/roles/{role}/batchPermissionDatas",
+			"tag": "DataPermission",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "批量移除绑定数据到指定角色",
+			"version": "v1",
+			"methodName": "deletePermissionDatas",
+			"parameters": [
+				{
+					"key": "role",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "数据类型0：组织架构数据，2:视频监控数据，3：行政区域数据",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "dataIds",
+					"type": "array",
+					"description": "数据权限集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/users/{user}/permissionDatas",
 			"tag": "DataPermission",
 			"subBiz": null,
@@ -5355,6 +5479,27 @@
 			],
 			"responses": null,
 			"requestBody": []
+		},
+		{
+			"url": "/api/roles/{role}/permissionDatas/functionModule/all",
+			"tag": "DataPermission",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "新增移除全部功能权限类型的数据权限关系",
+			"version": "v1",
+			"methodName": "unbindAllPermissionData",
+			"parameters": [
+				{
+					"key": "role",
+					"type": "string",
+					"description": "角色Id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/functions/root",
@@ -5936,6 +6081,27 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/users/{user}/batchParticipators",
+			"tag": "Participation",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "用户批量变更绑定的角色",
+			"version": "v1",
+			"methodName": "batchChangeRoleUsers",
+			"parameters": [
+				{
+					"key": "user",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": []
 		},
 		{
 			"url": "/api/roles/{role}/visiting",
@@ -6810,6 +6976,53 @@
 			]
 		},
 		{
+			"url": "/api/Appointments/voice_notify",
+			"tag": "Appointments",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取预约通知",
+			"version": "v1",
+			"methodName": "getAppointmentsVoiceNotify",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Appointments/voice_notify/{id}",
 			"tag": "Appointments",
 			"subBiz": null,
@@ -6995,6 +7208,85 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Appointments/voice_notify/{id}/single",
+			"tag": "Appointments",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改单次通知",
+			"version": "v1",
+			"methodName": "editAppointmentsVoiceNotifySingle",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "notifyContent",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "playTimes",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "priorityNotifyType",
+					"type": "integer",
+					"description": "号码类型0:IPPhone,工作电话; 1:Mobile,手机; 2:HomePhone,家庭电话; 3:FacsimileTelephoneNumber,传真号码; 4:TelephoneNumber,其他电话; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "notifiedMembers",
+					"type": "array",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentJobId",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/BusinessMetrics",
 			"tag": "BusinessMetrics",
 			"subBiz": null,
@@ -7003,6 +7295,35 @@
 			"version": "v1",
 			"methodName": "getBusinessMetrics",
 			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/CallBiz",
+			"tag": "CallBiz",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "呼叫",
+			"version": "v1",
+			"methodName": "callBiz",
+			"parameters": [
+				{
+					"key": "caller",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "called",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
 			"responses": null,
 			"requestBody": null
 		},
@@ -8942,6 +9263,81 @@
 			]
 		},
 		{
+			"url": "/api/DataRequestBiz/operation_log",
+			"tag": "DataRequestBiz",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "按条件查询操作日志",
+			"version": "v1",
+			"methodName": "getOperationLog",
+			"parameters": [
+				{
+					"key": "StartTime",
+					"type": "string",
+					"description": "开始时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "EndTime",
+					"type": "string",
+					"description": "结束时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Type",
+					"type": "integer",
+					"description": "日志类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "GroupID",
+					"type": "string",
+					"description": "日志分组ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Faxes",
 			"tag": "Faxes",
 			"subBiz": null,
@@ -9433,6 +9829,145 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Faxes/draft",
+			"tag": "Faxes",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "将传真保存至草稿箱",
+			"version": "v1",
+			"methodName": "saveFaxToDraft",
+			"parameters": [
+				{
+					"key": "Title",
+					"type": "string",
+					"description": "主题",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "InternationalCode",
+					"type": "string",
+					"description": "国际区号",
+					"required": true,
+					"default": "86",
+					"in": "query"
+				},
+				{
+					"key": "PrioritySendType",
+					"description": "优先选择发送的电话类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "LongDistanceCode",
+					"type": "string",
+					"description": "长途区号",
+					"required": true,
+					"default": "755",
+					"in": "query"
+				},
+				{
+					"key": "Memo",
+					"type": "string",
+					"description": "备注",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Receivers",
+					"type": "string",
+					"description": " 收件人集合Json字符串 [{ \"ID\": \"213334449028\", \"Name\": \"张三\", \"Title\": \"游民\", \"Phones\": [{ \"Number\": \"XXX\", \"Type\": 0 }] }, { \"ID\": \"213334449028\", \"Name\": \"张三\", \"Title\": \"游民\", \"Phones\": [{ \"Number\": \"XXX\", \"Type\": 0 }] }] ",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "SendFirst",
+					"type": "boolean",
+					"description": "是否优先发送",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "记录ID",
+					"required": false
+				},
+				{
+					"key": "title",
+					"type": "string",
+					"description": "主题",
+					"required": false
+				},
+				{
+					"key": "internationalCode",
+					"type": "string",
+					"description": "国际区号",
+					"required": false
+				},
+				{
+					"key": "prioritySendType",
+					"type": "integer",
+					"description": "号码类型0:IPPhone,工作电话; 1:Mobile,手机; 2:HomePhone,家庭电话; 3:FacsimileTelephoneNumber,传真号码; 4:TelephoneNumber,其他电话; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "longDistanceCode",
+					"type": "string",
+					"description": "长途区号",
+					"required": false
+				},
+				{
+					"key": "memo",
+					"type": "string",
+					"description": "备注",
+					"required": false
+				},
+				{
+					"key": "senderID",
+					"type": "string",
+					"description": "发送人ID",
+					"required": false
+				},
+				{
+					"key": "receivers",
+					"type": "array",
+					"description": "收件人集合",
+					"required": false
+				},
+				{
+					"key": "sendFirst",
+					"type": "boolean",
+					"description": "是否优先发送",
+					"required": false
+				},
+				{
+					"key": "saveTime",
+					"type": "string",
+					"description": "保存时间",
+					"required": false
+				},
+				{
+					"key": "files",
+					"type": "array",
+					"description": "传真附件集合",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "拓展字段",
+					"required": false
+				}
+			],
+			"requestBody": []
+		},
+		{
 			"url": "/api/Faxes/draft/{id}",
 			"tag": "Faxes",
 			"subBiz": null,
@@ -9527,6 +10062,93 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Faxes/draft/{id}",
+			"tag": "Faxes",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新草稿箱内的传真",
+			"version": "v1",
+			"methodName": "updateDraftFax",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "Title",
+					"type": "string",
+					"description": "主题",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "InternationalCode",
+					"type": "string",
+					"description": "国际区号",
+					"required": true,
+					"default": "86",
+					"in": "query"
+				},
+				{
+					"key": "PrioritySendType",
+					"description": "优先选择发送的电话类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "LongDistanceCode",
+					"type": "string",
+					"description": "长途区号",
+					"required": true,
+					"default": "755",
+					"in": "query"
+				},
+				{
+					"key": "Memo",
+					"type": "string",
+					"description": "备注",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Receivers",
+					"type": "string",
+					"description": " 收件人集合Json字符串 [{ \"ID\": \"213334449028\", \"Name\": \"张三\", \"Title\": \"游民\",  \"Phones\": [{ \"Number\": \"XXX\", \"Type\": 0 }] }, { \"ID\": \"213334449028\", \"Name\": \"张三\", \"Title\": \"游民\",  \"Phones\": [{ \"Number\": \"XXX\", \"Type\": 0 }] }] ",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "FilesJson",
+					"type": "string",
+					"description": " 传真附件集合Json字符串 [{ \"ID\": \"asd1236762173617\", \"Name\": \"xxxx.pdf\", \"Length\": 10000,\"FullPath\":\"fssfiles/1c04c9a1eb4d4a838759d4c2a0c7b042\" }, { \"ID\": \"asd1236762173618\", \"Name\": \"xxxx.doc\", \"Length\": 10000,\"FullPath\":\"fssfiles/1c04c9a1eb4d4a838759d4c2a0c7b043\" }] ",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "SendFirst",
+					"type": "boolean",
+					"description": "是否优先发送",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Extension",
+					"type": "string",
+					"description": "拓展字段",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": []
 		},
 		{
 			"url": "/api/Faxes/draft/{id}",
@@ -9987,6 +10609,69 @@
 			]
 		},
 		{
+			"url": "/api/Messages/records",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询短信记录",
+			"version": "v1",
+			"methodName": "getMessageRecords",
+			"parameters": [
+				{
+					"key": "StartTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "EndTime",
+					"type": "string",
+					"description": "结束时间",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字搜索（搜索短信内容）",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Messages/{id}",
 			"tag": "Messages",
 			"subBiz": null,
@@ -10014,6 +10699,47 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Messages/group",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "群发短信",
+			"version": "v1",
+			"methodName": "postMessageGroup",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "组消息ID",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "senderNumber",
+					"type": "string",
+					"description": "短信发送者的号码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "receiverNumbers",
+					"type": "array",
+					"description": "短信接收者",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "短信内容",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/NightServices/duty",
@@ -10134,6 +10860,83 @@
 					"key": "records",
 					"type": "array",
 					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Petstore/{id}",
+			"tag": "Petstore",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取Pet",
+			"version": "v1",
+			"methodName": "getPetById",
+			"operationId": "GetPet",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": true
+				},
+				{
+					"key": "category",
+					"type": "object",
+					"description": "",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "photoUrls",
+					"type": "array",
+					"description": "",
+					"required": true
+				},
+				{
+					"key": "tags",
+					"type": "array",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "additionalProperties",
+					"type": "object",
+					"description": "",
 					"required": false
 				}
 			],
@@ -10515,6 +11318,46 @@
 			]
 		},
 		{
+			"url": "/api/RecordNotifies",
+			"tag": "RecordNotifies",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取全部录音通知",
+			"version": "v1",
+			"methodName": "getRecordNotifies",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/RecordNotifies/{id}/invite",
 			"tag": "RecordNotifies",
 			"subBiz": null,
@@ -10683,6 +11526,956 @@
 					"required": false
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Servers/conference",
+			"tag": "Servers",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取符合查询条件的语音会议服务器",
+			"version": "v1",
+			"methodName": "getConferenceServers",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Servers/conference",
+			"tag": "Servers",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建语音会议服务器",
+			"version": "v1",
+			"methodName": "addConferenceServers",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "lessMinuteNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "masterChangeNotify",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "leaveMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "enterMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "masterEnter",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "memberEnter",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "exitMeeting",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "masterChange",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "lessOneMinute",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "inNotifyVoice",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "reportNumberBits",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "masterExit",
+					"type": "integer",
+					"description": "退出方式0:Continue; 1:Exit; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "reportLang",
+					"type": "integer",
+					"description": "区域语言48:Chinese; 64:English; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "meetingTime",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "meetingPhone",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "needRecord",
+					"type": "boolean",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "displayNumber",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "appointedConferenceID",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "isMuteJoinConference",
+					"type": "boolean",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "服务器地址",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "服务器端口",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "服务器密码",
+					"required": false
+				},
+				{
+					"key": "state",
+					"type": "integer",
+					"description": "连接状态0:Unknow; 1:Connected; 2:DisConnected; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "masterIP",
+					"type": "string",
+					"description": "NC主机地址",
+					"required": false
+				},
+				{
+					"key": "masterPort",
+					"type": "integer",
+					"description": "NC主机端口",
+					"required": false
+				},
+				{
+					"key": "slaveIP",
+					"type": "string",
+					"description": "NC备机地址",
+					"required": false
+				},
+				{
+					"key": "slavePort",
+					"type": "integer",
+					"description": "NC备机端口",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "lessMinuteNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterChangeNotify",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "leaveMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "enterMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterEnter",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "memberEnter",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "exitMeeting",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterChange",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "lessOneMinute",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "inNotifyVoice",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "reportNumberBits",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterExit",
+					"type": "integer",
+					"description": "退出方式0:Continue; 1:Exit; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "reportLang",
+					"type": "integer",
+					"description": "区域语言48:Chinese; 64:English; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "meetingTime",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "meetingPhone",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "needRecord",
+					"type": "boolean",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "displayNumber",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "appointedConferenceID",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMuteJoinConference",
+					"type": "boolean",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "服务器地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "服务器端口",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "服务器密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterIP",
+					"type": "string",
+					"description": "NC主机地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterPort",
+					"type": "integer",
+					"description": "NC主机端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "slaveIP",
+					"type": "string",
+					"description": "NC备机地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "slavePort",
+					"type": "integer",
+					"description": "NC备机端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Servers/conference/{id}",
+			"tag": "Servers",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取对应语音会议服务器",
+			"version": "v1",
+			"methodName": "getConferenceServersById",
+			"operationId": "GetConferenceServer",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "lessMinuteNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "masterChangeNotify",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "leaveMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "enterMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "masterEnter",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "memberEnter",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "exitMeeting",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "masterChange",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "lessOneMinute",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "inNotifyVoice",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "reportNumberBits",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "masterExit",
+					"type": "integer",
+					"description": "退出方式0:Continue; 1:Exit; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "reportLang",
+					"type": "integer",
+					"description": "区域语言48:Chinese; 64:English; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "meetingTime",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "meetingPhone",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "needRecord",
+					"type": "boolean",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "displayNumber",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "appointedConferenceID",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "isMuteJoinConference",
+					"type": "boolean",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "服务器地址",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "服务器端口",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "服务器密码",
+					"required": false
+				},
+				{
+					"key": "state",
+					"type": "integer",
+					"description": "连接状态0:Unknow; 1:Connected; 2:DisConnected; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "masterIP",
+					"type": "string",
+					"description": "NC主机地址",
+					"required": false
+				},
+				{
+					"key": "masterPort",
+					"type": "integer",
+					"description": "NC主机端口",
+					"required": false
+				},
+				{
+					"key": "slaveIP",
+					"type": "string",
+					"description": "NC备机地址",
+					"required": false
+				},
+				{
+					"key": "slavePort",
+					"type": "integer",
+					"description": "NC备机端口",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Servers/conference/{id}",
+			"tag": "Servers",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新语音会议服务器",
+			"version": "v1",
+			"methodName": "editConferenceServers",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "lessMinuteNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterChangeNotify",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "leaveMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "enterMeetingNotifyObject",
+					"type": "integer",
+					"description": "通知对象0:All,通知所有人; 1:Master,通知主持人; 2:Secretary,通知会议秘书; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterEnter",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "memberEnter",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "exitMeeting",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterChange",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "lessOneMinute",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "inNotifyVoice",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "reportNumberBits",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterExit",
+					"type": "integer",
+					"description": "退出方式0:Continue; 1:Exit; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "reportLang",
+					"type": "integer",
+					"description": "区域语言48:Chinese; 64:English; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "meetingTime",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "meetingPhone",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "needRecord",
+					"type": "boolean",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "displayNumber",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "appointedConferenceID",
+					"type": "integer",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMuteJoinConference",
+					"type": "boolean",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "服务器地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "服务器端口",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "服务器密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterIP",
+					"type": "string",
+					"description": "NC主机地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "masterPort",
+					"type": "integer",
+					"description": "NC主机端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "slaveIP",
+					"type": "string",
+					"description": "NC备机地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "slavePort",
+					"type": "integer",
+					"description": "NC备机端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Servers/conference/{id}",
+			"tag": "Servers",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除指定语音会议服务器",
+			"version": "v1",
+			"methodName": "deleteConferenceServers",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -11477,6 +13270,27 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/VirtualNCDevices/{id}/trunk_group_configs/batch",
+			"tag": "VirtualNCDevices",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量修改中继群配置",
+			"version": "v1",
+			"methodName": "batchEditNcTrunkGroupConfigs",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": []
 		},
 		{
 			"url": "/api/VirtualNCDevices/{id}/trunk_group_configs/refresh",
@@ -12655,6 +14469,48 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Import/ImportPlanGroup/{pid}",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "预案组文件导入",
+			"version": "v1",
+			"methodName": "importPlanGroup",
+			"parameters": [
+				{
+					"key": "pid",
+					"type": "string",
+					"description": "父节点ID,带2可挂载跟节点",
+					"required": true,
+					"default": 2,
+					"in": "path"
+				},
+				{
+					"key": "importFileType",
+					"type": "integer",
+					"description": "导入文件类型 0:Excel 1:Json",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "workSheet",
+					"type": "string",
+					"description": "Excel的Sheet页名称",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": []
 		},
 		{
 			"url": "/api/favorites",
@@ -14438,6 +16294,41 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/contacts/{id}/departmentPaths",
+			"tag": "Contact",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询指定联系人所属部门的路径（当前用户）",
+			"version": "v2",
+			"methodName": "getContactDepartmentPath",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id标识/账号",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "pathInfoItems",
+					"type": "array",
+					"description": "路径集合",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/contacts/{id}/{callerUserId}/departmentPaths",
@@ -22828,6 +24719,42 @@
 			]
 		},
 		{
+			"url": "/api/Components/{name}/label",
+			"tag": "Components",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "组件选择标签",
+			"version": "v1",
+			"methodName": "editComponentLabel",
+			"parameters": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "labelId",
+					"type": "string",
+					"description": "标签Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSelected",
+					"type": "boolean",
+					"description": "是否选中",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Components/export",
 			"tag": "Components",
 			"subBiz": null,
@@ -23390,6 +25317,35 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Themes/{id}/publish",
+			"tag": "Themes",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "发布专题",
+			"version": "v1",
+			"methodName": "publishThemes",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "layoutType",
+					"type": "integer",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/Themes/{id}/config/{layoutType}",
@@ -24950,6 +26906,251 @@
 			]
 		},
 		{
+			"url": "/api/alarms/Update",
+			"tag": "Alarms",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新告警数据",
+			"version": "v1",
+			"methodName": "editAlarms",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "alarmSyncId",
+					"type": "string",
+					"description": "告警同步Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmSourceId",
+					"type": "string",
+					"description": "告警源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmSourceName",
+					"type": "string",
+					"description": "告警源名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmSourceType",
+					"type": "integer",
+					"description": "告警源类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmProcessUrl",
+					"type": "string",
+					"description": "告警处置 URL",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmDescription",
+					"type": "string",
+					"description": "告警描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmTypeId",
+					"type": "integer",
+					"description": "告警类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmTypeName",
+					"type": "string",
+					"description": "告警类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmName",
+					"type": "string",
+					"description": "告警名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "level",
+					"type": "integer",
+					"description": "告警等级",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "aroseTime",
+					"type": "string",
+					"description": "告警产生时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "string",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "string",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isConfirmed",
+					"type": "boolean",
+					"description": "是否被确认",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "confirmTime",
+					"type": "string",
+					"description": "确认时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "拓展字段",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "districtId",
+					"type": "string",
+					"description": "告警关联的行政区域ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "districtName",
+					"type": "string",
+					"description": "告警关联的行政区域名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "organizationId",
+					"type": "string",
+					"description": "告警关联的组织架构ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "organizationName",
+					"type": "string",
+					"description": "告警关联的组织架构名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "affirmantId",
+					"type": "string",
+					"description": "确认者Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "affirmantName",
+					"type": "string",
+					"description": "确认者名称",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/alarms/ConfirmAlarm",
+			"tag": "Alarms",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "确认告警",
+			"version": "v1",
+			"methodName": "confirmAlarm",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "alarmId",
+					"type": "string",
+					"description": "告警ID",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "confirmTime",
+					"type": "string",
+					"description": "确认时间",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "affirmantId",
+					"type": "string",
+					"description": "确认者Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "affirmantName",
+					"type": "string",
+					"description": "确认者名称",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Preplans",
 			"tag": "Preplans",
 			"subBiz": null,
@@ -25777,6 +27978,117 @@
 			"summary": "提供按级别分组的告警总数",
 			"version": "v1",
 			"methodName": "getAlarmCounterByLevel",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "districtId",
+					"type": "string",
+					"description": "行政区域id",
+					"required": false
+				},
+				{
+					"key": "districtName",
+					"type": "string",
+					"description": "行政区域名称",
+					"required": false
+				},
+				{
+					"key": "count",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "beginTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "结束时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "districtIds",
+					"type": "array",
+					"description": "行政区域ID列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixDistrictIds",
+					"type": "array",
+					"description": "行政区域ID前缀列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "queryType",
+					"type": "integer",
+					"description": "告警查询类型All = 0,Confirmed = 1,NotConfirm = 2",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "types",
+					"type": "array",
+					"description": "类型列表,1=断开连接、2=紧急呼叫、3=暴雨、4=音视频联动、5=寒潮、6=大风、7=沙尘暴、8=录音服务器存储空间剩余20%、9=干旱、10=雷电、11=冰雹、12=霜冻、13=大雾、14=霾、15=道路结冰、16=录音服务器存储空间剩余5%、17=环保设备告警、18=消防设备告警、19=可燃气体告警、20=有毒有害告警、21=雷雨大风、22=高温、23=暴雪、24=台风、25=监测设备告警、32=人员告警、65535=其他、26=温度识别、27=液位监测、28=压力监测、29=气体监测",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmSourceIds",
+					"type": "array",
+					"description": "告警源Id列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmLevels",
+					"type": "array",
+					"description": "告警级别",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "organizationIds",
+					"type": "array",
+					"description": "所属组织架构ID列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alarmSourceTypes",
+					"type": "array",
+					"description": "告警源类型列表10000000-设备 20000000-网关 30000000-服务器 40000000-平台 ",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/statisticians/GetAlarmCounterByOrganization",
+			"tag": "Statisticians",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "提供按所属组织架构分组的告警总数",
+			"version": "v1",
+			"methodName": "getAlarmCounterByOrganization",
 			"parameters": [
 				{
 					"key": "X-version",
@@ -27694,6 +30006,40 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Districts/ids",
+			"tag": "Districts",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据 Ids 获取行政区域列表",
+			"version": "v1",
+			"methodName": "getDistrictsByIds",
+			"operationId": "GetDistrictsByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "id 集合",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Districts/import",
 			"tag": "Districts",
 			"subBiz": null,
@@ -27883,6 +30229,41 @@
 			"summary": "根据行政区域 Id 获取所有父级区域",
 			"version": "v1",
 			"methodName": "getParentDistrictsById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Districts/{id}/tree",
+			"tag": "Districts",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取指定行政区域树",
+			"version": "v1",
+			"methodName": "getDistrictTreeById",
+			"operationId": "GetDistrictTree",
 			"parameters": [
 				{
 					"key": "id",
@@ -28618,6 +30999,35 @@
 			]
 		},
 		{
+			"url": "/api/Facilities/{id}/labels",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更改设施标签",
+			"version": "v1",
+			"methodName": "editFacilityLabels",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "resourceIds",
+					"type": "array",
+					"description": "标签ResourceId",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/GeoConfigs/{id}",
 			"tag": "GeoConfigs",
 			"subBiz": null,
@@ -29226,6 +31636,457 @@
 					"type": "boolean",
 					"description": "是否使用SDK",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/GeoConfigs/effect",
+			"tag": "GeoConfigs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据条件获取地图效果配置列表",
+			"version": "v1",
+			"methodName": "getGeoEffectConfigs",
+			"operationId": "GetGeoEffectConfig",
+			"parameters": [
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "产品ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "mapType",
+					"description": "地图配置,可选;0-电子、1-卫星、2-科幻",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/GeoConfigs/effect",
+			"tag": "GeoConfigs",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建地图效果配置",
+			"version": "v1",
+			"methodName": "addGeoEffectConfigs",
+			"operationId": "CreateGeoEffectConfig",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "产品Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "mapType",
+					"type": "integer",
+					"description": "地图类型 0-电子 1-卫星 2-科幻",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowEffect",
+					"type": "boolean",
+					"description": "是否展示效果",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "antiAlias",
+					"type": "boolean",
+					"description": "抗锯齿",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "needBloom",
+					"type": "boolean",
+					"description": "自发光",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "lowViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "middleViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "highViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "lowViewPointEffect",
+					"type": "object",
+					"description": "地图效果实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "middleViewPointEffect",
+					"type": "object",
+					"description": "地图效果实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "highViewPointEffect",
+					"type": "object",
+					"description": "地图效果实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/GeoConfigs/effect",
+			"tag": "GeoConfigs",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改地图效果配置",
+			"version": "v1",
+			"methodName": "editGeoEffectConfigs",
+			"operationId": "UpdateGeoEffectConfig",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "产品Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "mapType",
+					"type": "integer",
+					"description": "地图类型 0-电子 1-卫星 2-科幻",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowEffect",
+					"type": "boolean",
+					"description": "是否展示效果",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "antiAlias",
+					"type": "boolean",
+					"description": "抗锯齿",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "needBloom",
+					"type": "boolean",
+					"description": "自发光",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "lowViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "middleViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "highViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "lowViewPointEffect",
+					"type": "object",
+					"description": "地图效果实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "middleViewPointEffect",
+					"type": "object",
+					"description": "地图效果实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "highViewPointEffect",
+					"type": "object",
+					"description": "地图效果实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
 					"in": "requestBody"
 				}
 			]
@@ -30120,6 +32981,443 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Goods/{id}",
+			"tag": "Goods",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据 Id 获取物资",
+			"version": "v1",
+			"methodName": "getGoodsById",
+			"operationId": "GetGoodById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "facility",
+					"type": "object",
+					"description": "设施基本信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "详情",
+					"required": false
+				},
+				{
+					"key": "organization",
+					"type": "string",
+					"description": "权属单位",
+					"required": false
+				},
+				{
+					"key": "owner",
+					"type": "string",
+					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "number",
+					"type": "string",
+					"description": "联系电话",
+					"required": false
+				},
+				{
+					"key": "amount",
+					"type": "integer",
+					"description": "数量",
+					"required": false
+				},
+				{
+					"key": "unit",
+					"type": "string",
+					"description": "单位",
+					"required": false
+				},
+				{
+					"key": "subType",
+					"type": "string",
+					"description": "子类型",
+					"required": false
+				},
+				{
+					"key": "mainType",
+					"type": "string",
+					"description": "主类型",
+					"required": false
+				},
+				{
+					"key": "entryTime",
+					"type": "string",
+					"description": "入库时间",
+					"required": false
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "资源所属平台Id",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码代码",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Goods/search",
+			"tag": "Goods",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "模糊查找设施物资",
+			"version": "v1",
+			"methodName": "searchGoods",
+			"operationId": "SearchGoods",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "locations",
+					"type": "array",
+					"description": "点位集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域代码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀代码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "模糊查询关键字(搜索物资名称)",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "maxCount",
+					"type": "integer",
+					"description": "最大返回值GoodsDataSearchLocations",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Labels/{id}",
+			"tag": "Labels",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据ResourceId查找标签",
+			"version": "v1",
+			"methodName": "getLabelsById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": false
+				},
+				{
+					"key": "color",
+					"type": "string",
+					"description": "颜色",
+					"required": false
+				},
+				{
+					"key": "createdTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "modifyTime",
+					"type": "string",
+					"description": "修改时间",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Labels/{id}",
+			"tag": "Labels",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "根据ResourceId删除标签",
+			"version": "v1",
+			"methodName": "deleteLabels",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Labels/{id}",
+			"tag": "Labels",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "根据ResourceId更新标签",
+			"version": "v1",
+			"methodName": "editLabels",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "color",
+					"type": "string",
+					"description": "颜色",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Labels/search",
+			"tag": "Labels",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "多条件查询标签",
+			"version": "v1",
+			"methodName": "searchLabels",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Labels",
+			"tag": "Labels",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加新标签",
+			"version": "v1",
+			"methodName": "addLabels",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "color",
+					"type": "string",
+					"description": "颜色",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Labels/import",
+			"tag": "Labels",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入标签",
+			"version": "v1",
+			"methodName": "importLabels",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "addLabelRequests",
+					"type": "array",
+					"description": "标签请求",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Layers/root",
@@ -35845,6 +39143,101 @@
 			]
 		},
 		{
+			"url": "/api/Analysis/vapor_cloud_explosion",
+			"tag": "Analysis",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "计算蒸汽云爆炸模型的爆炸范围",
+			"version": "v2",
+			"methodName": "getAnalysisVaporCloudExplosionV2",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "deathRadius",
+					"type": "number",
+					"description": "死亡区半径",
+					"required": false
+				},
+				{
+					"key": "severeWoundRadius",
+					"type": "number",
+					"description": "重伤区半径",
+					"required": false
+				},
+				{
+					"key": "slightWoundRadius",
+					"type": "number",
+					"description": "轻伤区半径",
+					"required": false
+				},
+				{
+					"key": "buildingDamageRadius",
+					"type": "number",
+					"description": "建筑受损半径",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "totalFuelMass",
+					"type": "number",
+					"description": "燃料总质量",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "combustibleGasesCombustionHeat",
+					"type": "number",
+					"description": "可燃气体燃烧热",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "groundExplosionFactor",
+					"type": "number",
+					"description": "地面爆炸系数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "tntEquivalentFactor",
+					"type": "number",
+					"description": "TNT当量系数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "tntExplosiveHeat",
+					"type": "number",
+					"description": "TNT爆热",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "environmentalPressure",
+					"type": "number",
+					"description": "环境压力",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "degreeBuildingDamage",
+					"type": "number",
+					"description": "建筑破坏程度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Gas",
 			"tag": "Gas",
 			"subBiz": null,
@@ -36603,6 +39996,68 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/CameraGroups/camera/batch",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "批量添加监控到预案组或自定义组",
+			"version": "v1",
+			"methodName": "batchAddCameraToGroup",
+			"operationId": "AddCameraToGroupBatch",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "cameraIds",
+					"type": "array",
+					"description": "监控id列表",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "组id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupType",
+					"type": "integer",
+					"description": "监控组类型枚举",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/CameraGroups/batch",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量查询监控组信息接口",
+			"version": "v1",
+			"methodName": "searchCameraGroups",
+			"operationId": "GetCameraGroups",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": []
 		},
 		{
 			"url": "/api/Cameras/groups",
@@ -37505,6 +40960,27 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Cameras/groups/{id}",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除组(预案组/自定义组)",
+			"version": "v1",
+			"methodName": "deleteCameraGroup",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/Cameras/groups/{id}/children",
@@ -38792,6 +42268,223 @@
 			]
 		},
 		{
+			"url": "/api/Cameras/onVif_cameras/discovery",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "搜索onVif设备",
+			"version": "v1",
+			"methodName": "searchOnVif",
+			"operationId": "BeginSearchOnVifDevice",
+			"parameters": [
+				{
+					"key": "times",
+					"type": "integer",
+					"description": "搜索次数",
+					"default": 6,
+					"in": "query"
+				},
+				{
+					"key": "interval",
+					"type": "integer",
+					"description": "搜索间隔",
+					"default": 5,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Cameras/{id}/location",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "监控位置变更",
+			"version": "v1",
+			"methodName": "editCameraLocation",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/search/label",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据标签Id查找监控",
+			"version": "v1",
+			"methodName": "searchCamerasByLabel",
+			"parameters": [
+				{
+					"key": "LabelIds",
+					"type": "array",
+					"description": "标签Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/CameraVideos",
+			"tag": "CameraVideos",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "监控录像开始",
+			"version": "v1",
+			"methodName": "startCameraVideo",
+			"operationId": "StartCameraVideo",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "cameraId",
+					"type": "string",
+					"description": "监控Id",
+					"required": false
+				},
+				{
+					"key": "cameraName",
+					"type": "string",
+					"description": "监控名称",
+					"required": false
+				},
+				{
+					"key": "recordId",
+					"type": "integer",
+					"description": "记录id",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "fileId",
+					"type": "array",
+					"description": "文件id",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "文件类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "结束时间",
+					"required": false
+				},
+				{
+					"key": "messages",
+					"type": "array",
+					"description": "录像或截图的失败码",
+					"required": false
+				},
+				{
+					"key": "isSucceed",
+					"type": "boolean",
+					"description": "是否失败true成功false失败",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "cameraId",
+					"type": "string",
+					"description": "监控id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "subId",
+					"type": "string",
+					"description": "业务ID",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/CameraVideos/{id}/stop",
+			"tag": "CameraVideos",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "监控录像结束",
+			"version": "v1",
+			"methodName": "stopCameraVideo",
+			"operationId": "StopCameraVideo",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/DetectionTasks/{id}/pause",
 			"tag": "DetectionTasks",
 			"subBiz": null,
@@ -39236,6 +42929,135 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/DetectionTasks/newest_effectives",
+			"tag": "DetectionTasks",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "获取最新有效的巡检任务（不是重复执行的任务）",
+			"version": "v1",
+			"methodName": "getLatestDetectionTasks",
+			"operationId": "GetDetectionTaskDetailOut",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "cameraGroupOut",
+					"type": "object",
+					"description": "监控组实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						},
+						{
+							"key": "9"
+						},
+						{
+							"key": "10"
+						},
+						{
+							"key": "11"
+						},
+						{
+							"key": "12"
+						},
+						{
+							"key": "13"
+						},
+						{
+							"key": "14"
+						}
+					]
+				},
+				{
+					"key": "detectionTaskOut",
+					"type": "object",
+					"description": "巡检任务详情",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						},
+						{
+							"key": "9"
+						},
+						{
+							"key": "10"
+						},
+						{
+							"key": "11"
+						},
+						{
+							"key": "12"
+						},
+						{
+							"key": "13"
+						},
+						{
+							"key": "14"
+						},
+						{
+							"key": "15"
+						},
+						{
+							"key": "16"
+						},
+						{
+							"key": "17"
+						}
+					]
+				}
+			],
+			"requestBody": []
 		},
 		{
 			"url": "/api/FavoriteCameraItems/import",
@@ -43041,6 +46863,173 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Conferences/{id}/layout",
+			"tag": "Conferences",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取指定id的会议画面布局",
+			"version": "v1",
+			"methodName": "getConferenceLayoutById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "布局ID",
+					"required": false
+				},
+				{
+					"key": "isEnable",
+					"type": "boolean",
+					"description": "是否启用",
+					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "布局模式0:Equality,等分模式; 1:Presentation,主席模式; 2:SpeechExcitation,语音激励模式; 3:Exclusive,单方全屏; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "layoutType",
+					"type": "integer",
+					"description": "画面布局类型1:One,单画面; 2:Two,两画面（等分）; 4:Four,四画面（等分）; 9:Nine,九画面（等分; 16:Sixteen,十六画面（等分）; 25:TwentyFive,二十五画面（等分）; 36:ThirtySix,三十六画面（等分）; 49:FortyNine,四十九画面（等分）; 50:OnePlusFour,五画面（1+4）; 80:OnePlusSeven,八画面（1+7）; 100:OnePlusNine,十画面（1+9）; 130:OnePlusThirteen,十三画面（1+12）; 170:OnePlusSixteen,十七画面（1+16）; 210:OnePlusTwenty,二十一画面（1+20）; 1000:TwoPlusEight,十画面（2+8）; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "videoRound",
+					"type": "object",
+					"description": "视频轮询配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "isEnabledSelfView",
+					"type": "boolean",
+					"description": "是否开启自视",
+					"required": false
+				},
+				{
+					"key": "isEnabledVoiceIncentive",
+					"type": "boolean",
+					"description": "是否开启语音激励",
+					"required": false
+				},
+				{
+					"key": "applicationTargets",
+					"type": "array",
+					"description": "布局应用对象",
+					"required": false
+				},
+				{
+					"key": "sourceMemberIDs",
+					"type": "array",
+					"description": "在布局里显示画面的成员ID",
+					"required": false
+				},
+				{
+					"key": "appointScreens",
+					"type": "array",
+					"description": "有固定布局的画面",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Conferences/{id}/layout",
+			"tag": "Conferences",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "设置会议画面布局",
+			"version": "v1",
+			"methodName": "editConferenceLayout",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "platformID",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layoutType",
+					"type": "integer",
+					"description": "画面布局类型1:One,单画面; 2:Two,两画面（等分）; 4:Four,四画面（等分）; 9:Nine,九画面（等分; 16:Sixteen,十六画面（等分）; 25:TwentyFive,二十五画面（等分）; 36:ThirtySix,三十六画面（等分）; 49:FortyNine,四十九画面（等分）; 50:OnePlusFour,五画面（1+4）; 80:OnePlusSeven,八画面（1+7）; 100:OnePlusNine,十画面（1+9）; 130:OnePlusThirteen,十三画面（1+12）; 170:OnePlusSixteen,十七画面（1+16）; 210:OnePlusTwenty,二十一画面（1+20）; 1000:TwoPlusEight,十画面（2+8）; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "appointScreens",
+					"type": "array",
+					"description": "有固定布局的画面",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layoutApplicationTargets",
+					"type": "array",
+					"description": "布局应用对象",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sourceMemberIDs",
+					"type": "array",
+					"description": "布局显示对象集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "videoRound",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Conferences/{id}/layout/cascade",
 			"tag": "Conferences",
 			"subBiz": null,
@@ -44288,6 +48277,49 @@
 			]
 		},
 		{
+			"url": "/api/Conferences/{id}/isCascade",
+			"tag": "Conferences",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "(取消)设置成员为级联会议室",
+			"version": "v1",
+			"methodName": "editConferenceCascade",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "platformID",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "成员ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isCascadeConference",
+					"type": "boolean",
+					"description": "是否为级联的会议室",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Conferences/{id}/layout/default",
 			"tag": "Conferences",
 			"subBiz": null,
@@ -44431,6 +48463,54 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Conferences/{id}/live",
+			"tag": "Conferences",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "开启会议直播",
+			"version": "v1",
+			"methodName": "openConferenceLive",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "IsEnable",
+					"type": "boolean",
+					"description": "是否开启会议直播",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Address",
+					"type": "string",
+					"description": "直播地址",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Resolution",
+					"description": "直播分辨率",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/Conferences/{id}/keepalive",
@@ -46227,7 +50307,8 @@
 				},
 				{
 					"key": "status",
-					"description": "",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				}
@@ -46291,7 +50372,8 @@
 				},
 				{
 					"key": "status",
-					"description": "",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46375,7 +50457,8 @@
 				},
 				{
 					"key": "status",
-					"description": "",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				}
@@ -46460,7 +50543,8 @@
 				},
 				{
 					"key": "status",
-					"description": "",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46668,7 +50752,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				}
@@ -46734,7 +50818,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -46821,7 +50905,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				}
@@ -46908,7 +50992,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -47578,7 +51662,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				}
@@ -47615,7 +51699,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -47676,7 +51760,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				}
@@ -47734,7 +51818,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -47837,7 +51921,7 @@
 			"tag": "Platforms",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "第三方平台搜索",
+			"summary": "搜索第三方平台",
 			"version": "v1",
 			"methodName": "getPlatforms",
 			"parameters": [
@@ -47851,7 +51935,7 @@
 				{
 					"key": "platformIds",
 					"type": "array",
-					"description": "第三方平台ID列表",
+					"description": "第三方平台ID列表,同时支持resourceId查询",
 					"default": null,
 					"in": "query"
 				},
@@ -47913,7 +51997,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "Id",
 					"required": false
 				},
 				{
@@ -47943,7 +52027,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				},
@@ -48016,9 +52100,16 @@
 			],
 			"requestBody": [
 				{
-					"key": "id",
+					"key": "name",
 					"type": "string",
-					"description": "",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -48033,29 +52124,7 @@
 					"key": "managerAddress",
 					"type": "string",
 					"description": "平台管理地址",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "描述",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "status",
-					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
-					"required": false,
-					"details": null,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -48127,13 +52196,6 @@
 					"description": "资源ID",
 					"required": false,
 					"in": "requestBody"
-				},
-				{
-					"key": "createTime",
-					"type": "string",
-					"description": "添加时间",
-					"required": false,
-					"in": "requestBody"
 				}
 			]
 		},
@@ -48142,7 +52204,7 @@
 			"tag": "Platforms",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "通过ID获取平台",
+			"summary": "获取平台",
 			"version": "v1",
 			"methodName": "getPlatformById",
 			"operationId": "GetPlatform",
@@ -48167,7 +52229,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "Id",
 					"required": false
 				},
 				{
@@ -48197,7 +52259,7 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
 				},
@@ -48291,9 +52353,16 @@
 			"responses": null,
 			"requestBody": [
 				{
-					"key": "id",
+					"key": "name",
 					"type": "string",
-					"description": "",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -48308,29 +52377,7 @@
 					"key": "managerAddress",
 					"type": "string",
 					"description": "平台管理地址",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "描述",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "status",
-					"type": "integer",
-					"description": "连接状态  0:未知,1已连接，2未连接0:Unknow; 1:Connected; 2:DisConnected; ",
-					"required": false,
-					"details": null,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -48400,13 +52447,6 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "createTime",
-					"type": "string",
-					"description": "添加时间",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -48547,10 +52587,11 @@
 					"required": false
 				},
 				{
-					"key": "isOnline",
-					"type": "boolean",
-					"description": "是否在线",
-					"required": false
+					"key": "status",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -48558,7 +52599,7 @@
 					"key": "name",
 					"type": "string",
 					"description": "装备名称",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -48679,10 +52720,11 @@
 					"required": false
 				},
 				{
-					"key": "isOnline",
-					"type": "boolean",
-					"description": "是否在线",
-					"required": false
+					"key": "status",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": null
@@ -48711,7 +52753,7 @@
 					"key": "name",
 					"type": "string",
 					"description": "装备名称",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -48991,7 +53033,7 @@
 				{
 					"key": "terminalIds",
 					"type": "array",
-					"description": "终端ID列表",
+					"description": "终端ID列表,同时支持resourceId查询",
 					"default": null,
 					"in": "query"
 				},
@@ -49044,6 +53086,534 @@
 					"required": false
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Terminals",
+			"tag": "Terminals",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增终端",
+			"version": "v1",
+			"methodName": "addTerminals",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "ip",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "string",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "number",
+					"type": "string",
+					"description": "号码",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述信息",
+					"required": false
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
+					"required": false
+				},
+				{
+					"key": "terminalType",
+					"type": "integer",
+					"description": "终端类型0:固定电话,固定电话; 1:对讲终端,对讲终端; 2:视频会议终端,视频会议终端; 3:监控终端,监控终端; 4:执法仪,执法仪; 5:布控球,布控球; 6:移动集群车载台,移动集群车载台; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "protocolType",
+					"type": "string",
+					"description": "协议",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "string",
+					"description": "联系人",
+					"required": false
+				},
+				{
+					"key": "contactPhone",
+					"type": "string",
+					"description": "联系人电话",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "terminalGroup",
+					"type": "object",
+					"description": "终端组",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "ip",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "string",
+					"description": "端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "number",
+					"type": "string",
+					"description": "号码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "拓展",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "terminalType",
+					"type": "integer",
+					"description": "终端类型0:固定电话,固定电话; 1:对讲终端,对讲终端; 2:视频会议终端,视频会议终端; 3:监控终端,监控终端; 4:执法仪,执法仪; 5:布控球,布控球; 6:移动集群车载台,移动集群车载台; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "protocolType",
+					"type": "string",
+					"description": "协议",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "string",
+					"description": "联系人",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contactPhone",
+					"type": "string",
+					"description": "联系人电话",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "终端组id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Terminals/{id}",
+			"tag": "Terminals",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取终端",
+			"version": "v1",
+			"methodName": "getTerminalById",
+			"operationId": "Terminal",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "ip",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "string",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "number",
+					"type": "string",
+					"description": "号码",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述信息",
+					"required": false
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
+					"required": false
+				},
+				{
+					"key": "terminalType",
+					"type": "integer",
+					"description": "终端类型0:固定电话,固定电话; 1:对讲终端,对讲终端; 2:视频会议终端,视频会议终端; 3:监控终端,监控终端; 4:执法仪,执法仪; 5:布控球,布控球; 6:移动集群车载台,移动集群车载台; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "protocolType",
+					"type": "string",
+					"description": "协议",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "string",
+					"description": "联系人",
+					"required": false
+				},
+				{
+					"key": "contactPhone",
+					"type": "string",
+					"description": "联系人电话",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "terminalGroup",
+					"type": "object",
+					"description": "终端组",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Terminals/{id}",
+			"tag": "Terminals",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新终端",
+			"version": "v1",
+			"methodName": "editTerminal",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "ip",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "string",
+					"description": "端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "number",
+					"type": "string",
+					"description": "号码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "拓展",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "terminalType",
+					"type": "integer",
+					"description": "终端类型0:固定电话,固定电话; 1:对讲终端,对讲终端; 2:视频会议终端,视频会议终端; 3:监控终端,监控终端; 4:执法仪,执法仪; 5:布控球,布控球; 6:移动集群车载台,移动集群车载台; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "protocolType",
+					"type": "string",
+					"description": "协议",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "string",
+					"description": "联系人",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contactPhone",
+					"type": "string",
+					"description": "联系人电话",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "终端组id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Terminals/{id}",
+			"tag": "Terminals",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除终端",
+			"version": "v1",
+			"methodName": "deleteTerminal",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		}
 	],
