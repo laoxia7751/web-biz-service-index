@@ -95,7 +95,7 @@
     <script>
       const App = {
         mounted() {
-          fetch('biz.json')
+          fetch('biz.json', { cache: 'no-cache' })
             .then((res) => res.json())
             .then((res) => {
               this.bizData = res;
