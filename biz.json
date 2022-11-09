@@ -19598,20 +19598,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -19672,6 +19658,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -39782,7 +39782,45 @@
 					"in": "query"
 				}
 			],
-			"responses": null,
+			"responses": [
+				{
+					"key": "playUrlType",
+					"type": "integer",
+					"description": "Url对应的实体类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtspUrl",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "flvUrl",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "wsUrl",
+					"type": "string",
+					"description": "Ws 协议播放地址",
+					"required": false
+				},
+				{
+					"key": "rtmpUrl",
+					"type": "string",
+					"description": "rtmp 的协议播放地址",
+					"required": false
+				},
+				{
+					"key": "webRtc",
+					"type": "string",
+					"description": "wbertc播放地址",
+					"required": false
+				}
+			],
 			"requestBody": null
 		},
 		{
@@ -41454,29 +41492,7 @@
 			"summary": "根据标签Id查找监控",
 			"version": "v1",
 			"methodName": "searchCamerasByLabel",
-			"parameters": [
-				{
-					"key": "LabelIds",
-					"type": "array",
-					"description": "标签Id",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				}
-			],
+			"parameters": null,
 			"responses": [
 				{
 					"key": "totalCount",
@@ -41491,7 +41507,29 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "标签Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/CameraVideos",
@@ -49282,6 +49320,65 @@
 	],
 	"assetBiz": [
 		{
+			"url": "/api/Assets/{type}/ip/{ip}",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过IP获取资产信息",
+			"version": "v1",
+			"methodName": "getAssetsByIp",
+			"parameters": [
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "type",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "资产ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "资产名称",
+					"required": false
+				},
+				{
+					"key": "contactID",
+					"type": "string",
+					"description": "联系人ID",
+					"required": false
+				},
+				{
+					"key": "contactName",
+					"type": "string",
+					"description": "联系人名称",
+					"required": false
+				},
+				{
+					"key": "contactPhone",
+					"type": "string",
+					"description": "联系人电话",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Client",
 			"tag": "Client",
 			"subBiz": null,
@@ -49356,18 +49453,10 @@
 			"tag": "Client",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "获取所有客户终端",
+			"summary": "搜索客户端",
 			"version": "v1",
 			"methodName": "getClients",
-			"operationId": "GetAllClient",
 			"parameters": [
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
 				{
 					"key": "page",
 					"type": "integer",
@@ -49380,6 +49469,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -49404,7 +49500,7 @@
 			"tag": "Client",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "增加客户终端",
+			"summary": "新增客户端",
 			"version": "v1",
 			"methodName": "addClient",
 			"parameters": null,
@@ -49412,49 +49508,84 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "标识",
 					"required": false
-				},
-				{
-					"key": "net",
-					"description": "",
-					"required": false,
-					"details": null
 				},
 				{
 					"key": "name",
 					"type": "string",
-					"description": "",
+					"description": "名称",
 					"required": false
 				},
 				{
-					"key": "clientTerminalType",
+					"key": "ip",
 					"type": "string",
-					"description": "",
+					"description": "IP",
+					"required": false
+				},
+				{
+					"key": "mac",
+					"type": "string",
+					"description": "MAC",
 					"required": false
 				},
 				{
 					"key": "model",
 					"type": "string",
-					"description": "",
+					"description": "型号",
 					"required": false
 				},
 				{
-					"key": "osDescription",
+					"key": "os",
 					"type": "string",
-					"description": "",
+					"description": "操作系统",
 					"required": false
 				},
 				{
 					"key": "description",
 					"type": "string",
-					"description": "",
+					"description": "描述信息",
 					"required": false
 				},
 				{
-					"key": "machineInfo",
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "clientType",
+					"type": "integer",
+					"description": "客户端类型0:CommandDispatchClient,指挥调度客户端; 1:MobileCommandDispatchIntegratedBox,移动指挥调度一体箱; 2:LeadDecisionCommandClient,领导决策指挥客户端; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resourceId",
 					"type": "string",
-					"description": "",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
 					"required": false
 				},
 				{
@@ -49467,67 +49598,84 @@
 			],
 			"requestBody": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "net",
-					"description": "",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "name",
 					"type": "string",
-					"description": "",
-					"required": false,
+					"description": "名称",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
-					"key": "clientTerminalType",
+					"key": "ip",
 					"type": "string",
-					"description": "",
-					"required": false,
+					"description": "IP",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "mac",
+					"type": "string",
+					"description": "MAC",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
 					"key": "model",
 					"type": "string",
-					"description": "",
+					"description": "型号",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "osDescription",
+					"key": "os",
 					"type": "string",
-					"description": "",
+					"description": "操作系统",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
 					"key": "description",
 					"type": "string",
-					"description": "",
+					"description": "描述信息",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "machineInfo",
-					"type": "string",
-					"description": "",
+					"key": "extension",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "status",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "clientType",
 					"type": "integer",
-					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"description": "客户端类型0:CommandDispatchClient,指挥调度客户端; 1:MobileCommandDispatchIntegratedBox,移动指挥调度一体箱; 2:LeadDecisionCommandClient,领导决策指挥客户端; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -49537,10 +49685,10 @@
 			"tag": "Client",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "通过ID获取客户终端",
+			"summary": "通过ID获取客户端",
 			"version": "v1",
 			"methodName": "getClientsById",
-			"operationId": "GetClientTerminal",
+			"operationId": "GetClient",
 			"parameters": [
 				{
 					"key": "id",
@@ -49562,49 +49710,84 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "标识",
 					"required": false
-				},
-				{
-					"key": "net",
-					"description": "",
-					"required": false,
-					"details": null
 				},
 				{
 					"key": "name",
 					"type": "string",
-					"description": "",
+					"description": "名称",
 					"required": false
 				},
 				{
-					"key": "clientTerminalType",
+					"key": "ip",
 					"type": "string",
-					"description": "",
+					"description": "IP",
+					"required": false
+				},
+				{
+					"key": "mac",
+					"type": "string",
+					"description": "MAC",
 					"required": false
 				},
 				{
 					"key": "model",
 					"type": "string",
-					"description": "",
+					"description": "型号",
 					"required": false
 				},
 				{
-					"key": "osDescription",
+					"key": "os",
 					"type": "string",
-					"description": "",
+					"description": "操作系统",
 					"required": false
 				},
 				{
 					"key": "description",
 					"type": "string",
-					"description": "",
+					"description": "描述信息",
 					"required": false
 				},
 				{
-					"key": "machineInfo",
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "clientType",
+					"type": "integer",
+					"description": "客户端类型0:CommandDispatchClient,指挥调度客户端; 1:MobileCommandDispatchIntegratedBox,移动指挥调度一体箱; 2:LeadDecisionCommandClient,领导决策指挥客户端; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resourceId",
 					"type": "string",
-					"description": "",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
 					"required": false
 				},
 				{
@@ -49622,7 +49805,7 @@
 			"tag": "Client",
 			"subBiz": null,
 			"methods": "put",
-			"summary": "更新客户终端",
+			"summary": "更新客户端",
 			"version": "v1",
 			"methodName": "editClient",
 			"parameters": [
@@ -49638,67 +49821,84 @@
 			"responses": null,
 			"requestBody": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "net",
-					"description": "",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "name",
 					"type": "string",
-					"description": "",
-					"required": false,
+					"description": "名称",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
-					"key": "clientTerminalType",
+					"key": "ip",
 					"type": "string",
-					"description": "",
-					"required": false,
+					"description": "IP",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "mac",
+					"type": "string",
+					"description": "MAC",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
 					"key": "model",
 					"type": "string",
-					"description": "",
+					"description": "型号",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "osDescription",
+					"key": "os",
 					"type": "string",
-					"description": "",
+					"description": "操作系统",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
 					"key": "description",
 					"type": "string",
-					"description": "",
+					"description": "描述信息",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "machineInfo",
-					"type": "string",
-					"description": "",
+					"key": "extension",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "status",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "clientType",
 					"type": "integer",
-					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"description": "客户端类型0:CommandDispatchClient,指挥调度客户端; 1:MobileCommandDispatchIntegratedBox,移动指挥调度一体箱; 2:LeadDecisionCommandClient,领导决策指挥客户端; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -49708,7 +49908,7 @@
 			"tag": "Client",
 			"subBiz": null,
 			"methods": "delete",
-			"summary": "删除客户终端",
+			"summary": "删除客户端",
 			"version": "v1",
 			"methodName": "deleteClient",
 			"parameters": [
@@ -49795,14 +49995,27 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Machines",
-			"tag": "Machines",
+			"url": "/api/Device",
+			"tag": "Device",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "获取所有服务器",
+			"summary": "设备搜索",
 			"version": "v1",
-			"methodName": "getMachines",
+			"methodName": "getDevice",
 			"parameters": [
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "deviceType",
+					"description": "类型",
+					"default": null,
+					"in": "query"
+				},
 				{
 					"key": "platformId",
 					"type": "string",
@@ -49842,37 +50055,54 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Machines",
-			"tag": "Machines",
+			"url": "/api/Device",
+			"tag": "Device",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "增加服务器",
+			"summary": "新增设备",
 			"version": "v1",
-			"methodName": "addMachines",
+			"methodName": "addDevice",
 			"parameters": null,
 			"responses": [
 				{
 					"key": "id",
 					"type": "string",
-					"description": "id",
+					"description": "标识",
 					"required": false
 				},
 				{
-					"key": "ipAddress",
-					"type": "array",
-					"description": "网络地址",
-					"required": false
-				},
-				{
-					"key": "description",
+					"key": "name",
 					"type": "string",
 					"description": "服务器名称",
 					"required": false
 				},
 				{
-					"key": "authInfo",
+					"key": "netInfos",
+					"type": "array",
+					"description": "网络信息",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "os",
+					"type": "string",
+					"description": "操作系统",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
 					"type": "object",
-					"description": "认证信息",
+					"description": "联系人",
 					"required": false,
 					"details": [
 						{
@@ -49880,25 +50110,35 @@
 						},
 						{
 							"key": "1"
+						},
+						{
+							"key": "2"
 						}
 					]
 				},
 				{
-					"key": "osDescription",
+					"key": "account",
 					"type": "string",
-					"description": "操作系统",
+					"description": "账号",
 					"required": false
 				},
 				{
-					"key": "extension",
+					"key": "password",
 					"type": "string",
-					"description": "硬件信息",
+					"description": "密码",
 					"required": false
 				},
 				{
-					"key": "network",
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resourceId",
 					"type": "string",
-					"description": "网络类型",
+					"description": "资源ID",
 					"required": false
 				},
 				{
@@ -49907,47 +50147,38 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
+					"required": false
 				}
 			],
 			"requestBody": [
 				{
-					"key": "id",
+					"key": "name",
 					"type": "string",
-					"description": "id",
-					"required": false,
+					"description": "服务器名称",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
-					"key": "ipAddress",
+					"key": "netInfos",
 					"type": "array",
-					"description": "网络地址",
-					"required": false,
+					"description": "网络信息",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
 					"key": "description",
 					"type": "string",
-					"description": "服务器名称",
+					"description": "描述",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "authInfo",
-					"type": "object",
-					"description": "认证信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						}
-					],
-					"in": "requestBody"
-				},
-				{
-					"key": "osDescription",
+					"key": "os",
 					"type": "string",
 					"description": "操作系统",
 					"required": false,
@@ -49955,24 +50186,548 @@
 				},
 				{
 					"key": "extension",
-					"type": "string",
-					"description": "硬件信息",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "network",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "account",
 					"type": "string",
-					"description": "网络类型",
+					"description": "账号",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "deviceType",
+					"type": "integer",
+					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Device/{id}",
+			"tag": "Device",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取设备",
+			"version": "v1",
+			"methodName": "getDeviceById",
+			"operationId": "Device",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "服务器名称",
+					"required": false
+				},
+				{
+					"key": "netInfos",
+					"type": "array",
+					"description": "网络信息",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "os",
+					"type": "string",
+					"description": "操作系统",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
 				},
 				{
 					"key": "status",
 					"type": "integer",
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Device/{id}",
+			"tag": "Device",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新设备",
+			"version": "v1",
+			"methodName": "editDevice",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "服务器名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "netInfos",
+					"type": "array",
+					"description": "网络信息",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "os",
+					"type": "string",
+					"description": "操作系统",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "deviceType",
+					"type": "integer",
+					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Device/{id}",
+			"tag": "Device",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除设备",
+			"version": "v1",
+			"methodName": "deleteDevice",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Machines",
+			"tag": "Machines",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索服务器",
+			"version": "v1",
+			"methodName": "getMachines",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Machines",
+			"tag": "Machines",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增服务器",
+			"version": "v1",
+			"methodName": "addMachines",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "服务器名称",
+					"required": false
+				},
+				{
+					"key": "netInfos",
+					"type": "array",
+					"description": "网络信息",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "os",
+					"type": "string",
+					"description": "操作系统",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "服务器名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "netInfos",
+					"type": "array",
+					"description": "网络信息",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "os",
+					"type": "string",
+					"description": "操作系统",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "account",
+					"type": "string",
+					"description": "账号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "deviceType",
+					"type": "integer",
+					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -50007,25 +50762,42 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "id",
+					"description": "标识",
 					"required": false
 				},
 				{
-					"key": "ipAddress",
-					"type": "array",
-					"description": "网络地址",
-					"required": false
-				},
-				{
-					"key": "description",
+					"key": "name",
 					"type": "string",
 					"description": "服务器名称",
 					"required": false
 				},
 				{
-					"key": "authInfo",
+					"key": "netInfos",
+					"type": "array",
+					"description": "网络信息",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "os",
+					"type": "string",
+					"description": "操作系统",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
 					"type": "object",
-					"description": "认证信息",
+					"description": "联系人",
 					"required": false,
 					"details": [
 						{
@@ -50033,25 +50805,35 @@
 						},
 						{
 							"key": "1"
+						},
+						{
+							"key": "2"
 						}
 					]
 				},
 				{
-					"key": "osDescription",
+					"key": "account",
 					"type": "string",
-					"description": "操作系统",
+					"description": "账号",
 					"required": false
 				},
 				{
-					"key": "extension",
+					"key": "password",
 					"type": "string",
-					"description": "硬件信息",
+					"description": "密码",
 					"required": false
 				},
 				{
-					"key": "network",
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resourceId",
 					"type": "string",
-					"description": "网络类型",
+					"description": "资源ID",
 					"required": false
 				},
 				{
@@ -50060,6 +50842,12 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -50085,43 +50873,28 @@
 			"responses": null,
 			"requestBody": [
 				{
-					"key": "id",
+					"key": "name",
 					"type": "string",
-					"description": "id",
-					"required": false,
+					"description": "服务器名称",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
-					"key": "ipAddress",
+					"key": "netInfos",
 					"type": "array",
-					"description": "网络地址",
-					"required": false,
+					"description": "网络信息",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
 					"key": "description",
 					"type": "string",
-					"description": "服务器名称",
+					"description": "描述",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "authInfo",
-					"type": "object",
-					"description": "认证信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						}
-					],
-					"in": "requestBody"
-				},
-				{
-					"key": "osDescription",
+					"key": "os",
 					"type": "string",
 					"description": "操作系统",
 					"required": false,
@@ -50129,24 +50902,63 @@
 				},
 				{
 					"key": "extension",
-					"type": "string",
-					"description": "硬件信息",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "network",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "account",
 					"type": "string",
-					"description": "网络类型",
+					"description": "账号",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "status",
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
 					"type": "integer",
-					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "deviceType",
+					"type": "integer",
+					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -50182,13 +50994,6 @@
 			"methodName": "getMcu",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50200,6 +51005,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50373,13 +51185,6 @@
 			"methodName": "getNc",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50391,6 +51196,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50558,13 +51370,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50576,6 +51381,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50613,13 +51425,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50631,6 +51436,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50728,15 +51540,7 @@
 			"summary": "获取所有网络类型",
 			"version": "v1",
 			"methodName": "getNetworks",
-			"operationId": "GetAllNetwork",
 			"parameters": [
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
 				{
 					"key": "page",
 					"type": "integer",
@@ -50749,6 +51553,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50773,7 +51584,7 @@
 			"tag": "Networks",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "增加网络类型",
+			"summary": "增加网络",
 			"version": "v1",
 			"methodName": "addNetworks",
 			"parameters": null,
@@ -50781,7 +51592,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "ID",
 					"required": false
 				},
 				{
@@ -50791,15 +51602,56 @@
 					"required": false
 				},
 				{
-					"key": "description",
-					"type": "string",
-					"description": "网络名称",
-					"required": false
-				},
-				{
 					"key": "boundWidth",
 					"type": "integer",
 					"description": "带宽",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
 					"required": false
 				},
 				{
@@ -50812,23 +51664,9 @@
 			],
 			"requestBody": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "networkInterface",
 					"type": "string",
 					"description": "接入网段",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "网络名称",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -50840,11 +51678,49 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "status",
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
 					"type": "integer",
-					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -50879,7 +51755,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "ID",
 					"required": false
 				},
 				{
@@ -50889,15 +51765,56 @@
 					"required": false
 				},
 				{
-					"key": "description",
-					"type": "string",
-					"description": "网络名称",
-					"required": false
-				},
-				{
 					"key": "boundWidth",
 					"type": "integer",
 					"description": "带宽",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "添加时间",
 					"required": false
 				},
 				{
@@ -50915,7 +51832,7 @@
 			"tag": "Networks",
 			"subBiz": null,
 			"methods": "put",
-			"summary": "更新网络类型",
+			"summary": "更新网络",
 			"version": "v1",
 			"methodName": "editNetwork",
 			"parameters": [
@@ -50931,23 +51848,9 @@
 			"responses": null,
 			"requestBody": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "networkInterface",
 					"type": "string",
 					"description": "接入网段",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "网络名称",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -50959,11 +51862,49 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "status",
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
 					"type": "integer",
-					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"description": "拓展",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -51187,12 +52128,6 @@
 					"required": false
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "扩展信息",
-					"required": false
-				},
-				{
 					"key": "areaCode",
 					"type": "string",
 					"description": "行政区域码",
@@ -51211,16 +52146,26 @@
 					"required": false
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
-					"required": false
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
 				},
 				{
 					"key": "accessMethod",
@@ -51231,7 +52176,7 @@
 				{
 					"key": "networkType",
 					"type": "integer",
-					"description": "网络类型：0互联网，1专网，2公共服务域，3行政服务域0:Internet,互联网; 1:PrivateNetwork,专网; 2:PublicServiceDomain,公共服务域; 3:AdministrativeServiceDomain,行政服务域; 999:Other,其他; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null
 				},
@@ -51292,13 +52237,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "扩展信息",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "areaCode",
 					"type": "string",
 					"description": "行政区域码",
@@ -51320,17 +52258,27 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
 					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
 					"in": "requestBody"
 				},
 				{
@@ -51343,7 +52291,7 @@
 				{
 					"key": "networkType",
 					"type": "integer",
-					"description": "网络类型：0互联网，1专网，2公共服务域，3行政服务域0:Internet,互联网; 1:PrivateNetwork,专网; 2:PublicServiceDomain,公共服务域; 3:AdministrativeServiceDomain,行政服务域; 999:Other,其他; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -51356,6 +52304,60 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Platforms/search",
+			"tag": "Platforms",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "通过ID查询第三方平台集合",
+			"version": "v1",
+			"methodName": "searchPlatformsById",
+			"parameters": [
+				{
+					"key": "platformIds",
+					"type": "array",
+					"description": "第三方平台ID列表,同时支持资源ID(resourceId)查询",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Platforms/{id}",
@@ -51434,12 +52436,6 @@
 					"required": false
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "扩展信息",
-					"required": false
-				},
-				{
 					"key": "areaCode",
 					"type": "string",
 					"description": "行政区域码",
@@ -51458,16 +52454,26 @@
 					"required": false
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
-					"required": false
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
 				},
 				{
 					"key": "accessMethod",
@@ -51478,7 +52484,7 @@
 				{
 					"key": "networkType",
 					"type": "integer",
-					"description": "网络类型：0互联网，1专网，2公共服务域，3行政服务域0:Internet,互联网; 1:PrivateNetwork,专网; 2:PublicServiceDomain,公共服务域; 3:AdministrativeServiceDomain,行政服务域; 999:Other,其他; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null
 				},
@@ -51560,13 +52566,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "扩展信息",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "areaCode",
 					"type": "string",
 					"description": "行政区域码",
@@ -51588,17 +52587,27 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
 					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
 					"in": "requestBody"
 				},
 				{
@@ -51611,7 +52620,7 @@
 				{
 					"key": "networkType",
 					"type": "integer",
-					"description": "网络类型：0互联网，1专网，2公共服务域，3行政服务域0:Internet,互联网; 1:PrivateNetwork,专网; 2:PublicServiceDomain,公共服务域; 3:AdministrativeServiceDomain,行政服务域; 999:Other,其他; ",
+					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -51726,7 +52735,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "联系人信息",
+					"description": "联系人",
 					"required": false,
 					"details": [
 						{
@@ -51778,7 +52787,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "联系人信息",
+					"description": "联系人",
 					"required": false,
 					"details": [
 						{
@@ -51859,7 +52868,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "联系人信息",
+					"description": "联系人",
 					"required": false,
 					"details": [
 						{
@@ -51932,7 +52941,7 @@
 				{
 					"key": "contact",
 					"type": "object",
-					"description": "联系人信息",
+					"description": "联系人",
 					"required": false,
 					"details": [
 						{
@@ -52187,7 +53196,7 @@
 				},
 				{
 					"key": "terminalType",
-					"description": "终端类型:0:固定电话,1:对讲终端,2:视频会议终端,3:监控终端,4:执法仪,5:布控球,6:移动集群车载台",
+					"description": "终端类型",
 					"default": null,
 					"in": "query"
 				},
@@ -52195,6 +53204,12 @@
 					"key": "prefixAreaCode",
 					"type": "string",
 					"description": "行政区域码前缀查询，使用英文\",\"隔开，传入完整的行政区域码也会分割处理为区域码前缀",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "status",
+					"description": "状态 1已连接，2未连接",
 					"default": null,
 					"in": "query"
 				},
@@ -52295,12 +53310,6 @@
 					"required": false
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "拓展",
-					"required": false
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -52315,7 +53324,7 @@
 				{
 					"key": "terminalType",
 					"type": "integer",
-					"description": "终端类型0:Landline,固定电话; 1:IntercomTerminal,对讲终端; 2:VideoConferenceTerminal,视频会议终端; 3:MonitorTerminal,监控终端; 4:LawEnforcementInstrument,执法仪; 5:ControlTheBall,布控球; 6:MobileClusterVehicleStation,移动集群车载台; ",
+					"description": "终端类型0:LawEnforcementInstrument,执法记录仪; 1:ControlTheBall4G,4G布控球; 2:VideoConferenceTerminal,视频会议终端; 3:MobileClusterVehicleStation,移动集群车载台; 4:Other,其他终端; ",
 					"required": false,
 					"details": null
 				},
@@ -52332,16 +53341,26 @@
 					"required": false
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
-					"required": false
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
 				},
 				{
 					"key": "status",
@@ -52377,7 +53396,7 @@
 					"key": "ip",
 					"type": "string",
 					"description": "ip",
-					"required": true,
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -52416,16 +53435,9 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "拓展",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "terminalType",
 					"type": "integer",
-					"description": "终端类型0:Landline,固定电话; 1:IntercomTerminal,对讲终端; 2:VideoConferenceTerminal,视频会议终端; 3:MonitorTerminal,监控终端; 4:LawEnforcementInstrument,执法仪; 5:ControlTheBall,布控球; 6:MobileClusterVehicleStation,移动集群车载台; ",
+					"description": "终端类型0:LawEnforcementInstrument,执法记录仪; 1:ControlTheBall4G,4G布控球; 2:VideoConferenceTerminal,视频会议终端; 3:MobileClusterVehicleStation,移动集群车载台; 4:Other,其他终端; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -52445,17 +53457,27 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
 					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
 					"in": "requestBody"
 				},
 				{
@@ -52473,6 +53495,60 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Terminals/search",
+			"tag": "Terminals",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "通过ID查询终端集合",
+			"version": "v1",
+			"methodName": "searchTerminalsById",
+			"parameters": [
+				{
+					"key": "terminalIds",
+					"type": "array",
+					"description": "终端ID列表,同时支持资源ID(resourceId)查询",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Terminals/{id}",
@@ -52543,12 +53619,6 @@
 					"required": false
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "拓展",
-					"required": false
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -52563,7 +53633,7 @@
 				{
 					"key": "terminalType",
 					"type": "integer",
-					"description": "终端类型0:Landline,固定电话; 1:IntercomTerminal,对讲终端; 2:VideoConferenceTerminal,视频会议终端; 3:MonitorTerminal,监控终端; 4:LawEnforcementInstrument,执法仪; 5:ControlTheBall,布控球; 6:MobileClusterVehicleStation,移动集群车载台; ",
+					"description": "终端类型0:LawEnforcementInstrument,执法记录仪; 1:ControlTheBall4G,4G布控球; 2:VideoConferenceTerminal,视频会议终端; 3:MobileClusterVehicleStation,移动集群车载台; 4:Other,其他终端; ",
 					"required": false,
 					"details": null
 				},
@@ -52580,16 +53650,26 @@
 					"required": false
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
-					"required": false
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
 				},
 				{
 					"key": "status",
@@ -52646,7 +53726,7 @@
 					"key": "ip",
 					"type": "string",
 					"description": "ip",
-					"required": true,
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -52685,16 +53765,9 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "extension",
-					"type": "string",
-					"description": "拓展",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "terminalType",
 					"type": "integer",
-					"description": "终端类型0:Landline,固定电话; 1:IntercomTerminal,对讲终端; 2:VideoConferenceTerminal,视频会议终端; 3:MonitorTerminal,监控终端; 4:LawEnforcementInstrument,执法仪; 5:ControlTheBall,布控球; 6:MobileClusterVehicleStation,移动集群车载台; ",
+					"description": "终端类型0:LawEnforcementInstrument,执法记录仪; 1:ControlTheBall4G,4G布控球; 2:VideoConferenceTerminal,视频会议终端; 3:MobileClusterVehicleStation,移动集群车载台; 4:Other,其他终端; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -52714,17 +53787,27 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "contact",
-					"type": "string",
-					"description": "联系人",
+					"key": "extension",
+					"description": "拓展",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
-					"key": "contactPhone",
-					"type": "string",
-					"description": "联系人电话",
+					"key": "contact",
+					"type": "object",
+					"description": "联系人",
 					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
 					"in": "requestBody"
 				},
 				{
