@@ -3093,20 +3093,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3167,6 +3153,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -36219,20 +36219,6 @@
 			"methodName": "getDangerousSources",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36245,6 +36231,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36274,20 +36274,6 @@
 			"methodName": "getKeyProtections",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36300,6 +36286,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36329,20 +36329,6 @@
 			"methodName": "getShelters",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36355,6 +36341,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36384,20 +36384,6 @@
 			"methodName": "getWarehouses",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36410,6 +36396,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36439,20 +36439,6 @@
 			"methodName": "getEmergencyFacilities",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36465,6 +36451,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36494,20 +36494,6 @@
 			"methodName": "getManpowerResources",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36520,6 +36506,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36549,20 +36549,6 @@
 			"methodName": "getMedicalResources",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36575,6 +36561,20 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				}
 			],
@@ -39364,6 +39364,67 @@
 			]
 		},
 		{
+			"url": "/api/CameraGroups/Search",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "监控组搜索",
+			"version": "v1",
+			"methodName": "queryCameraGroups",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "GroupType",
+					"description": "资源所属监控组类型,只支持国标资源合本地资源,0是国标资源，2是本地资源",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Cameras/groups",
 			"tag": "Cameras",
 			"subBiz": null,
@@ -39978,6 +40039,13 @@
 					"description": "图片质量类型",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "True手动检测/ false智能检测，可为null，为null表示不修改",
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -46354,6 +46422,54 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Statistics/detectionTasks/{jobId}/history",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询指定job的巡检走势记录",
+			"version": "v1",
+			"methodName": "getDetectionHistoryByJobId",
+			"parameters": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "jobId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "Limit",
+					"type": "integer",
+					"description": "查询返回的记录数量",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/VideoConferences/{conferenceNumber}/invite_camera",
 			"tag": "VideoConferences",
 			"subBiz": null,
@@ -46626,6 +46742,68 @@
 					"key": "appointment",
 					"type": "string",
 					"description": "预约时间",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Cameras/Search",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "监控搜索",
+			"version": "v2",
+			"methodName": "searchCamerasV2",
+			"operationId": "Search",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "GroupType",
+					"description": "资源所属监控组类型,只支持国标资源合本地资源,0是国标资源，2是本地资源",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
 				}
 			],
