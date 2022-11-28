@@ -2470,6 +2470,18 @@
 					"description": "巡检类型 0 - 监控组， 1 - 标签0:CameraGroup; 1:CameraLabel; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "isSendEmail",
+					"type": "boolean",
+					"description": "是否发送邮件",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "通知人",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -3093,6 +3105,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3153,20 +3179,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -16533,7 +16545,7 @@
 			"methods": "get",
 			"summary": "查询部门详情",
 			"version": "v2",
-			"methodName": "getOrganizationsById",
+			"methodName": "getOrganizationsByIdV2",
 			"operationId": "GetDepartmentDetail",
 			"parameters": [
 				{
@@ -16694,7 +16706,7 @@
 			"methods": "get",
 			"summary": "分页查询部门及成员",
 			"version": "v2",
-			"methodName": "getAllDepartmentsMembers",
+			"methodName": "getAllDepartmentsMembersV2",
 			"parameters": [
 				{
 					"key": "pid",
@@ -16835,7 +16847,7 @@
 			"methods": "get",
 			"summary": "搜索",
 			"version": "v2",
-			"methodName": "searchKeyWordOrPid",
+			"methodName": "searchKeyWordOrPidV2",
 			"parameters": [
 				{
 					"key": "keyword",
@@ -25239,6 +25251,20 @@
 					"key": "AlarmSourceTypes",
 					"type": "array",
 					"description": "告警源类型列表10000000-设备 20000000-网关 30000000-服务器 40000000-平台 ",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "DistrictIds",
+					"type": "array",
+					"description": "行政区域ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PrefixDistrictIds",
+					"type": "array",
+					"description": "行政区域ID前缀过滤",
 					"default": null,
 					"in": "query"
 				},
@@ -33782,6 +33808,70 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Statistical/area_query",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据区域和图层查询设施统计",
+			"version": "v1",
+			"methodName": "queryFacilityByAreaLayer",
+			"operationId": "LayerFacilityStatistic",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "layerFacilityStatistic",
+					"type": "array",
+					"description": "图层统计请求",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标点",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标点",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
 		}
 	],
 	"fileStorageBiz": [
@@ -38650,7 +38740,7 @@
 			"methods": "get",
 			"summary": "分页请求气体信息数据",
 			"version": "v2",
-			"methodName": "getGas",
+			"methodName": "getGasV2",
 			"parameters": [
 				{
 					"key": "page",
@@ -38721,7 +38811,7 @@
 			"methods": "get",
 			"summary": "根据资源Id返回单个气体信息",
 			"version": "v2",
-			"methodName": "getGasById",
+			"methodName": "getGasByIdV2",
 			"operationId": "gas",
 			"parameters": [
 				{
@@ -39382,7 +39472,8 @@
 				},
 				{
 					"key": "GroupType",
-					"description": "资源所属监控组类型,只支持国标资源合本地资源,0是国标资源，2是本地资源",
+					"type": "integer",
+					"description": "资源所属监控组类型,0表示搜索全部，1是国标资源，2是预案资源，4是本地资源，支持多种资源搜索，比如输入5，5=1+4，搜索国标资源和本地资源",
 					"default": null,
 					"in": "query"
 				},
@@ -40052,7 +40143,7 @@
 					"key": "labelIds",
 					"type": "array",
 					"description": "监控标签id",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -41996,6 +42087,13 @@
 					"key": "labelIds",
 					"type": "array",
 					"description": "标签Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -44373,12 +44471,6 @@
 					"type": "string",
 					"description": "标签说明",
 					"required": false
-				},
-				{
-					"key": "owners",
-					"type": "array",
-					"description": "责任人",
-					"required": false
 				}
 			],
 			"requestBody": [
@@ -44400,13 +44492,6 @@
 					"key": "description",
 					"type": "string",
 					"description": "标签说明",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "owners",
-					"type": "array",
-					"description": "责任人",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -44457,13 +44542,6 @@
 					"key": "description",
 					"type": "string",
 					"description": "描述",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "owners",
-					"type": "array",
-					"description": "责任人",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -46767,7 +46845,173 @@
 				},
 				{
 					"key": "GroupType",
-					"description": "资源所属监控组类型,只支持国标资源合本地资源,0是国标资源，2是本地资源",
+					"type": "integer",
+					"description": "资源所属监控组类型，0表示搜索全部,1是国标资源，2是预案资源，4是本地资源，支持多种资源搜索，比如输入5，5=1+4，搜索国标资源和本地资源",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Cameras/advance_search",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "监控高级搜索",
+			"version": "v2",
+			"methodName": "advanceSearchCameras",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "online",
+					"type": "boolean",
+					"description": "是否在线",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "quality",
+					"type": "array",
+					"description": "质量",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resolution",
+					"type": "array",
+					"description": "分辨率",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "encode",
+					"type": "array",
+					"description": "压缩格式",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "audio",
+					"type": "boolean",
+					"description": "是否有音频",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "标签",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Label",
+			"tag": "Label",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询标签列表",
+			"version": "v2",
+			"methodName": "getAllLabelsV2",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字查询，匹配标签名称",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Order",
+					"type": "string",
+					"description": "排序字段，不填默认时间排序",
+					"default": "CreatedTime",
+					"in": "query"
+				},
+				{
+					"key": "Desc",
+					"type": "boolean",
+					"description": "是否升序，默认false - 降序",
 					"default": null,
 					"in": "query"
 				},
@@ -47040,7 +47284,7 @@
 			"tag": "Accounts",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "通过账号名获取账号",
+			"summary": "通过账号获取账号详情",
 			"version": "v1",
 			"methodName": "getAccountsByName",
 			"parameters": [
@@ -47828,6 +48072,102 @@
 					"key": "platformId",
 					"type": "string",
 					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "成员ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "成员名称",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "参会成员类型0:Phone,电话; 1:Account,账号; 2:Terminal,H323终端; 3:Rtsp,Rtsp链接; 4:Other,其他设备; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "phone",
+					"type": "string",
+					"description": "用户加入会议使用的号码",
+					"required": false
+				},
+				{
+					"key": "requestUri",
+					"type": "string",
+					"description": "用户入会使用的Uri",
+					"required": false
+				},
+				{
+					"key": "conferenceID",
+					"type": "string",
+					"description": "所在会议室",
+					"required": false
+				},
+				{
+					"key": "isPresenter",
+					"type": "boolean",
+					"description": "是否为主持人",
+					"required": false
+				},
+				{
+					"key": "isMute",
+					"type": "boolean",
+					"description": "是否被禁言",
+					"required": false
+				},
+				{
+					"key": "isSilence",
+					"type": "boolean",
+					"description": "是否被静音",
+					"required": false
+				},
+				{
+					"key": "isBroadcast",
+					"type": "boolean",
+					"description": "是否在广播中",
+					"required": false
+				},
+				{
+					"key": "isHideScreen",
+					"type": "boolean",
+					"description": "是否画面被隐藏",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Conferences/{id}/hide_conventioneers",
+			"tag": "Conferences",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取会议中隐藏画面的成员列表",
+			"version": "v1",
+			"methodName": "getHideConventioneers",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
 					"default": null,
 					"in": "query"
 				}
@@ -49002,6 +49342,13 @@
 			"methodName": "getMcuData",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -49013,13 +49360,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -49664,6 +50004,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -49675,13 +50022,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -49856,7 +50196,7 @@
 				{
 					"key": "parentID",
 					"type": "string",
-					"description": "平台id（不填使用默认平台）",
+					"description": "parentID",
 					"required": true,
 					"default": null,
 					"in": "path"
@@ -49864,7 +50204,7 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "平台id（不填使用默认平台）",
 					"default": null,
 					"in": "query"
 				}
@@ -50694,6 +51034,13 @@
 			"methodName": "getClients",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50705,13 +51052,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -51752,6 +52092,13 @@
 			"methodName": "getMachines",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -51763,13 +52110,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52258,6 +52598,13 @@
 			"methodName": "getMcu",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52269,13 +52616,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52456,6 +52796,13 @@
 			"methodName": "getNc",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52467,13 +52814,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52641,6 +52981,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52652,13 +52999,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52696,6 +53036,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52707,13 +53054,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52813,6 +53153,20 @@
 			"methodName": "getNetworks",
 			"parameters": [
 				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52824,13 +53178,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
