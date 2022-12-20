@@ -62,6 +62,13 @@
 					"description": "地址",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "reportTime",
+					"type": "string",
+					"description": "上报时间(UTC)",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -2203,7 +2210,7 @@
 			"parameters": [
 				{
 					"key": "GroupType",
-					"description": "-1：全部(默认)；0：监控组，1：自定义组",
+					"description": "-1：全部(默认)；0：监控组 1：预案组 2：自定义组",
 					"default": null,
 					"in": "query"
 				},
@@ -3352,6 +3359,47 @@
 					"description": "页容量, [1, 128]",
 					"default": 100,
 					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Events/{id}/Members",
+			"tag": "Events",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据事件id获取当前事件所关联的所有成员（指挥部成员、任务组成员）",
+			"version": "v1",
+			"methodName": "getEventsMembers",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
 				},
 				{
 					"key": "X-version",
@@ -13356,6 +13404,30 @@
 			],
 			"responses": [
 				{
+					"key": "photo",
+					"type": "string",
+					"description": "头像",
+					"required": false
+				},
+				{
+					"key": "department",
+					"type": "string",
+					"description": "部门",
+					"required": false
+				},
+				{
+					"key": "memberOf",
+					"type": "array",
+					"description": "所属组",
+					"required": false
+				},
+				{
+					"key": "departmentPaths",
+					"type": "array",
+					"description": "联系人部门路径",
+					"required": false
+				},
+				{
 					"key": "id",
 					"type": "string",
 					"description": "标识",
@@ -13374,12 +13446,6 @@
 					"required": false
 				},
 				{
-					"key": "parentId",
-					"type": "string",
-					"description": "父节点Id",
-					"required": false
-				},
-				{
 					"key": "description",
 					"type": "string",
 					"description": "描述",
@@ -13395,18 +13461,6 @@
 					"key": "birthday",
 					"type": "string",
 					"description": "生日",
-					"required": false
-				},
-				{
-					"key": "photo",
-					"type": "string",
-					"description": "头像",
-					"required": false
-				},
-				{
-					"key": "department",
-					"type": "string",
-					"description": "部门",
 					"required": false
 				},
 				{
@@ -13457,12 +13511,6 @@
 					]
 				},
 				{
-					"key": "memberOf",
-					"type": "array",
-					"description": "所属组",
-					"required": false
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "分级调度外部资源Id",
@@ -13487,15 +13535,15 @@
 					"required": false
 				},
 				{
-					"key": "departmentIds",
-					"type": "array",
-					"description": "父节点Id集合（包含全部的）",
+					"key": "parentId",
+					"type": "string",
+					"description": "所在部门ID",
 					"required": false
 				},
 				{
-					"key": "departmentPaths",
+					"key": "departmentIds",
 					"type": "array",
-					"description": "联系人部门路径",
+					"description": "父节点Id集合（包含全部的）",
 					"required": false
 				}
 			],
@@ -13645,6 +13693,30 @@
 			],
 			"responses": [
 				{
+					"key": "photo",
+					"type": "string",
+					"description": "头像",
+					"required": false
+				},
+				{
+					"key": "department",
+					"type": "string",
+					"description": "部门",
+					"required": false
+				},
+				{
+					"key": "memberOf",
+					"type": "array",
+					"description": "所属组",
+					"required": false
+				},
+				{
+					"key": "departmentPaths",
+					"type": "array",
+					"description": "联系人部门路径",
+					"required": false
+				},
+				{
 					"key": "id",
 					"type": "string",
 					"description": "标识",
@@ -13663,12 +13735,6 @@
 					"required": false
 				},
 				{
-					"key": "parentId",
-					"type": "string",
-					"description": "父节点Id",
-					"required": false
-				},
-				{
 					"key": "description",
 					"type": "string",
 					"description": "描述",
@@ -13684,18 +13750,6 @@
 					"key": "birthday",
 					"type": "string",
 					"description": "生日",
-					"required": false
-				},
-				{
-					"key": "photo",
-					"type": "string",
-					"description": "头像",
-					"required": false
-				},
-				{
-					"key": "department",
-					"type": "string",
-					"description": "部门",
 					"required": false
 				},
 				{
@@ -13746,12 +13800,6 @@
 					]
 				},
 				{
-					"key": "memberOf",
-					"type": "array",
-					"description": "所属组",
-					"required": false
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "分级调度外部资源Id",
@@ -13776,15 +13824,15 @@
 					"required": false
 				},
 				{
-					"key": "departmentIds",
-					"type": "array",
-					"description": "父节点Id集合（包含全部的）",
+					"key": "parentId",
+					"type": "string",
+					"description": "所在部门ID",
 					"required": false
 				},
 				{
-					"key": "departmentPaths",
+					"key": "departmentIds",
 					"type": "array",
-					"description": "联系人部门路径",
+					"description": "父节点Id集合（包含全部的）",
 					"required": false
 				}
 			],
@@ -15484,7 +15532,7 @@
 				{
 					"key": "synchronizeableRequired",
 					"type": "boolean",
-					"description": "是否需要同步",
+					"description": " 是否需要同步",
 					"required": false
 				},
 				{
@@ -16639,6 +16687,9 @@
 						},
 						{
 							"key": "10"
+						},
+						{
+							"key": "11"
 						}
 					]
 				},
@@ -18179,6 +18230,13 @@
 					"in": "query"
 				},
 				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -19576,6 +19634,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -19636,20 +19708,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -20457,20 +20515,6 @@
 					"type": "string",
 					"description": "关键字",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -27713,14 +27757,14 @@
 				},
 				{
 					"key": "longitude",
-					"type": "string",
+					"type": "number",
 					"description": "经度",
 					"required": false,
 					"in": "requestBody"
 				},
 				{
 					"key": "latitude",
-					"type": "string",
+					"type": "number",
 					"description": "纬度",
 					"required": false,
 					"in": "requestBody"
@@ -28998,7 +29042,7 @@
 				{
 					"key": "pageSize",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -29668,7 +29712,7 @@
 				{
 					"key": "groupItems",
 					"type": "array",
-					"description": "",
+					"description": "图层组",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -29913,7 +29957,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -30034,7 +30078,113 @@
 				{
 					"key": "pageSize",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Facilities/circle_area_query",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "圆形区域设施查询",
+			"version": "v1",
+			"methodName": "queryFacilitiesByCircleArea",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "layerIds",
+					"type": "array",
+					"description": "图层Id列表",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, int.MaxValue]",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -30102,7 +30252,7 @@
 				{
 					"key": "pageSize",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -30371,7 +30521,7 @@
 				{
 					"key": "pageSize",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -32269,7 +32419,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -32333,7 +32483,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				},
@@ -32433,7 +32583,7 @@
 				},
 				{
 					"key": "amount",
-					"type": "integer",
+					"type": "number",
 					"description": "数量",
 					"required": false
 				},
@@ -32716,7 +32866,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -32879,7 +33029,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				},
@@ -32947,7 +33097,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -32973,7 +33123,7 @@
 			"tag": "Layers",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "查询全部 图层类型（GroupKey）",
+			"summary": "查询全部图层类型（GroupKey）",
 			"version": "v1",
 			"methodName": "getGroupKeys",
 			"operationId": "GetGroupKeys",
@@ -32988,7 +33138,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -33163,7 +33313,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -33291,7 +33441,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -33426,7 +33576,7 @@
 				{
 					"key": "per_page",
 					"type": "integer",
-					"description": "页容量, [1, 128]",
+					"description": "页容量, [1, int.MaxValue]",
 					"default": 100,
 					"in": "query"
 				}
@@ -33835,17 +33985,17 @@
 			],
 			"requestBody": [
 				{
-					"key": "layerFacilityStatistic",
+					"key": "layerIds",
 					"type": "array",
-					"description": "图层统计请求",
-					"required": false,
+					"description": "需统计的图层ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
 					"key": "upLeft",
 					"type": "object",
 					"description": "坐标点",
-					"required": false,
+					"required": true,
 					"details": [
 						{
 							"key": "0"
@@ -33860,7 +34010,7 @@
 					"key": "bottomRight",
 					"type": "object",
 					"description": "坐标点",
-					"required": false,
+					"required": true,
 					"details": [
 						{
 							"key": "0"
@@ -36309,6 +36459,20 @@
 			"methodName": "getDangerousSources",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36321,20 +36485,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36364,6 +36514,20 @@
 			"methodName": "getKeyProtections",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36376,20 +36540,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36419,6 +36569,20 @@
 			"methodName": "getShelters",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36431,20 +36595,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36474,6 +36624,20 @@
 			"methodName": "getWarehouses",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36486,20 +36650,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36529,6 +36679,20 @@
 			"methodName": "getEmergencyFacilities",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36541,20 +36705,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36584,6 +36734,20 @@
 			"methodName": "getManpowerResources",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36596,20 +36760,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -36639,6 +36789,20 @@
 			"methodName": "getMedicalResources",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "EventId",
 					"type": "string",
 					"description": "事件ID",
@@ -36651,20 +36815,6 @@
 					"type": "integer",
 					"description": "半径范围",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				}
 			],
@@ -42603,6 +42753,12 @@
 					"in": "query"
 				},
 				{
+					"key": "DetectionType",
+					"description": "巡检任务组类型0监控 1标签",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "X-version",
 					"type": "string",
 					"description": "",
@@ -46928,9 +47084,9 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "online",
-					"type": "boolean",
-					"description": "是否在线",
+					"key": "status",
+					"type": "integer",
+					"description": "监控状态，0表示搜索全部；1是离线；2是在线；4是下级域离线后设备离线；8是设备在录像，设备一般为 IPC；支持多种资源搜索，比如输入5，5=1+4，搜索离线和下级域离线后设备离线，该参数限制0-15",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -49319,7 +49475,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49342,13 +49498,6 @@
 			"methodName": "getMcuData",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -49360,6 +49509,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -49398,7 +49554,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49442,7 +49598,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -49519,7 +49675,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49584,7 +49740,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -49666,7 +49822,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49714,7 +49870,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49762,7 +49918,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49794,7 +49950,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -49875,7 +50031,7 @@
 				{
 					"key": "defaultPlatformType",
 					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; ",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
 					"required": false,
 					"details": null
 				},
@@ -50004,13 +50160,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50022,6 +50171,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50955,6 +51111,44 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Assets/{id}/status/report",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "资产状态上报",
+			"version": "v1",
+			"methodName": "reportAssetsStatus",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetStatus",
+					"type": "integer",
+					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Client",
 			"tag": "Client",
 			"subBiz": null,
@@ -51034,13 +51228,6 @@
 			"methodName": "getClients",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -51052,6 +51239,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -52092,13 +52286,6 @@
 			"methodName": "getMachines",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52110,6 +52297,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -52598,13 +52792,6 @@
 			"methodName": "getMcu",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52616,6 +52803,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -52796,13 +52990,6 @@
 			"methodName": "getNc",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52814,6 +53001,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -52981,13 +53175,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52999,6 +53186,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -53036,13 +53230,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -53054,6 +53241,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -55553,112 +55747,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/AlertRecords",
-			"tag": "AlertRecords",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "创建告警",
-			"version": "v1",
-			"methodName": "addAlertRecord",
-			"operationId": "CreateAlertRecord",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "name",
-					"type": "string",
-					"description": "告警名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "告警描述",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "typeId",
-					"type": "string",
-					"description": "告警类型 Id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "typeName",
-					"type": "string",
-					"description": "告警类型名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "level",
-					"type": "integer",
-					"description": "告警级别",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "status",
-					"type": "integer",
-					"description": "告警状态",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
-					"key": "resolverId",
-					"type": "string",
-					"description": "告警消除人 Id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "resolverName",
-					"type": "string",
-					"description": "告警消除人名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "sourceTypeId",
-					"type": "string",
-					"description": "告警源类型 Id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "sourceTypeName",
-					"type": "string",
-					"description": "告警源类型名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "source",
-					"type": "string",
-					"description": "告警源",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "createTime",
-					"type": "string",
-					"description": "创建时间",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "endTime",
-					"type": "string",
-					"description": "告警消除时间",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
 			"url": "/api/AlertRecords/{id}",
 			"tag": "AlertRecords",
 			"subBiz": null,
@@ -55882,6 +55970,82 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/AlertSourceTypes/{id}",
+			"tag": "AlertSourceTypes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过 id 获取告警源类型",
+			"version": "v1",
+			"methodName": "getAlertSourceTypeById",
+			"operationId": "GetAlertSourceTypeById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "updateTime",
+					"type": "string",
+					"description": "更新时间",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/AlertSourceTypes/{id}",
+			"tag": "AlertSourceTypes",
+			"subBiz": null,
+			"methods": "put",
+			"version": "v1",
+			"methodName": "updateAlertSourceType",
+			"operationId": "UpdateAlertSourceType",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/AlertTypes/root",
