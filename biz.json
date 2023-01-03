@@ -3516,6 +3516,68 @@
 			]
 		},
 		{
+			"url": "/api/Files",
+			"tag": "Files",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取目录下的文件",
+			"version": "v1",
+			"methodName": "getFiles",
+			"parameters": [
+				{
+					"key": "directoryId",
+					"type": "string",
+					"description": "目录id",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "storageKind",
+					"description": "储存类型",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/GbLowerDomains",
 			"tag": "GbLowerDomains",
 			"subBiz": null,
@@ -17108,7 +17170,7 @@
 				{
 					"key": "configType",
 					"type": "integer",
-					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：4)",
+					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：4，点对点视频通话：8，视频会议：16，语音会议：32，语音通知：64，语音广播：128)",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -17142,7 +17204,7 @@
 				{
 					"key": "configType",
 					"type": "integer",
-					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：4)",
+					"description": "配置类型(夜服配置：1，语言配置：2，皮肤配置：4，点对点视频通话：8，视频会议：16，语音会议：32，语音通知：64，语音广播：128)",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -20500,6 +20562,70 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/EventTypeGroups/search",
+			"tag": "EventTypeGroups",
+			"subBiz": "eventBiz",
+			"methods": "get",
+			"summary": "用户可根据类型组名称，事件类型，事件类型标识搜索对应的事件类型组和事件类型",
+			"version": "v1",
+			"methodName": "searchEventTypeGroups",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字\"类型组名称，事件类型，事件类型标识\"",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Limit",
+					"type": "integer",
+					"description": "最大查询返回数量",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "eventTypeGroups",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "eventTypes",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/EventTypes",
@@ -29897,6 +30023,12 @@
 					"required": false
 				},
 				{
+					"key": "state",
+					"type": "integer",
+					"description": "状态",
+					"required": false
+				},
+				{
 					"key": "longitude",
 					"type": "number",
 					"description": "经度",
@@ -30085,7 +30217,7 @@
 			]
 		},
 		{
-			"url": "/api/Facilities/circle_area_query",
+			"url": "/api/Facilities/circle_area",
 			"tag": "Facilities",
 			"subBiz": null,
 			"methods": "post",
@@ -30552,6 +30684,36 @@
 					"type": "array",
 					"description": "标签ResourceId",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Facilities/{id}/state",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新设施状态",
+			"version": "v1",
+			"methodName": "updateFacilityStatus",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "state",
+					"type": "integer",
+					"description": "设施状态",
+					"required": true,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -33984,6 +34146,92 @@
 				}
 			],
 			"requestBody": [
+				{
+					"key": "layerIds",
+					"type": "array",
+					"description": "需统计的图层ID",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Statistical/circle_area",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据圆形区域图层统计设施",
+			"version": "v1",
+			"methodName": "getFacilitiesCountByCircleArea",
+			"operationId": "LayerFacilityCircleStatistic",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
 				{
 					"key": "layerIds",
 					"type": "array",
@@ -40340,13 +40588,13 @@
 				{
 					"key": "rtspUrl",
 					"type": "string",
-					"description": "",
+					"description": "rtsp播放地址",
 					"required": false
 				},
 				{
 					"key": "flvUrl",
 					"type": "string",
-					"description": "",
+					"description": "flv播放地址",
 					"required": false
 				},
 				{
@@ -50029,44 +50277,8 @@
 			"parameters": null,
 			"responses": [
 				{
-					"key": "defaultPlatformType",
-					"type": "integer",
-					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "isStartCascadeConference",
-					"type": "boolean",
-					"description": "是否开启级联会议",
-					"required": false
-				},
-				{
-					"key": "yealinkConfigs",
-					"type": "object",
-					"description": "亿联平台配置集合",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						}
-					]
-				},
-				{
-					"key": "tencentConfigs",
-					"type": "object",
-					"description": "",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						}
-					]
-				},
-				{
-					"key": "inviteStrategyConfigs",
-					"type": "array",
-					"description": "邀请策略配置",
+					"key": "data",
+					"description": "配置对象-VideoConferenceServiceConfigs",
 					"required": false
 				}
 			],
@@ -51228,6 +51440,27 @@
 			"methodName": "getClients",
 			"parameters": [
 				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -51239,13 +51472,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -51359,6 +51585,12 @@
 					"required": false
 				},
 				{
+					"key": "network",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
 					"key": "status",
 					"type": "integer",
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
@@ -51439,6 +51671,13 @@
 					"description": "客户端类型0:CommandDispatchClient,指挥调度客户端; 1:MobileCommandDispatchIntegratedBox,移动指挥调度一体箱; 2:LeadDecisionCommandClient,领导决策指挥客户端; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -51561,6 +51800,12 @@
 					"required": false
 				},
 				{
+					"key": "network",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
 					"key": "status",
 					"type": "integer",
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
@@ -51662,6 +51907,13 @@
 					"description": "客户端类型0:CommandDispatchClient,指挥调度客户端; 1:MobileCommandDispatchIntegratedBox,移动指挥调度一体箱; 2:LeadDecisionCommandClient,领导决策指挥客户端; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -51777,6 +52029,13 @@
 					"key": "keyword",
 					"type": "string",
 					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
 					"default": null,
 					"in": "query"
 				},
@@ -51930,6 +52189,12 @@
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "network",
+					"description": "",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -52013,6 +52278,13 @@
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -52140,6 +52412,12 @@
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "network",
+					"description": "",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": null
@@ -52247,6 +52525,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -52286,6 +52571,13 @@
 			"methodName": "getMachines",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52297,13 +52589,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52429,6 +52714,12 @@
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "network",
+					"description": "",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -52512,6 +52803,13 @@
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -52646,6 +52944,12 @@
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "network",
+					"description": "",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": null
@@ -52753,6 +53057,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -52792,6 +53103,13 @@
 			"methodName": "getMcu",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -52803,13 +53121,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -52990,6 +53301,13 @@
 			"methodName": "getNc",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -53001,13 +53319,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -53175,6 +53486,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -53186,13 +53504,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -53230,6 +53541,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -53241,13 +53559,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -53408,6 +53719,12 @@
 					"required": false
 				},
 				{
+					"key": "name",
+					"type": "string",
+					"description": "网络名称",
+					"required": false
+				},
+				{
 					"key": "networkInterface",
 					"type": "string",
 					"description": "接入网段",
@@ -53476,10 +53793,17 @@
 			],
 			"requestBody": [
 				{
+					"key": "name",
+					"type": "string",
+					"description": "网络名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "networkInterface",
 					"type": "string",
 					"description": "接入网段",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -53568,6 +53892,12 @@
 					"key": "id",
 					"type": "string",
 					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "网络名称",
 					"required": false
 				},
 				{
@@ -53660,10 +53990,17 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "name",
+					"type": "string",
+					"description": "网络名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "networkInterface",
 					"type": "string",
 					"description": "接入网段",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -53843,6 +54180,13 @@
 					"in": "query"
 				},
 				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "platformId",
 					"type": "string",
 					"description": "分级平台ID",
@@ -54003,6 +54347,20 @@
 					"type": "string",
 					"description": "添加时间",
 					"required": false
+				},
+				{
+					"key": "network",
+					"type": "object",
+					"description": "网络基础信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -54106,6 +54464,13 @@
 					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -54311,6 +54676,20 @@
 					"type": "string",
 					"description": "添加时间",
 					"required": false
+				},
+				{
+					"key": "network",
+					"type": "object",
+					"description": "网络基础信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -54438,6 +54817,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -54481,6 +54867,13 @@
 					"key": "keyword",
 					"type": "string",
 					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
 					"default": null,
 					"in": "query"
 				},
@@ -54586,6 +54979,20 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "network",
+					"type": "object",
+					"description": "网络基础信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -54634,6 +55041,13 @@
 					"type": "string",
 					"description": "描述",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -54719,6 +55133,20 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "network",
+					"type": "object",
+					"description": "网络基础信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -54788,6 +55216,13 @@
 					"type": "string",
 					"description": "描述",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -55026,6 +55461,13 @@
 					"in": "query"
 				},
 				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "platformId",
 					"type": "string",
 					"description": "分级平台ID",
@@ -55194,6 +55636,20 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "network",
+					"type": "object",
+					"description": "网络基础信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -55297,6 +55753,13 @@
 					"type": "string",
 					"description": "终端组id",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -55503,6 +55966,20 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "network",
+					"type": "object",
+					"description": "网络基础信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -55627,6 +56104,13 @@
 					"type": "string",
 					"description": "终端组id",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkID",
+					"type": "string",
+					"description": "所属网络ID",
+					"required": true,
 					"in": "requestBody"
 				},
 				{
