@@ -50229,13 +50229,6 @@
 			"methodName": "getMcuData",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50247,6 +50240,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -50855,13 +50855,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -50873,6 +50866,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -57287,6 +57287,59 @@
 			"url": "/api/MatterTimeConfigs",
 			"tag": "MatterTimeConfigs",
 			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索事项时段配置",
+			"version": "v1",
+			"methodName": "getMatterTimeConfigs",
+			"parameters": [
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Type",
+					"description": "日程事项类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/MatterTimeConfigs",
+			"tag": "MatterTimeConfigs",
+			"subBiz": null,
 			"methods": "post",
 			"summary": "新增事项时段配置",
 			"version": "v1",
@@ -58000,6 +58053,101 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/ScheduleMatters/{id}",
+			"tag": "ScheduleMatters",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "取消日程事项",
+			"version": "v1",
+			"methodName": "deleteScheduleMatter",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/ScheduleMatters/member",
+			"tag": "ScheduleMatters",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索日程协作人",
+			"version": "v1",
+			"methodName": "searchScheduleMember",
+			"parameters": [
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "开始时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "结束时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "departmentId",
+					"type": "string",
+					"description": "部门ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "scheduleType",
+					"description": "预约类型:个人事项1，排班2，视频会议4，语音会议8，二进制按位与提交，例如：个人事项+排班=3",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/ScheduleMatters/other",
