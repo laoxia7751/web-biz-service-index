@@ -16328,6 +16328,34 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/groups/{id}/members",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "移除组成员",
+			"version": "v1",
+			"methodName": "deleteGroupMember",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": []
+		},
+		{
 			"url": "/api/organizations/{pid}",
 			"tag": "Organizations",
 			"subBiz": null,
@@ -16751,12 +16779,6 @@
 					"in": "path"
 				},
 				{
-					"key": "Type",
-					"description": "默认为0查所有,1为查部门，2为查联系人",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -16768,6 +16790,12 @@
 					"type": "integer",
 					"description": "页容量, [1, MaxValue]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "Type",
+					"description": "默认为0查所有,1为查部门，2为查联系人",
+					"default": null,
 					"in": "query"
 				},
 				{
@@ -17328,6 +17356,89 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/groups/{id}/members",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加组成员",
+			"version": "v2",
+			"methodName": "addGroupMembersV2",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "组ID",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父节点Id",
+					"required": false
+				},
+				{
+					"key": "members",
+					"type": "array",
+					"description": "组成员Id集合",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "updateTime",
+					"type": "string",
+					"description": "更新时间",
+					"required": false
+				},
+				{
+					"key": "owner",
+					"type": "string",
+					"description": "拥有者",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "组类型",
+					"required": false
+				}
+			],
+			"requestBody": []
 		},
 		{
 			"url": "/api/groups/self/groups",
@@ -59970,7 +60081,7 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/ResourceRelationships/all_resource",
+			"url": "/api/ResourceRelationships/resource",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "get",
@@ -59989,56 +60100,7 @@
 				{
 					"key": "mainType",
 					"type": "string",
-					"description": "资源类型名称",
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/ResourceRelationships/resource",
-			"tag": "ResourceRelationships",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "查询主体资源下单一类型的挂载资源",
-			"version": "v1",
-			"methodName": "getResource",
-			"parameters": [
-				{
-					"key": "mainResourceId",
-					"type": "string",
-					"description": "主体资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "主体资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "type",
-					"type": "string",
 					"description": "资源类型",
-					"required": true,
 					"default": null,
 					"in": "query"
 				},
@@ -60074,7 +60136,69 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/ResourceRelationships/all_main_resource",
+			"url": "/api/ResourceRelationships/resource/single",
+			"tag": "ResourceRelationships",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询主体资源下单一类型的挂载资源",
+			"version": "v1",
+			"methodName": "getResource",
+			"parameters": [
+				{
+					"key": "mainResourceId",
+					"type": "string",
+					"description": "主体资源ID",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "mainType",
+					"type": "string",
+					"description": "主体资源类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "type",
+					"type": "string",
+					"description": "资源类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ResourceRelationships/mainResource",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "get",
@@ -60096,6 +60220,20 @@
 					"description": "资源类型",
 					"default": null,
 					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -60115,7 +60253,7 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/ResourceRelationships/main_resource",
+			"url": "/api/ResourceRelationships/mainResource/single",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "get",
@@ -60124,17 +60262,10 @@
 			"methodName": "getMainResource",
 			"parameters": [
 				{
-					"key": "mainResourceId",
+					"key": "ResourceId",
 					"type": "string",
-					"description": "主体资源ID",
+					"description": "资源ID",
 					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "主体资源类型",
 					"default": null,
 					"in": "query"
 				},
@@ -60142,7 +60273,13 @@
 					"key": "type",
 					"type": "string",
 					"description": "资源类型",
-					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "mainType",
+					"type": "string",
+					"description": "主体资源类型",
 					"default": null,
 					"in": "query"
 				},
@@ -60573,64 +60710,6 @@
 					"details": null
 				}
 			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/ResourceTypes/{id}",
-			"tag": "ResourceTypes",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "更新资源类型",
-			"version": "v1",
-			"methodName": "editResourceType",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "type",
-					"type": "string",
-					"description": "Type",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "source",
-					"type": "integer",
-					"description": "支持资源【1支持主体资源，2支持资源，3主体+资源】",
-					"required": true,
-					"details": null,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/ResourceTypes/{id}",
-			"tag": "ResourceTypes",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "删除资源类型",
-			"version": "v1",
-			"methodName": "deleteResourceType",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
 			"requestBody": null
 		}
 	],
