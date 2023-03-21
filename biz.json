@@ -4248,6 +4248,69 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Groups/{id}/members",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询组成员",
+			"version": "v1",
+			"methodName": "getGroupMember",
+			"operationId": "GetGroupMember",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "Type",
+					"type": "integer",
+					"description": "查询成员类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Layers/statistics/root_layers",
 			"tag": "Layers",
 			"subBiz": null,
@@ -4477,6 +4540,12 @@
 				}
 			],
 			"responses": [
+				{
+					"key": "resourceType",
+					"type": "string",
+					"description": "资源类型",
+					"required": false
+				},
 				{
 					"key": "id",
 					"type": "string",
@@ -4728,6 +4797,137 @@
 					"key": "videoConferenceTerminals",
 					"type": "array",
 					"description": "视频会议终端",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ResourceRelationships/resource",
+			"tag": "ResourceRelationships",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询主体资源下全部类型的挂载资源",
+			"version": "v1",
+			"methodName": "getMainResource",
+			"parameters": [
+				{
+					"key": "mainResourceId",
+					"type": "string",
+					"description": "主体资源ID",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "mainType",
+					"type": "string",
+					"description": "资源类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ResourceRelationships/resource/single",
+			"tag": "ResourceRelationships",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询主体资源下单一类型的挂载资源",
+			"version": "v1",
+			"methodName": "getSingleResource",
+			"parameters": [
+				{
+					"key": "mainResourceId",
+					"type": "string",
+					"description": "主体资源ID",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "mainType",
+					"type": "string",
+					"description": "主体资源类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "type",
+					"type": "string",
+					"description": "资源类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
 				}
 			],
@@ -16328,34 +16528,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/groups/{id}/members",
-			"tag": "Groups",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "移除组成员",
-			"version": "v1",
-			"methodName": "deleteGroupMember",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": []
-		},
-		{
 			"url": "/api/organizations/{pid}",
 			"tag": "Organizations",
 			"subBiz": null,
@@ -16779,6 +16951,12 @@
 					"in": "path"
 				},
 				{
+					"key": "Type",
+					"description": "默认为0查所有,1为查部门，2为查联系人",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -16790,12 +16968,6 @@
 					"type": "integer",
 					"description": "页容量, [1, MaxValue]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "Type",
-					"description": "默认为0查所有,1为查部门，2为查联系人",
-					"default": null,
 					"in": "query"
 				},
 				{
@@ -17299,6 +17471,34 @@
 			"url": "/api/groups/{id}/members",
 			"tag": "Groups",
 			"subBiz": null,
+			"methods": "delete",
+			"summary": "移除组成员(包含设备)",
+			"version": "v2",
+			"methodName": "deleteGroupMemberV2",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": []
+		},
+		{
+			"url": "/api/groups/{id}/members",
+			"tag": "Groups",
+			"subBiz": null,
 			"methods": "get",
 			"summary": "分页查询组成员",
 			"version": "v2",
@@ -17315,7 +17515,7 @@
 				{
 					"key": "Type",
 					"type": "integer",
-					"description": "默认为0查所有，1-查联系人，2-查监控，4-查会议终端",
+					"description": "默认为0:所有,1:联系人,2:监控,4:会议终端",
 					"default": null,
 					"in": "query"
 				},
@@ -20132,6 +20332,13 @@
 					"description": "关联预案ID",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "外部资源唯一Id",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -20816,6 +21023,13 @@
 					"description": "关联预案ID",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "外部资源唯一Id",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -20856,6 +21070,20 @@
 			"version": "v1",
 			"methodName": "getRunningEvents",
 			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
 				{
 					"key": "keyword",
 					"type": "string",
@@ -20917,20 +21145,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -34422,6 +34636,40 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Layers/batch",
+			"tag": "Layers",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据图层id集合批量获取图层信息",
+			"version": "v1",
+			"methodName": "getLayerInfoByIds",
+			"operationId": "GetLayersByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "图层Id集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Plots/{id}",
 			"tag": "Plots",
 			"subBiz": null,
@@ -41544,13 +41792,6 @@
 					"required": false
 				},
 				{
-					"key": "status",
-					"type": "integer",
-					"description": "监控状态",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "videoEncoder",
 					"type": "integer",
 					"description": "视频编码类型",
@@ -41674,6 +41915,13 @@
 					"type": "string",
 					"description": "音频编码属性",
 					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "监控状态",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "longitude",
@@ -43721,6 +43969,75 @@
 					"type": "integer",
 					"description": "页容量",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/import",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入监控（仅支持对经纬度的修改,导入后重新加载静态文件）",
+			"version": "v1",
+			"methodName": "importCameras",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "importCameraLocations",
+					"type": "array",
+					"description": "监控",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/batch",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据监控Id集合获取监控信息",
+			"version": "v1",
+			"methodName": "getCameraInfoByIds",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "监控Id集合",
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -53629,7 +53946,7 @@
 					"key": "mac",
 					"type": "string",
 					"description": "MAC",
-					"required": true,
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -53865,7 +54182,7 @@
 					"key": "mac",
 					"type": "string",
 					"description": "MAC",
-					"required": true,
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -58732,6 +59049,39 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/AlertTypes/batch",
+			"tag": "AlertTypes",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "通过 ID 集合批量获取告警类型",
+			"version": "v1",
+			"methodName": "getAlertTypeInfoByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "ID 集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/AlertTypes/{id}",
 			"tag": "AlertTypes",
 			"subBiz": null,
@@ -59411,6 +59761,7 @@
 				},
 				{
 					"key": "scheduleType",
+					"type": "integer",
 					"description": "预约类型:个人事项1，排班2，视频会议4，语音会议8，二进制按位与提交，例如：个人事项+排班=3",
 					"default": null,
 					"in": "query"
@@ -59723,6 +60074,7 @@
 				},
 				{
 					"key": "scheduleType",
+					"type": "integer",
 					"description": "预约类型:个人事项1，排班2，视频会议4，语音会议8，二进制按位与提交，例如：个人事项+排班=3",
 					"default": null,
 					"in": "query"
@@ -59803,6 +60155,7 @@
 				},
 				{
 					"key": "scheduleType",
+					"type": "integer",
 					"description": "预约类型:个人事项1，排班2，视频会议4，语音会议8，二进制按位与提交，例如：个人事项+排班=3",
 					"default": null,
 					"in": "query"
