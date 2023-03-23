@@ -4541,12 +4541,6 @@
 			],
 			"responses": [
 				{
-					"key": "resourceType",
-					"type": "string",
-					"description": "资源类型",
-					"required": false
-				},
-				{
 					"key": "id",
 					"type": "string",
 					"description": "预案ID",
@@ -4806,40 +4800,11 @@
 			"url": "/api/ResourceRelationships/resource",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询主体资源下全部类型的挂载资源",
+			"methods": "post",
+			"summary": "查询主体下全部类型资源",
 			"version": "v1",
 			"methodName": "getMainResource",
 			"parameters": [
-				{
-					"key": "mainResourceId",
-					"type": "string",
-					"description": "主体资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
 				{
 					"key": "X-version",
 					"type": "string",
@@ -4862,53 +4827,54 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainResource",
+					"type": "object",
+					"description": "查询资源",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "types",
+					"type": "array",
+					"description": "获取的资源类型【不传默认全部】",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/ResourceRelationships/resource/single",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询主体资源下单一类型的挂载资源",
+			"methods": "post",
+			"summary": "查询主体下资源",
 			"version": "v1",
 			"methodName": "getSingleResource",
 			"parameters": [
-				{
-					"key": "mainResourceId",
-					"type": "string",
-					"description": "主体资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "主体资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "type",
-					"type": "string",
-					"description": "资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
 				{
 					"key": "X-version",
 					"type": "string",
@@ -4931,7 +4897,105 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainResources",
+					"type": "array",
+					"description": "主体资源集合",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "string",
+					"description": "资源类型",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/ResourceRelationships/resource/search",
+			"tag": "ResourceRelationships",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "资源搜索",
+			"version": "v1",
+			"methodName": "searchResource",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainResources",
+					"type": "array",
+					"description": "主体资源集合",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "string",
+					"description": "资源类型",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "资源类型",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Roles/{role}/members",
@@ -11644,6 +11708,13 @@
 					"key": "Keyword",
 					"type": "string",
 					"description": "关键字搜索（搜索短信内容）",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台Id",
 					"default": null,
 					"in": "query"
 				},
@@ -54900,6 +54971,13 @@
 			"methodName": "getMachines",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -54911,13 +54989,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -55432,6 +55503,13 @@
 			"methodName": "getMcu",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -55443,13 +55521,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -55630,6 +55701,13 @@
 			"methodName": "getNc",
 			"parameters": [
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -55641,13 +55719,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -55827,6 +55898,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -55838,13 +55916,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -55882,6 +55953,13 @@
 					"in": "path"
 				},
 				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -55893,13 +55971,6 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
 					"in": "query"
 				}
 			],
@@ -58599,6 +58670,13 @@
 					"in": "query"
 				},
 				{
+					"key": "Status",
+					"type": "array",
+					"description": "告警状态，0-告警中|1-已解决|2-手动解决",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "StartTime",
 					"type": "string",
 					"description": "开始时间（基于告警产生时间查询）",
@@ -59254,6 +59332,7 @@
 				},
 				{
 					"key": "Type",
+					"type": "integer",
 					"description": "日程事项类型",
 					"default": null,
 					"in": "query"
@@ -59637,6 +59716,12 @@
 					"type": "string",
 					"description": "日程事项拥有者",
 					"required": false
+				},
+				{
+					"key": "subScheduleMatters",
+					"type": "array",
+					"description": "子日程",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -59651,7 +59736,7 @@
 					"key": "type",
 					"type": "integer",
 					"description": "日程事项类型1:Normal,个人事项; 2:Shift,排班; 4:VideoConference,视频会议预约; 8:VoiceConference,语音会议预约; 16:VoiceNotification,语音通知预约; ",
-					"required": false,
+					"required": true,
 					"details": null,
 					"in": "requestBody"
 				},
@@ -59908,6 +59993,12 @@
 					"type": "string",
 					"description": "日程事项拥有者",
 					"required": false
+				},
+				{
+					"key": "subScheduleMatters",
+					"type": "array",
+					"description": "子日程",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -59943,7 +60034,7 @@
 					"key": "type",
 					"type": "integer",
 					"description": "日程事项类型1:Normal,个人事项; 2:Shift,排班; 4:VideoConference,视频会议预约; 8:VoiceConference,语音会议预约; 16:VoiceNotification,语音通知预约; ",
-					"required": false,
+					"required": true,
 					"details": null,
 					"in": "requestBody"
 				},
@@ -60309,13 +60400,13 @@
 					"key": "type",
 					"type": "string",
 					"description": "资源类型",
-					"required": true
+					"required": false
 				},
 				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
-					"required": true
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -60365,13 +60456,13 @@
 					"key": "type",
 					"type": "string",
 					"description": "资源类型",
-					"required": true
+					"required": false
 				},
 				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
-					"required": true
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -60437,41 +60528,11 @@
 			"url": "/api/ResourceRelationships/resource",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询主体资源下全部类型的挂载资源",
+			"methods": "post",
+			"summary": "查询主体资源下多个类型资源",
 			"version": "v1",
 			"methodName": "getAllResource",
-			"parameters": [
-				{
-					"key": "mainResourceId",
-					"type": "string",
-					"description": "主体资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
+			"parameters": null,
 			"responses": [
 				{
 					"key": "totalCount",
@@ -60486,54 +60547,54 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainResource",
+					"type": "object",
+					"description": "查询资源",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "types",
+					"type": "array",
+					"description": "获取的资源类型【不传默认全部】",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/ResourceRelationships/resource/single",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询主体资源下单一类型的挂载资源",
+			"methods": "post",
+			"summary": "查询主体资源下资源",
 			"version": "v1",
 			"methodName": "getResource",
-			"parameters": [
-				{
-					"key": "mainResourceId",
-					"type": "string",
-					"description": "主体资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "主体资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "type",
-					"type": "string",
-					"description": "资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
+			"parameters": null,
 			"responses": [
 				{
 					"key": "totalCount",
@@ -60548,47 +60609,46 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainResources",
+					"type": "array",
+					"description": "主体资源集合",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "string",
+					"description": "资源类型",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/ResourceRelationships/mainResource",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询资源被挂载的全部类型的主体资源",
+			"methods": "post",
+			"summary": "查询资源被挂载的多个类型主体",
 			"version": "v1",
 			"methodName": "getAllMainResource",
-			"parameters": [
-				{
-					"key": "ResourceId",
-					"type": "string",
-					"description": "资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "type",
-					"type": "string",
-					"description": "资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
+			"parameters": null,
 			"responses": [
 				{
 					"key": "totalCount",
@@ -60603,54 +60663,46 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resource",
+					"description": "",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "types",
+					"type": "array",
+					"description": "获取的主体资源类型【不传默认全部】",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/ResourceRelationships/mainResource/single",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询资源被挂载的单一类型的主体资源",
+			"methods": "post",
+			"summary": "查询资源被挂载的主体",
 			"version": "v1",
 			"methodName": "getMainResource",
-			"parameters": [
-				{
-					"key": "ResourceId",
-					"type": "string",
-					"description": "资源ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "type",
-					"type": "string",
-					"description": "资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "主体资源类型",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				}
-			],
+			"parameters": null,
 			"responses": [
 				{
 					"key": "totalCount",
@@ -60665,7 +60717,36 @@
 					"required": false
 				}
 			],
-			"requestBody": null
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resources",
+					"type": "array",
+					"description": "搜索资源",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainType",
+					"type": "string",
+					"description": "主体资源类型",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/ResourceRelationships",
