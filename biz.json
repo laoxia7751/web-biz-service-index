@@ -2646,6 +2646,183 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Events",
+			"tag": "Events",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "支持关系资源的事件搜索",
+			"version": "v1",
+			"methodName": "searchEvents",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "status",
+					"type": "array",
+					"description": "事件状态",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "isSorted",
+					"type": "boolean",
+					"description": "是否排序",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "模糊匹配关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupIds",
+					"type": "array",
+					"description": "事件组",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sourceId",
+					"type": "string",
+					"description": "事件源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "eventTypes",
+					"type": "array",
+					"description": "事件类型ID集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "priorities",
+					"type": "array",
+					"description": "事件优先级集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域码集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCode",
+					"type": "array",
+					"description": "行政区域码前缀集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "结束时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Events/base",
 			"tag": "Events",
 			"subBiz": null,
@@ -3112,6 +3289,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3172,20 +3363,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -3511,6 +3688,198 @@
 					"type": "boolean",
 					"description": "是否查询下级行政区域设施",
 					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Facilities/event/{eventId}",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "获取资源关系下图层的基于事件周边设施",
+			"version": "v1",
+			"methodName": "searchFacilitiesByEventId",
+			"parameters": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "eventId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyWord",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layerIds",
+					"type": "array",
+					"description": "图层Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layerName",
+					"type": "string",
+					"description": "图层名,可模糊匹配",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域代码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀代码,传入完整区域码也会被处理为前缀区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "querySubordinateFacility",
+					"type": "boolean",
+					"description": "是否查询下级行政区域设施",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Facilities/event/{eventId}/statistics",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "获取资源关系下图层基于事件周边的统计信息",
+			"version": "v1",
+			"methodName": "searchFacilityTotalByEventId",
+			"parameters": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "eventId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径范围(单位米)",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -4311,6 +4680,147 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Groups",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "搜索资源关系下预案组",
+			"version": "v1",
+			"methodName": "getGroups",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Groups/search",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "搜索资源关系下预案组组和联系人",
+			"version": "v1",
+			"methodName": "searchGroups",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "object",
+					"description": "组和联系人",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": [
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "limit",
+					"type": "integer",
+					"description": "最大获取条数",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Layers/statistics/root_layers",
 			"tag": "Layers",
 			"subBiz": null,
@@ -4925,6 +5435,14 @@
 					"description": "资源类型",
 					"required": true,
 					"in": "requestBody"
+				},
+				{
+					"key": "dataHandleType",
+					"type": "integer",
+					"description": "数据类型0:Union,并集; 1:Intersect,交集; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -4989,9 +5507,24 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "dataHandleType",
+					"type": "integer",
+					"description": "数据类型0:Union,并集; 1:Intersect,交集; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "资源类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCode",
+					"type": "array",
+					"description": "行政区域码前缀集合",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -5758,6 +6291,60 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Topologys",
+			"tag": "Topologys",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取资产拓扑",
+			"version": "v1",
+			"methodName": "getTopology",
+			"parameters": [
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		}
 	],
 	"authBiz": [
@@ -5947,6 +6534,639 @@
 					"key": "port",
 					"type": "integer",
 					"description": "端口",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/clients/config",
+			"tag": "ConfigClient",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增客户端",
+			"version": "v1",
+			"methodName": "addClient",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "客户端Key",
+					"required": false
+				},
+				{
+					"key": "clientName",
+					"type": "string",
+					"description": "客户端名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "客户端端口若为0，则表示未指定",
+					"required": false
+				},
+				{
+					"key": "logoUri",
+					"type": "string",
+					"description": "LogUri例子：\"/images/erds.png\"",
+					"required": false
+				},
+				{
+					"key": "downloadLink",
+					"type": "string",
+					"description": "下载链接地址",
+					"required": false
+				},
+				{
+					"key": "host",
+					"type": "string",
+					"description": "主机名",
+					"required": false
+				},
+				{
+					"key": "schema",
+					"type": "string",
+					"description": "客户端协议头若为空，则以 GlobalConfig.UseHttps ? \"https\" : \"http\";",
+					"required": false
+				},
+				{
+					"key": "requireConsent",
+					"type": "boolean",
+					"description": "允许同意返回当前客户端(权限判断)默认是 true，false(不做权限判断)",
+					"required": false
+				},
+				{
+					"key": "clientSecrets",
+					"type": "array",
+					"description": "客户端密钥",
+					"required": false
+				},
+				{
+					"key": "path",
+					"type": "string",
+					"description": "客户端Uri路径",
+					"required": false
+				},
+				{
+					"key": "allowedGrantTypes",
+					"type": "array",
+					"description": "允许的授权类型",
+					"required": false
+				},
+				{
+					"key": "accessTokenLifetimeHours",
+					"type": "integer",
+					"description": "access token存活时间0表示2分钟，其他则为小时",
+					"required": false
+				},
+				{
+					"key": "redirectUris",
+					"type": "array",
+					"description": "重定向URI以‘;’进行分隔存储",
+					"required": false
+				},
+				{
+					"key": "postLogoutRedirectUris",
+					"type": "array",
+					"description": "登出后跳转的路径时以‘;’进行分隔存储，若无指定使用默认的",
+					"required": false
+				},
+				{
+					"key": "clientType",
+					"type": "integer",
+					"description": "客户端类型\"0,  pc端业务，需要验证是否安装客户端，并提供DownloadLink下载安装包链接\"1,  后台管理业务，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"2,  产品应用，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"3,  需要带上token的应用平台",
+					"required": false
+				},
+				{
+					"key": "index",
+					"type": "integer",
+					"description": "应用索引（前端使用）",
+					"required": false
+				},
+				{
+					"key": "showConsent",
+					"type": "boolean",
+					"description": "同意展示（前端使用）",
+					"required": false
+				},
+				{
+					"key": "isUseGatewayAddress",
+					"type": "boolean",
+					"description": "是否使用网关地址",
+					"required": false
+				},
+				{
+					"key": "allowOfflineAccess",
+					"type": "boolean",
+					"description": "默认允许静默刷新token",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "客户端Key",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "clientName",
+					"type": "string",
+					"description": "客户端名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "客户端端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "logoUri",
+					"type": "string",
+					"description": "LogUri例子：\"/images/erds.png\"",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "downloadLink",
+					"type": "string",
+					"description": "下载链接地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "host",
+					"type": "string",
+					"description": "主机名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "schema",
+					"type": "string",
+					"description": "客户端协议头有特殊要求则指定，否则输入空，则以 GlobalConfig.UseHttps ? \"https\" : \"http\";",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "requireConsent",
+					"type": "boolean",
+					"description": "允许同意返回当前客户端(权限判断)默认是 true，false(不做权限判断)",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "clientSecrets",
+					"type": "array",
+					"description": "客户端密钥",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "path",
+					"type": "string",
+					"description": "客户端Uri路径",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "allowedGrantTypes",
+					"type": "array",
+					"description": "允许的授权类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "accessTokenLifetimeHours",
+					"type": "integer",
+					"description": "access token存活时间0表示2分钟，其他则为小时",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "redirectUris",
+					"type": "array",
+					"description": "重定向URI以‘;’进行分隔存储",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "postLogoutRedirectUris",
+					"type": "array",
+					"description": "登出后跳转的路径时以‘;’进行分隔存储，若无指定使用默认的",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "clientType",
+					"type": "integer",
+					"description": "客户端类型\"0,  pc端业务，需要验证是否安装客户端，并提供DownloadLink下载安装包链接\"1,  后台管理业务，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"2,  产品应用，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"3,  需要带上token的应用平台",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "index",
+					"type": "integer",
+					"description": "应用索引（前端使用）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "showConsent",
+					"type": "boolean",
+					"description": "同意展示（前端使用）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isUseGatewayAddress",
+					"type": "boolean",
+					"description": "是否使用网关地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "allowOfflineAccess",
+					"type": "boolean",
+					"description": "默认允许静默刷新token",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/clients/config",
+			"tag": "ConfigClient",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取客户端详情列表",
+			"version": "v1",
+			"methodName": "getClientConfig",
+			"parameters": [
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页大小,",
+					"default": 200,
+					"in": "query"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页下标",
+					"default": 1,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "符合条件的总记录数",
+					"required": false
+				},
+				{
+					"key": "items",
+					"type": "array",
+					"description": "数据项",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/clients/config/{clientId}",
+			"tag": "ConfigClient",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新客户端详情",
+			"version": "v1",
+			"methodName": "editClientConfig",
+			"parameters": [
+				{
+					"key": "clientId",
+					"type": "string",
+					"description": "clientId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "clientName",
+					"type": "string",
+					"description": "客户端名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "客户端端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "logoUri",
+					"type": "string",
+					"description": "LogUri例子：\"/images/erds.png\"",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "downloadLink",
+					"type": "string",
+					"description": "下载链接地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "host",
+					"type": "string",
+					"description": "主机名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "schema",
+					"type": "string",
+					"description": "客户端协议头有特殊要求则指定，否则输入空，则以 GlobalConfig.UseHttps ? \"https\" : \"http\";",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "requireConsent",
+					"type": "boolean",
+					"description": "允许同意返回当前客户端(权限判断)默认是 true，false(不做权限判断)",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "clientSecrets",
+					"type": "array",
+					"description": "客户端密钥",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "path",
+					"type": "string",
+					"description": "客户端Uri路径",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "allowedGrantTypes",
+					"type": "array",
+					"description": "允许的授权类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "accessTokenLifetimeHours",
+					"type": "integer",
+					"description": "access token存活时间0表示2分钟，其他则为小时",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "redirectUris",
+					"type": "array",
+					"description": "重定向URI以‘;’进行分隔存储",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "postLogoutRedirectUris",
+					"type": "array",
+					"description": "登出后跳转的路径时以‘;’进行分隔存储，若无指定使用默认的",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "clientType",
+					"type": "integer",
+					"description": "客户端类型\"0,  pc端业务，需要验证是否安装客户端，并提供DownloadLink下载安装包链接\"1,  后台管理业务，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"2,  产品应用，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"3,  需要带上token的应用平台",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "index",
+					"type": "integer",
+					"description": "应用索引（前端使用）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "showConsent",
+					"type": "boolean",
+					"description": "同意展示（前端使用）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isUseGatewayAddress",
+					"type": "boolean",
+					"description": "是否使用网关地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "allowOfflineAccess",
+					"type": "boolean",
+					"description": "默认允许静默刷新token",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/clients/config/{clientId}",
+			"tag": "ConfigClient",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除客户端",
+			"version": "v1",
+			"methodName": "deleteClientConfig",
+			"parameters": [
+				{
+					"key": "clientId",
+					"type": "string",
+					"description": "clientId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/clients/config/{clientId}",
+			"tag": "ConfigClient",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取指定客户端的详情",
+			"version": "v1",
+			"methodName": "getClientConfigById",
+			"operationId": "GetClient",
+			"parameters": [
+				{
+					"key": "clientId",
+					"type": "string",
+					"description": "clientId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "客户端Key",
+					"required": false
+				},
+				{
+					"key": "clientName",
+					"type": "string",
+					"description": "客户端名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "客户端端口若为0，则表示未指定",
+					"required": false
+				},
+				{
+					"key": "logoUri",
+					"type": "string",
+					"description": "LogUri例子：\"/images/erds.png\"",
+					"required": false
+				},
+				{
+					"key": "downloadLink",
+					"type": "string",
+					"description": "下载链接地址",
+					"required": false
+				},
+				{
+					"key": "host",
+					"type": "string",
+					"description": "主机名",
+					"required": false
+				},
+				{
+					"key": "schema",
+					"type": "string",
+					"description": "客户端协议头若为空，则以 GlobalConfig.UseHttps ? \"https\" : \"http\";",
+					"required": false
+				},
+				{
+					"key": "requireConsent",
+					"type": "boolean",
+					"description": "允许同意返回当前客户端(权限判断)默认是 true，false(不做权限判断)",
+					"required": false
+				},
+				{
+					"key": "clientSecrets",
+					"type": "array",
+					"description": "客户端密钥",
+					"required": false
+				},
+				{
+					"key": "path",
+					"type": "string",
+					"description": "客户端Uri路径",
+					"required": false
+				},
+				{
+					"key": "allowedGrantTypes",
+					"type": "array",
+					"description": "允许的授权类型",
+					"required": false
+				},
+				{
+					"key": "accessTokenLifetimeHours",
+					"type": "integer",
+					"description": "access token存活时间0表示2分钟，其他则为小时",
+					"required": false
+				},
+				{
+					"key": "redirectUris",
+					"type": "array",
+					"description": "重定向URI以‘;’进行分隔存储",
+					"required": false
+				},
+				{
+					"key": "postLogoutRedirectUris",
+					"type": "array",
+					"description": "登出后跳转的路径时以‘;’进行分隔存储，若无指定使用默认的",
+					"required": false
+				},
+				{
+					"key": "clientType",
+					"type": "integer",
+					"description": "客户端类型\"0,  pc端业务，需要验证是否安装客户端，并提供DownloadLink下载安装包链接\"1,  后台管理业务，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"2,  产品应用，后续sso-web展示需要根据type进行区分展示后台管理和产品应用\"3,  需要带上token的应用平台",
+					"required": false
+				},
+				{
+					"key": "index",
+					"type": "integer",
+					"description": "应用索引（前端使用）",
+					"required": false
+				},
+				{
+					"key": "showConsent",
+					"type": "boolean",
+					"description": "同意展示（前端使用）",
+					"required": false
+				},
+				{
+					"key": "isUseGatewayAddress",
+					"type": "boolean",
+					"description": "是否使用网关地址",
+					"required": false
+				},
+				{
+					"key": "allowOfflineAccess",
+					"type": "boolean",
+					"description": "默认允许静默刷新token",
 					"required": false
 				}
 			],
@@ -21142,20 +22362,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -21216,6 +22422,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -34629,12 +35849,6 @@
 					"in": "query"
 				},
 				{
-					"key": "MapType",
-					"description": "Map类型 0-电子，1-卫星，2-科幻",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -34739,6 +35953,61 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Layers/search",
+			"tag": "Layers",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "条件查询图层（不分层，仅用于IES导出）",
+			"version": "v1",
+			"methodName": "getBaseLayers",
+			"operationId": "GetBaseLayers",
+			"parameters": [
+				{
+					"key": "ProductId",
+					"type": "string",
+					"description": "产品Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "模糊匹配关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, int.MaxValue]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Plots/{id}",
@@ -41991,6 +43260,13 @@
 					"key": "status",
 					"type": "integer",
 					"description": "监控状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
 					"required": false,
 					"details": null
 				},
@@ -51396,6 +52672,13 @@
 					"description": "名称（可为空）",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "rtspProtocolType",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -53340,7 +54623,7 @@
 				{
 					"key": "key",
 					"type": "string",
-					"description": "关键字:用户账号、用户ID、操作类型（查询/删除/更新/新增）",
+					"description": "关键字:用户账号、用户ID、操作说明",
 					"default": null,
 					"in": "query"
 				},
@@ -53456,7 +54739,7 @@
 				{
 					"key": "key",
 					"type": "string",
-					"description": "关键字:用户账号、用户ID、操作类型（查询/删除/更新/新增）",
+					"description": "关键字:用户账号、用户ID、操作说明",
 					"default": null,
 					"in": "query"
 				},
@@ -54704,7 +55987,7 @@
 			"summary": "获取设备",
 			"version": "v1",
 			"methodName": "getDeviceById",
-			"operationId": "Device",
+			"operationId": "GetDevice",
 			"parameters": [
 				{
 					"key": "id",
@@ -54713,6 +55996,13 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -58291,6 +59581,13 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -58628,67 +59925,70 @@
 			],
 			"responses": null,
 			"requestBody": null
-		}
-	],
-	"alertsPlatformBiz": [
+		},
 		{
-			"url": "/api/AlertRecords",
-			"tag": "AlertRecords",
+			"url": "/api/Topologys/{id}",
+			"tag": "Topologys",
 			"subBiz": null,
-			"methods": "get",
-			"summary": "查询告警",
+			"methods": "put",
+			"summary": "更新资产拓扑",
 			"version": "v1",
-			"methodName": "getAlertRecords",
-			"operationId": "GetAlertRecords",
+			"methodName": "editTopology",
 			"parameters": [
 				{
-					"key": "Keyword",
+					"key": "id",
 					"type": "string",
-					"description": "关键字",
+					"description": "id",
+					"required": true,
 					"default": null,
-					"in": "query"
-				},
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
 				{
-					"key": "TypeId",
-					"type": "string",
-					"description": "告警类型 Id",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "SourceTypeId",
-					"type": "string",
-					"description": "告警源类型 Id",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "Level",
+					"key": "height",
 					"type": "integer",
-					"description": "告警等级，1-一般 | 2-较大 | 4-重大 | 8-特大",
-					"default": null,
-					"in": "query"
+					"description": "高",
+					"required": false,
+					"in": "requestBody"
 				},
 				{
-					"key": "Status",
+					"key": "width",
+					"type": "integer",
+					"description": "宽",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "topologyNodes",
 					"type": "array",
-					"description": "告警状态，0-告警中|1-已解决|2-手动解决",
-					"default": null,
-					"in": "query"
+					"description": "拓扑节点",
+					"required": false,
+					"in": "requestBody"
 				},
 				{
-					"key": "StartTime",
-					"type": "string",
-					"description": "开始时间（基于告警产生时间查询）",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
+					"key": "topologyRelationships",
+					"type": "array",
+					"description": "节点关系",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Topologys",
+			"tag": "Topologys",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取资产拓扑",
+			"version": "v1",
+			"methodName": "getTopology",
+			"parameters": [
 				{
-					"key": "EndTime",
+					"key": "platformId",
 					"type": "string",
-					"description": "结束时间（基于告警产生时间查询）",
-					"required": true,
+					"description": "分级平台ID",
 					"default": null,
 					"in": "query"
 				},
@@ -58722,6 +60022,211 @@
 				}
 			],
 			"requestBody": null
+		}
+	],
+	"alertsPlatformBiz": [
+		{
+			"url": "/api/AlertRecords",
+			"tag": "AlertRecords",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询告警",
+			"version": "v1",
+			"methodName": "getAlertRecords",
+			"operationId": "GetAlertRecords",
+			"parameters": [
+				{
+					"key": "TypeId",
+					"type": "string",
+					"description": "告警类型 Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "SourceTypeId",
+					"type": "string",
+					"description": "告警源类型 Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "StartTime",
+					"type": "string",
+					"description": "开始时间（基于告警产生时间查询）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "EndTime",
+					"type": "string",
+					"description": "结束时间（基于告警产生时间查询）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Level",
+					"type": "integer",
+					"description": "告警等级，1-一般 | 2-较大 | 4-重大 | 8-特大",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Status",
+					"type": "array",
+					"description": "告警状态，0-告警中|1-已解决|2-手动解决",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "平台 Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/AlertRecords/search",
+			"tag": "AlertRecords",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "高级搜索接口",
+			"version": "v1",
+			"methodName": "searchAlertRecords",
+			"operationId": "SearchAlertRecord",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "level",
+					"type": "integer",
+					"description": "告警等级，1-一般 | 2-较大 | 4-重大 | 8-特大",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "status",
+					"type": "array",
+					"description": "告警状态，0-告警中|1-已解决|2-手动解决",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台 Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "开始时间（基于告警产生时间查询）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "结束时间（基于告警产生时间查询）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "typeIds",
+					"type": "array",
+					"description": "类型 Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sourceTypeIds",
+					"type": "array",
+					"description": "源类型 Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetIds",
+					"type": "array",
+					"description": "资产 Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/AlertRecords/{id}",
@@ -58858,6 +60363,18 @@
 					"key": "endTime",
 					"type": "string",
 					"description": "告警消除时间",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源 Id",
+					"required": false
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台 Id",
 					"required": false
 				}
 			],
@@ -60591,7 +62108,7 @@
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "查询主体资源下资源",
+			"summary": "多主体查资源",
 			"version": "v1",
 			"methodName": "getResource",
 			"parameters": null,
@@ -60636,6 +62153,14 @@
 					"type": "string",
 					"description": "资源类型",
 					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "dataHandleType",
+					"type": "integer",
+					"description": "数据类型",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
