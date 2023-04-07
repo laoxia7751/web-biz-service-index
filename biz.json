@@ -3289,20 +3289,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3363,6 +3349,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -4729,7 +4729,7 @@
 					"key": "resourceRelationship",
 					"type": "object",
 					"description": "资源关系查询",
-					"required": false,
+					"required": true,
 					"details": [
 						{
 							"key": "0"
@@ -4793,7 +4793,7 @@
 					"key": "resourceRelationship",
 					"type": "object",
 					"description": "资源关系查询",
-					"required": false,
+					"required": true,
 					"details": [
 						{
 							"key": "0"
@@ -4968,6 +4968,90 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Platforms",
+			"tag": "Platforms",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "获取资源关系下第三方平台",
+			"version": "v1",
+			"methodName": "getPlatforms",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkId",
+					"type": "string",
+					"description": "网络环境id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCode",
+					"type": "array",
+					"description": "行政区域码前缀集合",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Preplans/{id}/group",
@@ -5887,6 +5971,96 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Statistical/Area/Terminal",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "按行政区域统计终端",
+			"version": "v1",
+			"methodName": "getTerminalByArea",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域【包含下级】",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "terminalType",
+					"type": "integer",
+					"description": "终端类型0:LawEnforcementInstrument,执法记录仪; 1:ControlTheBall4G,4G布控球; 2:VideoConferenceTerminal,视频会议终端; 3:MobileClusterVehicleStation,移动集群车载台; 4:Other,其他终端; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Statistical/Area/Platform",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "按行政区域统计第三方平台",
+			"version": "v1",
+			"methodName": "getPlatformByArea",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域【包含下级】",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Tasks/{id}",
@@ -59049,6 +59223,80 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Statistics/Area/Terminal",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "按行政区域统计终端",
+			"version": "v1",
+			"methodName": "getTerminalByArea",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "terminalType",
+					"type": "integer",
+					"description": "终端类型0:LawEnforcementInstrument,执法记录仪; 1:ControlTheBall4G,4G布控球; 2:VideoConferenceTerminal,视频会议终端; 3:MobileClusterVehicleStation,移动集群车载台; 4:Other,其他终端; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Statistics/Area/Platform",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "按行政区域统计第三方平台",
+			"version": "v1",
+			"methodName": "getPlatformByArea",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Terminals",
