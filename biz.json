@@ -1651,6 +1651,126 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Assets/{id}",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取资产详情",
+			"version": "v1",
+			"methodName": "getAssetsById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Assets",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "搜索资产",
+			"version": "v1",
+			"methodName": "searchAssets",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/events/{eventId}/communications",
 			"tag": "AssociatedCommunicationData",
 			"subBiz": null,
@@ -18877,6 +18997,375 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/import/data/organization",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入组织架构",
+			"version": "v2",
+			"methodName": "importOrganization",
+			"parameters": [
+				{
+					"key": "ImportDataMode",
+					"description": "导入类型 0:增量导入， 1:全量覆盖导入",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ParentId",
+					"type": "string",
+					"description": "部门Id（为1，则是根部门）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "WorkSheet",
+					"type": "string",
+					"description": "Excel的sheet名称",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "任务Id",
+					"required": false
+				},
+				{
+					"key": "importTaskStatus",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "importTaskType",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "descriptor",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTaskTime",
+					"type": "string",
+					"description": "任务的创建时间",
+					"required": false
+				},
+				{
+					"key": "endTaskTime",
+					"type": "string",
+					"description": "任务的结束时间",
+					"required": false
+				},
+				{
+					"key": "dataProgress",
+					"type": "number",
+					"description": "数据进度",
+					"required": false
+				}
+			],
+			"requestBody": []
+		},
+		{
+			"url": "/api/import/data/validation",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "执行数据校验任务",
+			"version": "v2",
+			"methodName": "checkData",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data/validation",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "取消执行数据校验任务",
+			"version": "v2",
+			"methodName": "cancelCheckData",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "执行数据导入任务",
+			"version": "v2",
+			"methodName": "importTask",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "取消执行数据导入任务",
+			"version": "v2",
+			"methodName": "cancelImportTask",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/organization/validation",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询校验数据",
+			"version": "v2",
+			"methodName": "getCheckData",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "addTotalCount",
+					"type": "integer",
+					"description": "Add总数",
+					"required": false
+				},
+				{
+					"key": "updateTotalCount",
+					"type": "integer",
+					"description": "Update总数",
+					"required": false
+				},
+				{
+					"key": "deleteTotalCount",
+					"type": "integer",
+					"description": "Delete总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/task/progress",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询任务进度",
+			"version": "v2",
+			"methodName": "getTaskProgress",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "任务Id",
+					"required": false
+				},
+				{
+					"key": "importTaskStatus",
+					"type": "integer",
+					"description": "导入任务状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTaskTime",
+					"type": "string",
+					"description": "任务的创建时间",
+					"required": false
+				},
+				{
+					"key": "endTaskTime",
+					"type": "string",
+					"description": "任务的结束时间",
+					"required": false
+				},
+				{
+					"key": "fileName",
+					"type": "string",
+					"description": "文件名称",
+					"required": false
+				},
+				{
+					"key": "fileSize",
+					"type": "integer",
+					"description": "文件大小",
+					"required": false
+				},
+				{
+					"key": "importDataMode",
+					"type": "integer",
+					"description": "导入数据方式",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "dataProgress",
+					"type": "integer",
+					"description": "数据进度（数据校验或数据导入的进度）",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/templateFiles/organization",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "下载导入组织架构模板文件",
+			"version": "v2",
+			"methodName": "downloadFiles",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/favorites/{favoriteId}/members",
 			"tag": "Favorites",
 			"subBiz": null,
@@ -33642,6 +34131,54 @@
 			]
 		},
 		{
+			"url": "/api/Facilities/{id}/scenes",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据设施id或resourceId获取设施模型场景",
+			"version": "v1",
+			"methodName": "getScenes",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, int.MaxValue]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/GeoConfigs/{id}",
 			"tag": "GeoConfigs",
 			"subBiz": null,
@@ -36927,6 +37464,386 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Scenes",
+			"tag": "Scenes",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加模型场景",
+			"version": "v1",
+			"methodName": "addScenes",
+			"operationId": "CreateScene",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false
+				},
+				{
+					"key": "facilityId",
+					"type": "string",
+					"description": "设施Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "场景名称",
+					"required": false
+				},
+				{
+					"key": "sceneName",
+					"type": "string",
+					"description": "场景对应的英文名",
+					"required": false
+				},
+				{
+					"key": "isIndoorScene",
+					"type": "boolean",
+					"description": "是否室内场景",
+					"required": false
+				},
+				{
+					"key": "showModelList",
+					"type": "array",
+					"description": "场景模型列表",
+					"required": false
+				},
+				{
+					"key": "cameraOption",
+					"type": "object",
+					"description": "三维信息数据（视点数据）",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				}
+			],
+			"requestBody": [
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "facilityId",
+					"type": "string",
+					"description": "设施Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "场景名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sceneName",
+					"type": "string",
+					"description": "场景对应的英文名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isIndoorScene",
+					"type": "boolean",
+					"description": "是否室内场景",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "showModelList",
+					"type": "array",
+					"description": "场景模型列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "cameraOption",
+					"type": "object",
+					"description": "三维信息数据（视点数据）",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Scenes/{id}",
+			"tag": "Scenes",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改模型场景",
+			"version": "v1",
+			"methodName": "editScene",
+			"operationId": "UpdateSceneById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "facilityId",
+					"type": "string",
+					"description": "设施Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "场景名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sceneName",
+					"type": "string",
+					"description": "场景对应的英文名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isIndoorScene",
+					"type": "boolean",
+					"description": "是否室内场景",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "showModelList",
+					"type": "array",
+					"description": "场景模型列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "cameraOption",
+					"type": "object",
+					"description": "三维信息数据（视点数据）",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Scenes/{id}",
+			"tag": "Scenes",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除模型场景",
+			"version": "v1",
+			"methodName": "deleteScene",
+			"operationId": "DeleteSceneById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Scenes/{id}",
+			"tag": "Scenes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据id查询模型场景",
+			"version": "v1",
+			"methodName": "getSceneById",
+			"operationId": "GetSceneById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false
+				},
+				{
+					"key": "facilityId",
+					"type": "string",
+					"description": "设施Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "场景名称",
+					"required": false
+				},
+				{
+					"key": "sceneName",
+					"type": "string",
+					"description": "场景对应的英文名",
+					"required": false
+				},
+				{
+					"key": "isIndoorScene",
+					"type": "boolean",
+					"description": "是否室内场景",
+					"required": false
+				},
+				{
+					"key": "showModelList",
+					"type": "array",
+					"description": "场景模型列表",
+					"required": false
+				},
+				{
+					"key": "cameraOption",
+					"type": "object",
+					"description": "三维信息数据（视点数据）",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Scenes/search",
+			"tag": "Scenes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "多条件查询模型场景",
+			"version": "v1",
+			"methodName": "searchScenes",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, int.MaxValue]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Statistical/layers",
@@ -45564,6 +46481,137 @@
 			]
 		},
 		{
+			"url": "/api/Cameras/images/batch",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量获取监控截图文件信息接口",
+			"version": "v1",
+			"methodName": "queryMonitorScreenshot",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "监控Id集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/areaCode/batch",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "批量设置监控行政区域码",
+			"version": "v1",
+			"methodName": "editCamerasAreaCode",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "cameraIds",
+					"type": "array",
+					"description": "监控id列表",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/areaCode/{areaCode}",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取行政区域下面的监控",
+			"version": "v1",
+			"methodName": "getCamerasByAreaCode",
+			"parameters": [
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/CameraVideos",
 			"tag": "CameraVideos",
 			"subBiz": null,
@@ -49090,6 +50138,99 @@
 					"required": false
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Lives/video",
+			"tag": "Lives",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "会议录制接口",
+			"version": "v1",
+			"methodName": "startMeetRecording",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "记录id",
+					"required": false
+				},
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "流id",
+					"required": false
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false
+				},
+				{
+					"key": "userId",
+					"type": "string",
+					"description": "用户id",
+					"required": false
+				},
+				{
+					"key": "files",
+					"type": "array",
+					"description": "文件id集合",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "会议流id",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Lives/video/{streamId}",
+			"tag": "Lives",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "会议录制结束接口",
+			"version": "v1",
+			"methodName": "endMeetRecording",
+			"parameters": [
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "streamId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -55159,6 +56300,24 @@
 					"required": false
 				},
 				{
+					"key": "ip",
+					"type": "string",
+					"description": "IP(辅助通过IP查资产、可能为空)",
+					"required": false
+				},
+				{
+					"key": "assetType",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型（依赖一级资产类型，无法枚举）",
+					"required": false
+				},
+				{
 					"key": "contactID",
 					"type": "string",
 					"description": "联系人ID",
@@ -55211,6 +56370,103 @@
 					"key": "assetStatus",
 					"type": "integer",
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Assets/{id}",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取资产详情",
+			"version": "v1",
+			"methodName": "getAssetById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Assets",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "搜索资产",
+			"version": "v1",
+			"methodName": "searchAssets",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
 					"required": true,
 					"details": null,
 					"in": "requestBody"
@@ -55453,6 +56709,24 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -55541,6 +56815,27 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -55668,6 +56963,24 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -55777,6 +57090,27 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -56015,13 +57349,6 @@
 					"required": false
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -56052,6 +57379,24 @@
 					"description": "",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -56122,14 +57467,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "deviceType",
 					"type": "integer",
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
@@ -56148,6 +57485,27 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -56245,13 +57603,6 @@
 					"required": false
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -56282,6 +57633,24 @@
 					"description": "",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -56373,14 +57742,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "deviceType",
 					"type": "integer",
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
@@ -56399,6 +57760,27 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -56435,13 +57817,6 @@
 			"methodName": "getMachines",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -56453,6 +57828,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -56547,13 +57929,6 @@
 					"required": false
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -56584,6 +57959,24 @@
 					"description": "",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -56654,14 +58047,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "deviceType",
 					"type": "integer",
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
@@ -56680,6 +58065,27 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -56777,13 +58183,6 @@
 					"required": false
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -56814,6 +58213,24 @@
 					"description": "",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -56905,14 +58322,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "deviceType",
 					"type": "integer",
 					"description": "设备类型0:MCU,MCU; 1:NC,NC; 2:Machine,服务器; 3:SBC,SBC; ",
@@ -56931,6 +58340,27 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"description": "",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -56967,13 +58397,6 @@
 			"methodName": "getMcu",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -56985,6 +58408,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -57165,13 +58595,6 @@
 			"methodName": "getNc",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -57183,6 +58606,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -57362,13 +58792,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -57380,6 +58803,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -57417,13 +58847,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -57435,6 +58858,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -57665,6 +59095,47 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -57732,6 +59203,50 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -57841,6 +59356,47 @@
 					"description": "连接状态 1已连接，2未连接1:Online,在线; 2:UnOnline,不在线; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -57929,6 +59485,50 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -58206,13 +59806,6 @@
 					"required": false
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -58237,6 +59830,41 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -58335,14 +59963,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "networkID",
 					"type": "string",
 					"description": "所属网络ID",
@@ -58353,6 +59973,43 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -58535,13 +60192,6 @@
 					"required": false
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
@@ -58566,6 +60216,41 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -58685,14 +60370,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "networkType",
-					"type": "integer",
-					"description": "网络类型0:ClusterNetwork,集群网; 1:PoliceNetwork,公安网; 2:GovernmentIntranet,政务内网; 3:GovernmentExtranet,政务外网; 4:VideoPrivateNetwork,视频专网; 5:WiredAndWireless,有线/无线; 6:Network4_5G,4G/5G; 7:LocalAreaNetwork,局域网; 8:NarrowBandNetwork,窄带网; 9:E1,E1; 10:Other,其他网络; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
 					"key": "networkID",
 					"type": "string",
 					"description": "所属网络ID",
@@ -58703,6 +60380,43 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -58869,6 +60583,47 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -58924,6 +60679,50 @@
 					"type": "string",
 					"description": "所属网络ID",
 					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -59023,6 +60822,47 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -59099,6 +60939,50 @@
 					"type": "string",
 					"description": "所属网络ID",
 					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "location",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -59545,10 +61429,18 @@
 					"required": false
 				},
 				{
-					"key": "relatePlatformId",
-					"type": "string",
-					"description": "关联平台ID",
-					"required": false
+					"key": "relatePlatform",
+					"type": "object",
+					"description": "拥有ID和名称的实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				},
 				{
 					"key": "extension",
@@ -59594,23 +61486,6 @@
 					]
 				},
 				{
-					"key": "terminalLocation",
-					"type": "object",
-					"description": "终端位置信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				},
-				{
 					"key": "network",
 					"type": "object",
 					"description": "网络基础信息",
@@ -59623,6 +61498,41 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "terminalLocation",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -59693,7 +61603,7 @@
 				{
 					"key": "protocolType",
 					"type": "string",
-					"description": "协议",
+					"description": "协议类型:H323,SFB,SIP,RTSP,RTMP",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -59751,9 +61661,39 @@
 				},
 				{
 					"key": "terminalLocation",
-					"description": "",
+					"type": "object",
+					"description": "位置信息",
 					"required": false,
-					"details": null,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -59919,10 +61859,18 @@
 					"required": false
 				},
 				{
-					"key": "relatePlatformId",
-					"type": "string",
-					"description": "关联平台ID",
-					"required": false
+					"key": "relatePlatform",
+					"type": "object",
+					"description": "拥有ID和名称的实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				},
 				{
 					"key": "extension",
@@ -59968,23 +61916,6 @@
 					]
 				},
 				{
-					"key": "terminalLocation",
-					"type": "object",
-					"description": "终端位置信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				},
-				{
 					"key": "network",
 					"type": "object",
 					"description": "网络基础信息",
@@ -59997,6 +61928,41 @@
 							"key": "1"
 						}
 					]
+				},
+				{
+					"key": "terminalLocation",
+					"type": "object",
+					"description": "位置信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					]
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -60088,7 +62054,7 @@
 				{
 					"key": "protocolType",
 					"type": "string",
-					"description": "协议",
+					"description": "协议类型:H323,SFB,SIP,RTSP,RTMP",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -60146,9 +62112,39 @@
 				},
 				{
 					"key": "terminalLocation",
-					"description": "",
+					"type": "object",
+					"description": "位置信息",
 					"required": false,
-					"details": null,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -60171,6 +62167,18 @@
 					"in": "path"
 				}
 			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Terminals/SyncVcsTerminal",
+			"tag": "Terminals",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "同步VCS视频会议终端",
+			"version": "v1",
+			"methodName": "syncVcsTerminal",
+			"parameters": null,
 			"responses": null,
 			"requestBody": null
 		},
@@ -60234,13 +62242,6 @@
 			"methodName": "getTopology",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -60252,6 +62253,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -60338,6 +62346,13 @@
 					"key": "PlatformId",
 					"type": "string",
 					"description": "平台 Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "IgnoreOtherPlatform",
+					"type": "boolean",
+					"description": "查询结果是否忽略其他平台数据。",
 					"default": null,
 					"in": "query"
 				},
@@ -60440,6 +62455,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "ignoreOtherPlatform",
+					"type": "boolean",
+					"description": "查询结果是否忽略其他平台数据。",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "startTime",
 					"type": "string",
 					"description": "开始时间（基于告警产生时间查询）",
@@ -60472,6 +62494,36 @@
 					"type": "array",
 					"description": "资产 Id",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标点",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标点",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
 					"in": "requestBody"
 				}
 			]
@@ -60623,6 +62675,24 @@
 					"key": "platformId",
 					"type": "string",
 					"description": "平台 Id",
+					"required": false
+				},
+				{
+					"key": "platformName",
+					"type": "string",
+					"description": "平台名称",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
 					"required": false
 				}
 			],
