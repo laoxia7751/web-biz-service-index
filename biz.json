@@ -3423,20 +3423,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3497,6 +3483,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -37543,6 +37543,12 @@
 					"required": false
 				},
 				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码",
+					"required": false
+				},
+				{
 					"key": "name",
 					"type": "string",
 					"description": "场景名称",
@@ -37599,6 +37605,13 @@
 					"key": "facilityId",
 					"type": "string",
 					"description": "设施Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -37685,6 +37698,13 @@
 					"key": "facilityId",
 					"type": "string",
 					"description": "设施Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -37797,6 +37817,103 @@
 					"key": "facilityId",
 					"type": "string",
 					"description": "设施Id",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "场景名称",
+					"required": false
+				},
+				{
+					"key": "sceneName",
+					"type": "string",
+					"description": "场景对应的英文名",
+					"required": false
+				},
+				{
+					"key": "isIndoorScene",
+					"type": "boolean",
+					"description": "是否室内场景",
+					"required": false
+				},
+				{
+					"key": "showModelList",
+					"type": "array",
+					"description": "场景模型列表",
+					"required": false
+				},
+				{
+					"key": "cameraOption",
+					"type": "object",
+					"description": "三维信息数据（视点数据）",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Scenes/areaCode",
+			"tag": "Scenes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过区域码获取模型场景",
+			"version": "v1",
+			"methodName": "getSceneByAreaCode",
+			"operationId": "GetSceneByAreaCode",
+			"parameters": [
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false
+				},
+				{
+					"key": "facilityId",
+					"type": "string",
+					"description": "设施Id",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码",
 					"required": false
 				},
 				{
@@ -46701,6 +46818,13 @@
 					"key": "prefixAreaCodes",
 					"type": "array",
 					"description": "行政区域码前缀集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "标签id",
 					"required": false,
 					"in": "requestBody"
 				},
