@@ -2373,6 +2373,98 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Camera",
+			"tag": "Camera",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "搜索监控",
+			"version": "v1",
+			"methodName": "searchCameras",
+			"operationId": "SearchCameras",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "标签",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "online",
+					"type": "boolean",
+					"description": "是否在线",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceRelationship",
+					"type": "object",
+					"description": "资源关系查询",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/DetectionTasks",
 			"tag": "DetectionTasks",
 			"subBiz": null,
@@ -3423,6 +3515,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3483,20 +3589,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -5179,7 +5271,7 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "prefixAreaCode",
+					"key": "prefixAreaCodes",
 					"type": "array",
 					"description": "行政区域码前缀集合",
 					"required": false,
@@ -5740,7 +5832,7 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "prefixAreaCode",
+					"key": "prefixAreaCodes",
 					"type": "array",
 					"description": "行政区域码前缀集合",
 					"required": false,
@@ -19022,6 +19114,13 @@
 				{
 					"key": "ImportDataMode",
 					"description": "导入类型 0:增量导入， 1:全量覆盖导入",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ImportNodeType",
+					"description": "部门类型 0:根部门， 1:子部门",
 					"required": true,
 					"default": null,
 					"in": "query"
@@ -34225,6 +34324,40 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Facilities/batch",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据设施id集合批量获取设施信息",
+			"version": "v1",
+			"methodName": "getFacilitiesByIds",
+			"operationId": "GetFacilitiesByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "图层Id集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/GeoConfigs/{id}",
@@ -50450,6 +50583,99 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Lives/video",
+			"tag": "Lives",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "会议录制接口",
+			"version": "v1",
+			"methodName": "startMeetRecording",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "记录id",
+					"required": false
+				},
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "流id",
+					"required": false
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false
+				},
+				{
+					"key": "userId",
+					"type": "string",
+					"description": "用户id",
+					"required": false
+				},
+				{
+					"key": "files",
+					"type": "array",
+					"description": "文件id集合",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "会议流id",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Lives/video/{streamId}",
+			"tag": "Lives",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "会议录制结束接口",
+			"version": "v1",
+			"methodName": "endMeetRecording",
+			"parameters": [
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "streamId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/MediaServers",
 			"tag": "MediaServers",
 			"subBiz": null,
@@ -60296,6 +60522,27 @@
 					"description": "第三方平台ID列表,同时支持资源ID(resourceId)查询",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkId",
+					"type": "string",
+					"description": "网络id",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -60821,6 +61068,12 @@
 					"required": false
 				},
 				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源id",
+					"required": false
+				},
+				{
 					"key": "location",
 					"type": "object",
 					"description": "位置信息",
@@ -60915,6 +61168,13 @@
 					"key": "areaCode",
 					"type": "string",
 					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源id",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -61060,6 +61320,12 @@
 					"required": false
 				},
 				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源id",
+					"required": false
+				},
+				{
 					"key": "location",
 					"type": "object",
 					"description": "位置信息",
@@ -61179,6 +61445,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "location",
 					"type": "object",
 					"description": "位置信息",
@@ -61251,7 +61524,14 @@
 				{
 					"key": "platformId",
 					"type": "string",
-					"description": "platformId",
+					"description": "分级id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ignoreOtherPlatform",
+					"type": "string",
+					"description": "告警：忽略其他平台",
 					"default": null,
 					"in": "query"
 				}
@@ -61977,6 +62257,20 @@
 					"key": "terminalIds",
 					"type": "array",
 					"description": "终端ID列表,同时支持资源ID(resourceId)查询",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -64594,9 +64888,10 @@
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "查询主体资源下多个类型资源",
+			"summary": "获取所有资源",
 			"version": "v1",
 			"methodName": "getAllResource",
+			"operationId": "SearchAllResource",
 			"parameters": null,
 			"responses": [
 				{
@@ -64656,9 +64951,10 @@
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "多主体查资源",
+			"summary": "资源查询",
 			"version": "v1",
 			"methodName": "getResource",
+			"operationId": "SearchSingleResource",
 			"parameters": null,
 			"responses": [
 				{
@@ -64714,13 +65010,14 @@
 			]
 		},
 		{
-			"url": "/api/ResourceRelationships/mainResource",
+			"url": "/api/ResourceRelationships/details",
 			"tag": "ResourceRelationships",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "查询资源被挂载的多个类型主体",
+			"summary": "获取资源详情",
 			"version": "v1",
-			"methodName": "getAllMainResource",
+			"methodName": "getResourceDetails",
+			"operationId": "GetResourceDetails",
 			"parameters": null,
 			"responses": [
 				{
@@ -64737,85 +65034,10 @@
 				}
 			],
 			"requestBody": [
-				{
-					"key": "pageIndex",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "pageSize",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "resource",
-					"description": "",
-					"required": true,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
-					"key": "types",
-					"type": "array",
-					"description": "获取的主体资源类型【不传默认全部】",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/ResourceRelationships/mainResource/single",
-			"tag": "ResourceRelationships",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "查询资源被挂载的主体",
-			"version": "v1",
-			"methodName": "getMainResource",
-			"parameters": null,
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "pageIndex",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "pageSize",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"required": false,
-					"in": "requestBody"
-				},
 				{
 					"key": "resources",
 					"type": "array",
-					"description": "搜索资源",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "mainType",
-					"type": "string",
-					"description": "主体资源类型",
+					"description": "资源ID",
 					"required": true,
 					"in": "requestBody"
 				}
