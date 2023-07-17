@@ -1822,6 +1822,326 @@
 			]
 		},
 		{
+			"url": "/api/AlertRecords/converter/event",
+			"tag": "AlertRecords",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "告警转事件",
+			"version": "v1",
+			"methodName": "alarmToEvent",
+			"operationId": "AlertConverterEvent",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "事件名称",
+					"required": false
+				},
+				{
+					"key": "priority",
+					"type": "integer",
+					"description": "事件优先级",
+					"required": false
+				},
+				{
+					"key": "state",
+					"type": "integer",
+					"description": "事件状态",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "事件发生地经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "事件发生地纬度",
+					"required": false
+				},
+				{
+					"key": "eventType",
+					"type": "object",
+					"description": "事件类型",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						}
+					]
+				},
+				{
+					"key": "createdTime",
+					"type": "string",
+					"description": "事件创建时间",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "updateTime",
+					"type": "string",
+					"description": "更新时间",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "事件描述",
+					"required": false
+				},
+				{
+					"key": "group",
+					"type": "object",
+					"description": "组信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "sceneGroup",
+					"type": "object",
+					"description": "组信息",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "happenedTime",
+					"type": "string",
+					"description": "事件发生时间",
+					"required": false
+				},
+				{
+					"key": "finishedTime",
+					"type": "string",
+					"description": "时间完成时间",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "事件发生地址",
+					"required": false
+				},
+				{
+					"key": "submitUnit",
+					"type": "object",
+					"description": "事件归属单位",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				},
+				{
+					"key": "unit",
+					"type": "object",
+					"description": "事件归属单位",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				},
+				{
+					"key": "source",
+					"type": "object",
+					"description": "事件来源",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "事件扩展字段，用于存项目额外信息",
+					"required": false
+				},
+				{
+					"key": "typeID",
+					"type": "string",
+					"description": "事件类型 Id",
+					"required": false
+				},
+				{
+					"key": "expectStartedTime",
+					"type": "string",
+					"description": "事件期望发生时间",
+					"required": false
+				},
+				{
+					"key": "expectFinishedTime",
+					"type": "string",
+					"description": "事件期望结束时间",
+					"required": false
+				},
+				{
+					"key": "isMock",
+					"type": "boolean",
+					"description": "是否模拟事件",
+					"required": false
+				},
+				{
+					"key": "totalTaskCount",
+					"type": "integer",
+					"description": "任务总数（父任务）",
+					"required": false
+				},
+				{
+					"key": "noStatedTaskCount",
+					"type": "integer",
+					"description": "未开始的任务总数（父任务）",
+					"required": false
+				},
+				{
+					"key": "finishedTaskCount",
+					"type": "integer",
+					"description": "已结束的任务总数（父任务）",
+					"required": false
+				},
+				{
+					"key": "isDeleted",
+					"type": "boolean",
+					"description": "是否已被删除",
+					"required": false
+				},
+				{
+					"key": "responseLevel",
+					"type": "object",
+					"description": "事件绑定的响应等级",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "associatePreplanId",
+					"type": "string",
+					"description": "事件绑定的预案id",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "alertId",
+					"type": "integer",
+					"description": "告警ID（apts告警Id）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "eventTypeId",
+					"type": "string",
+					"description": "事件类型Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "eventPriority",
+					"type": "integer",
+					"description": "事件等级 1-未定级 2-IV级(一般) 4-III级(较大) 8-II级(重大) 16-I级(特大)1:One; 2:Two; 4:Three; 8:Four; 16:Five; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Assets/{id}",
 			"tag": "Assets",
 			"subBiz": null,
@@ -3831,6 +4151,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -3891,20 +4225,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -6609,6 +6929,49 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Roles/{role}/participators/batch",
+			"tag": "Roles",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "绑定批量组织架构下用户到指定的角色",
+			"version": "v1",
+			"methodName": "batchAddRole",
+			"parameters": [
+				{
+					"key": "role",
+					"type": "string",
+					"description": "",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "memberIds",
+					"type": "array",
+					"description": "成员Id集合",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "departmentIds",
+					"type": "array",
+					"description": "部门成员Id集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Statistical/events",
@@ -11162,6 +11525,13 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -11380,6 +11750,14 @@
 					"type": "boolean",
 					"description": "",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -11665,8 +12043,43 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ConferenceBiz/conference/{id}",
+			"tag": "ConferenceBiz",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "切换会议模式",
+			"version": "v1",
+			"methodName": "setMeetingMode",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "0:自由模式；1：对讲模式",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -27277,6 +27690,47 @@
 			]
 		},
 		{
+			"url": "/api/Events/batch",
+			"tag": "Events",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据Id或resourceId批量查询事件实体",
+			"version": "v1",
+			"methodName": "searchEventById",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "数据总条数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "数据记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "事件Id/resourceId集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/EventTypeGroups/{id}",
 			"tag": "EventTypeGroups",
 			"subBiz": "eventBiz",
@@ -38706,6 +39160,12 @@
 					]
 				},
 				{
+					"key": "facilityState",
+					"type": "string",
+					"description": "设施状态",
+					"required": false
+				},
+				{
 					"key": "longitude",
 					"type": "number",
 					"description": "经度",
@@ -39370,7 +39830,7 @@
 			"tag": "Facilities",
 			"subBiz": null,
 			"methods": "put",
-			"summary": "更新设施状态",
+			"summary": "更新设施状态(能源设备状态)",
 			"version": "v1",
 			"methodName": "updateFacilityStatus",
 			"parameters": [
@@ -49371,6 +49831,20 @@
 					"in": "query"
 				},
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "X-version",
 					"type": "string",
 					"description": "",
@@ -49592,6 +50066,49 @@
 				}
 			],
 			"requestBody": []
+		},
+		{
+			"url": "/api/CameraGroups/move",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "同级监控组移动",
+			"version": "v1",
+			"methodName": "movePeerCameraGroup",
+			"operationId": "MoveCameraGroup",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "需要移动的组",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "afterGroupId",
+					"type": "string",
+					"description": "后一个，没有表示移动到后一个",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "beforeGroupId",
+					"type": "string",
+					"description": "前一个，没有表示移动到第一个",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/CameraGroups/{id}/children",
@@ -49977,7 +50494,7 @@
 			"methods": "get",
 			"summary": "获取全部的分组列表。",
 			"version": "v1",
-			"methodName": "getCameraByGroupByGroupType",
+			"methodName": "getCameraByGroup",
 			"parameters": [
 				{
 					"key": "GroupType",
@@ -49997,6 +50514,20 @@
 					"type": "array",
 					"description": "被选中的节点，用于计算其父节点是否是全选,半选和未选中",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
 					"in": "query"
 				},
 				{
