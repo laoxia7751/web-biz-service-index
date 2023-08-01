@@ -4163,6 +4163,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -4223,20 +4237,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -5013,6 +5013,18 @@
 					"type": "integer",
 					"description": "同步进度，百分比",
 					"required": false
+				},
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -5310,6 +5322,18 @@
 					"key": "progress",
 					"type": "integer",
 					"description": "同步进度，百分比",
+					"required": false
+				},
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
 					"required": false
 				}
 			],
@@ -6462,6 +6486,54 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Projects/{id}/export",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "导出",
+			"version": "v1",
+			"methodName": "exportProject",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Projects/import",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入",
+			"version": "v1",
+			"methodName": "importProject",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": []
 		},
 		{
 			"url": "/api/ResourceRelationships/resource",
@@ -11599,6 +11671,13 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -11817,6 +11896,14 @@
 					"type": "boolean",
 					"description": "",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -12102,8 +12189,43 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ConferenceBiz/conference/{id}",
+			"tag": "ConferenceBiz",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "切换会议模式",
+			"version": "v1",
+			"methodName": "changeConferenceMode",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "0:自由模式；1：对讲模式",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -28966,7 +29088,7 @@
 		{
 			"url": "/api/EventTypes/{id}/path",
 			"tag": "EventTypes",
-			"subBiz": null,
+			"subBiz": "eventBiz",
 			"methods": "get",
 			"summary": "获取事件类型的组路径",
 			"version": "v1",
@@ -29224,6 +29346,84 @@
 					"key": "code",
 					"type": "string",
 					"description": "事件类型编码",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/EventTypes/export/relationship",
+			"tag": "EventTypes",
+			"subBiz": "eventBiz",
+			"methods": "post",
+			"summary": "导出事件类型(包含组)",
+			"version": "v1",
+			"methodName": "exportEventType",
+			"operationId": "ExportEventType",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "eventType",
+					"type": "array",
+					"description": "事件类型",
+					"required": false
+				},
+				{
+					"key": "eventTypeGroup",
+					"type": "array",
+					"description": "事件类型组",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "事件类型ID查询",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/EventTypes/import/relationship",
+			"tag": "EventTypes",
+			"subBiz": "eventBiz",
+			"methods": "post",
+			"summary": "导入事件类型(包含组)【此接口适用于export/relationship导出的数据】",
+			"version": "v1",
+			"methodName": "importEventType",
+			"operationId": "ImportEventType",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "eventType",
+					"type": "array",
+					"description": "事件类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "eventTypeGroup",
+					"type": "array",
+					"description": "事件类型组",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -33635,6 +33835,12 @@
 					"required": false
 				},
 				{
+					"key": "projectId",
+					"type": "string",
+					"description": "项目Id",
+					"required": false
+				},
+				{
 					"key": "relateThemeId",
 					"type": "string",
 					"description": "关联DCS专题ID",
@@ -33779,6 +33985,12 @@
 					"key": "name",
 					"type": "string",
 					"description": "专题名称",
+					"required": false
+				},
+				{
+					"key": "projectId",
+					"type": "string",
+					"description": "项目Id",
 					"required": false
 				},
 				{
@@ -33940,6 +34152,12 @@
 					"key": "name",
 					"type": "string",
 					"description": "专题名称",
+					"required": false
+				},
+				{
+					"key": "projectId",
+					"type": "string",
+					"description": "项目Id",
 					"required": false
 				},
 				{
@@ -50288,6 +50506,12 @@
 					"required": false
 				},
 				{
+					"key": "relatedParentId",
+					"type": "string",
+					"description": "预案组/自定义组下级的关联父Id",
+					"required": false
+				},
+				{
 					"key": "principalOut",
 					"type": "array",
 					"description": "监控负责人信息",
@@ -50297,6 +50521,24 @@
 					"key": "owners",
 					"type": "array",
 					"description": "负责人信息",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "Id路径",
+					"required": false
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "Name路径",
+					"required": false
+				},
+				{
+					"key": "isUserDefined",
+					"type": "integer",
+					"description": "是否人为调整：0-未调整，1-已调整",
 					"required": false
 				},
 				{
@@ -50423,15 +50665,23 @@
 			"requestBody": []
 		},
 		{
-			"url": "/api/CameraGroups/move",
+			"url": "/api/CameraGroups/{id}/move",
 			"tag": "CameraGroups",
 			"subBiz": null,
 			"methods": "put",
 			"summary": "同级监控组移动",
 			"version": "v1",
-			"methodName": "movePeerCameraGroup",
+			"methodName": "moveCameraGroup",
 			"operationId": "MoveCameraGroup",
 			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
 				{
 					"key": "X-version",
 					"type": "string",
@@ -50592,6 +50842,12 @@
 					"required": false
 				},
 				{
+					"key": "relatedParentId",
+					"type": "string",
+					"description": "预案组/自定义组下级的关联父Id",
+					"required": false
+				},
+				{
 					"key": "principalOut",
 					"type": "array",
 					"description": "监控负责人信息",
@@ -50601,6 +50857,24 @@
 					"key": "owners",
 					"type": "array",
 					"description": "负责人信息",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "Id路径",
+					"required": false
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "Name路径",
+					"required": false
+				},
+				{
+					"key": "isUserDefined",
+					"type": "integer",
+					"description": "是否人为调整：0-未调整，1-已调整",
 					"required": false
 				},
 				{
@@ -50691,6 +50965,50 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/CameraGroups/{id}/children",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "批量添加监控组/监控到下级资源组/预案组/自定义组",
+			"version": "v1",
+			"methodName": "batchAddCameraGroup",
+			"operationId": "CameraGroupAddChildren",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "groupIds",
+					"type": "array",
+					"description": "监控组id列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "cameraIds",
+					"type": "array",
+					"description": "监控id列表",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/CameraGroups/camera/batch",
@@ -50847,6 +51165,374 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/CameraGroups/{id}/camera/move",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "组内移动监控",
+			"version": "v1",
+			"methodName": "moveCamera",
+			"operationId": "MoveCamera",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "cameraId",
+					"type": "string",
+					"description": "需要移动的监控",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "afterCameraId",
+					"type": "string",
+					"description": "后一个，没有表示移动到后一个",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "beforeCameraId",
+					"type": "string",
+					"description": "前一个，没有表示移动到第一个",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/CameraGroups/{id}/children/{subGroupId}",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "移除预案组下得下级资源组/预案组/自定义组",
+			"version": "v1",
+			"methodName": "deleteSubGroup",
+			"operationId": "RemoveSubGroupGroup",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "subGroupId",
+					"type": "string",
+					"description": "subGroupId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/CameraGroups/group",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "下级资源添加组并挂载未分配目录资源",
+			"version": "v1",
+			"methodName": "addSubGroup",
+			"operationId": "CreateGbSubGroup",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "sipServiceId",
+					"type": "string",
+					"description": "国标下级Id",
+					"required": false
+				},
+				{
+					"key": "useStatus",
+					"type": "integer",
+					"description": "节点选中状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "isLeafGroup",
+					"type": "boolean",
+					"description": "是否为叶子节点组。true 表示叶子节点，不会有子节点",
+					"required": false
+				},
+				{
+					"key": "isLeaf",
+					"type": "boolean",
+					"description": "是否为叶子节点。true 表示叶子节点，不会有子节点",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "分组Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "分组名",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "组信息描述",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父级Id",
+					"required": false
+				},
+				{
+					"key": "groupType",
+					"type": "integer",
+					"description": "分组类型",
+					"required": false
+				},
+				{
+					"key": "cameraCount",
+					"type": "integer",
+					"description": "摄像头总数包含下级分组的摄像头数量",
+					"required": false
+				},
+				{
+					"key": "cameraOnlineCount",
+					"type": "integer",
+					"description": "在线摄像头总数包含下级分组的摄像头数量",
+					"required": false
+				},
+				{
+					"key": "selfCameraCount",
+					"type": "integer",
+					"description": "自身组的摄像头总数",
+					"required": false
+				},
+				{
+					"key": "selfCameraOnlineCount",
+					"type": "integer",
+					"description": "自身在线摄像头总数",
+					"required": false
+				},
+				{
+					"key": "order",
+					"type": "integer",
+					"description": "排序字段",
+					"required": false
+				},
+				{
+					"key": "relatedParentId",
+					"type": "string",
+					"description": "预案组/自定义组下级的关联父Id",
+					"required": false
+				},
+				{
+					"key": "principalOut",
+					"type": "array",
+					"description": "监控负责人信息",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人信息",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "Id路径",
+					"required": false
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "Name路径",
+					"required": false
+				},
+				{
+					"key": "isUserDefined",
+					"type": "integer",
+					"description": "是否人为调整：0-未调整，1-已调整",
+					"required": false
+				},
+				{
+					"key": "cameraQualityStatistics",
+					"type": "object",
+					"description": "质量统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						}
+					]
+				},
+				{
+					"key": "selfCameraQualityStatistics",
+					"type": "object",
+					"description": "质量统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						}
+					]
+				},
+				{
+					"key": "cameraResolutionStatistics",
+					"type": "object",
+					"description": "分辨率统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				},
+				{
+					"key": "selfCameraResolutionStatistics",
+					"type": "object",
+					"description": "分辨率统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
+				}
+			],
+			"requestBody": [
+				{
+					"key": "groupIds",
+					"type": "array",
+					"description": "未分配目录中的组id集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "cameraIds",
+					"type": "array",
+					"description": "未分配目录中的监控id集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "组名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "上级组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "监控组类型枚举(可以人为创建的组类型)",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "责任人",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Cameras/groups",
@@ -51019,6 +51705,12 @@
 					"required": false
 				},
 				{
+					"key": "relatedParentId",
+					"type": "string",
+					"description": "预案组/自定义组下级的关联父Id",
+					"required": false
+				},
+				{
 					"key": "principalOut",
 					"type": "array",
 					"description": "监控负责人信息",
@@ -51028,6 +51720,24 @@
 					"key": "owners",
 					"type": "array",
 					"description": "负责人信息",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "Id路径",
+					"required": false
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "Name路径",
+					"required": false
+				},
+				{
+					"key": "isUserDefined",
+					"type": "integer",
+					"description": "是否人为调整：0-未调整，1-已调整",
 					"required": false
 				},
 				{
@@ -51223,7 +51933,7 @@
 					"in": "query"
 				},
 				{
-					"key": "Controllable",
+					"key": "IsSupportPTZ",
 					"type": "boolean",
 					"description": "是否可以进行云台控制true-可以false-不可以null-全部",
 					"default": null,
@@ -51615,7 +52325,7 @@
 					"required": false
 				},
 				{
-					"key": "controllable",
+					"key": "isSupportPTZ",
 					"type": "boolean",
 					"description": "是否可以进行云台控制",
 					"required": false
@@ -51730,7 +52440,7 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "controllable",
+					"key": "isSupportPTZ",
 					"type": "boolean",
 					"description": "是否可以进行云台控制true-可以false-不可以null-不修改",
 					"required": false,
@@ -52374,21 +53084,21 @@
 				{
 					"key": "Quality",
 					"type": "array",
-					"description": "质量",
+					"description": "质量0-UnDetected1-Bad2-Excellent3-Good4-Fault",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "Resolution",
 					"type": "array",
-					"description": "分辨率",
+					"description": "分辨率 HD-高清 SD-标清 FullHd-全高清 UHD-超高清",
 					"default": null,
 					"in": "query"
 				},
 				{
 					"key": "Encode",
 					"type": "array",
-					"description": "压缩格式",
+					"description": "压缩格式0-H2641-H265",
 					"default": null,
 					"in": "query"
 				},
@@ -52403,6 +53113,13 @@
 					"key": "LabelIds",
 					"type": "array",
 					"description": "标签",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "IsSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以进行云台控制true-可以false-不可以null-全部",
 					"default": null,
 					"in": "query"
 				},
@@ -53497,7 +54214,7 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "controllable",
+					"key": "isSupportPTZ",
 					"type": "boolean",
 					"description": "是否可以云台控制true-可以false-不可以",
 					"required": false,
@@ -54616,6 +55333,18 @@
 						},
 						{
 							"key": "19"
+						},
+						{
+							"key": "20"
+						},
+						{
+							"key": "21"
+						},
+						{
+							"key": "22"
+						},
+						{
+							"key": "23"
 						}
 					]
 				},
@@ -54768,6 +55497,18 @@
 						},
 						{
 							"key": "19"
+						},
+						{
+							"key": "20"
+						},
+						{
+							"key": "21"
+						},
+						{
+							"key": "22"
+						},
+						{
+							"key": "23"
 						}
 					]
 				},
@@ -55711,6 +56452,18 @@
 					"type": "integer",
 					"description": "同步进度，百分比",
 					"required": false
+				},
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -55893,6 +56646,18 @@
 					"key": "progress",
 					"type": "integer",
 					"description": "同步进度，百分比",
+					"required": false
+				},
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
 					"required": false
 				}
 			],
@@ -62630,13 +63395,6 @@
 			"methodName": "getMcuData",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -62648,6 +63406,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -63256,13 +64021,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -63274,6 +64032,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -76781,6 +77546,312 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Departments",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增行政部门",
+			"version": "v1",
+			"methodName": "addDepartments",
+			"operationId": "CreateDepartment",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "部门描述",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "部门地址",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "部门父Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Departments/{id}",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取行政部门详情（支持资源Id）",
+			"version": "v1",
+			"methodName": "getDepartmentById",
+			"operationId": "GetDepartmentById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "部门描述",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "部门地址",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Departments/{id}",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改行政部门",
+			"version": "v1",
+			"methodName": "editDepartment",
+			"operationId": "UpdateDepartment",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "部门父Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Departments/{id}",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除行政部门",
+			"version": "v1",
+			"methodName": "deleteDepartment",
+			"operationId": "DeleteDepartment",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Departments/batch",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量Ids/ResourceIDs获取部门集合",
+			"version": "v1",
+			"methodName": "getDepartmentsByIds",
+			"operationId": "GetDepartmentsByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "Id集合",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Departments/import",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入行政部门",
+			"version": "v1",
+			"methodName": "importDepartments",
+			"operationId": "ImportDepartments",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "importDepartments",
+					"type": "array",
+					"description": "行政部门",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Districts",
 			"tag": "Districts",
 			"subBiz": null,
@@ -76852,6 +77923,286 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Domains",
+			"tag": "Domains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增领域",
+			"version": "v1",
+			"methodName": "addDomain",
+			"operationId": "CreateDomain",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父主题Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "领域描述",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "领域名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Domains/{id}",
+			"tag": "Domains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取领域详情（支持资源Id）",
+			"version": "v1",
+			"methodName": "getDomainById",
+			"operationId": "GetDomainById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父主题Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "领域描述",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Domains/{id}",
+			"tag": "Domains",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改领域",
+			"version": "v1",
+			"methodName": "editDomain",
+			"operationId": "UpdateDomain",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "领域名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Domains/{id}",
+			"tag": "Domains",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除领域",
+			"version": "v1",
+			"methodName": "deleteDomain",
+			"operationId": "DeleteDomain",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Domains/batch",
+			"tag": "Domains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量Ids/ResourceIDs获取领域集合",
+			"version": "v1",
+			"methodName": "getDomainsByIds",
+			"operationId": "GetDomainsByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "Id集合",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Domains/import",
+			"tag": "Domains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入行政部门",
+			"version": "v1",
+			"methodName": "importDomains",
+			"operationId": "ImportDomains",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "importDomains",
+					"type": "array",
+					"description": "领域",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Export/ExportDataRequestCategory",
@@ -79117,6 +80468,357 @@
 			"requestBody": []
 		},
 		{
+			"url": "/api/Projects",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取项目列表",
+			"version": "v1",
+			"methodName": "getProjects",
+			"operationId": "GetProjects",
+			"parameters": [
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Projects",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增项目",
+			"version": "v1",
+			"methodName": "addProject",
+			"operationId": "CreateProject",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "元数据统计总数",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "项目描述",
+					"required": false
+				},
+				{
+					"key": "themes",
+					"type": "array",
+					"description": "项目专题列表",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "项目名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Projects/{id}",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取项目（支持资源Id）",
+			"version": "v1",
+			"methodName": "getProjectById",
+			"operationId": "GetProjectById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "元数据统计总数",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "项目描述",
+					"required": false
+				},
+				{
+					"key": "themes",
+					"type": "array",
+					"description": "项目专题列表",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Projects/{id}",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改项目",
+			"version": "v1",
+			"methodName": "editProject",
+			"operationId": "UpdateProject",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "项目名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Projects/{id}",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除项目",
+			"version": "v1",
+			"methodName": "deleteProject",
+			"operationId": "DeleteProject",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Projects/{id}/detail",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取项目详情（支持资源Id）",
+			"version": "v1",
+			"methodName": "getProjectDetailById",
+			"operationId": "GetProjectDetailById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "themes",
+					"type": "array",
+					"description": "项目专题列表",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "项目描述",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Projects/import",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入项目专题",
+			"version": "v1",
+			"methodName": "importProjects",
+			"operationId": "ImportProjects",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "importProjects",
+					"type": "array",
+					"description": "项目",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/ResourceDb/tree",
 			"tag": "ResourceDb",
 			"subBiz": null,
@@ -79487,6 +81189,75 @@
 			],
 			"responses": null,
 			"requestBody": null
+		},
+		{
+			"url": "/api/ResourceDb/search/batch",
+			"tag": "ResourceDb",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量Ids/ResourceIDs/Numbers获取资源库集合（带元数据和数据源,ps:Number为图层LayerId）",
+			"version": "v1",
+			"methodName": "getResourceDbsByIds",
+			"operationId": "GetResourceDbsByIds",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ids",
+					"type": "array",
+					"description": "Id集合",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/ResourceDb/import",
+			"tag": "ResourceDb",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入资源库（带元数据和数据源）",
+			"version": "v1",
+			"methodName": "importResourceDbs",
+			"operationId": "ImportResourceDbs",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "importResourceDbs",
+					"type": "array",
+					"description": "导入资源库列表",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/ResourceDb/Batch",
@@ -80447,6 +82218,269 @@
 					"required": false
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Themes",
+			"tag": "Themes",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增专题",
+			"version": "v1",
+			"methodName": "addTheme",
+			"operationId": "CreateTheme",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父主题Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "主题描述",
+					"required": false
+				},
+				{
+					"key": "code",
+					"type": "string",
+					"description": "主题编码",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "projectId",
+					"type": "string",
+					"description": "所属项目Id",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "专题名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "code",
+					"type": "string",
+					"description": "主题编码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "projectId",
+					"type": "string",
+					"description": "所属项目Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Themes/{id}",
+			"tag": "Themes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取专题（支持资源Id）",
+			"version": "v1",
+			"methodName": "getThemeById",
+			"operationId": "GetThemeById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父主题Id",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "主题描述",
+					"required": false
+				},
+				{
+					"key": "code",
+					"type": "string",
+					"description": "主题编码",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "",
+					"required": false
+				},
+				{
+					"key": "projectId",
+					"type": "string",
+					"description": "所属项目Id",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Themes/{id}",
+			"tag": "Themes",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改专题",
+			"version": "v1",
+			"methodName": "editTheme",
+			"operationId": "UpdateTheme",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "专题名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "code",
+					"type": "string",
+					"description": "主题编码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "projectId",
+					"type": "string",
+					"description": "所属项目Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Themes/{id}",
+			"tag": "Themes",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除专题",
+			"version": "v1",
+			"methodName": "deleteTheme",
+			"operationId": "DeleteTheme",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		}
 	],
