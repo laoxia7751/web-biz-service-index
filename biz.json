@@ -77,6 +77,13 @@
 					"required": false,
 					"details": null,
 					"in": "requestBody"
+				},
+				{
+					"key": "uploadSourceType",
+					"type": "integer",
+					"description": "上报源类型（0:人员上报类型(默认值)；1:终端资产类型）",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -168,6 +175,13 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "upload_source_type",
+					"type": "integer",
+					"description": "上报源类型（0:人员上报（默认值），1:终端上报类型）",
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -205,6 +219,12 @@
 					"type": "string",
 					"description": "上报时间",
 					"required": true
+				},
+				{
+					"key": "uploadSourceType",
+					"type": "integer",
+					"description": "上报源类型",
+					"required": true
 				}
 			],
 			"requestBody": null
@@ -221,7 +241,7 @@
 				{
 					"key": "Devices",
 					"type": "string",
-					"description": "设备Id，用 \",\" 分开多个",
+					"description": "设备Id:上报源类型，用 \",\" 分开多个",
 					"default": null,
 					"in": "query"
 				},
@@ -279,6 +299,13 @@
 					"description": "最近多少天内",
 					"default": 1,
 					"in": "query"
+				},
+				{
+					"key": "upload_source_type",
+					"type": "integer",
+					"description": "上报源类型",
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -316,6 +343,12 @@
 					"type": "string",
 					"description": "上报时间",
 					"required": true
+				},
+				{
+					"key": "uploadSourceType",
+					"type": "integer",
+					"description": "上报源类型",
+					"required": true
 				}
 			],
 			"requestBody": null
@@ -350,6 +383,13 @@
 					"type": "string",
 					"description": "结束时间",
 					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "upload_source_type",
+					"type": "integer",
+					"description": "上报源类型（0:人员上报类型(默认值)；1:终端资产类型）",
 					"default": null,
 					"in": "query"
 				},
@@ -526,8 +566,102 @@
 					"description": "客户端当前时间",
 					"required": true,
 					"in": "requestBody"
+				},
+				{
+					"key": "uploadSourceType",
+					"type": "integer",
+					"description": "上报源类型0：人员上报类型（默认值），1：资产终端类型",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/history_gps/devices",
+			"tag": "HistoryGps",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询某区域在某个时段内的所有途经设备（返回设备Id带类型）",
+			"version": "v1",
+			"methodName": "getDevicesHistory",
+			"parameters": [
+				{
+					"key": "up_left.Longitude",
+					"type": "number",
+					"description": "经度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "up_left.Latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "bottom_right.Longitude",
+					"type": "number",
+					"description": "经度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "bottom_right.Latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "start_time",
+					"type": "string",
+					"description": "起始时间",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "minute_intervals",
+					"type": "integer",
+					"description": "区间",
+					"default": 10,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "符合条件的结果总量",
+					"required": true
+				},
+				{
+					"key": "items",
+					"type": "array",
+					"description": "结果集",
+					"required": true
+				}
+			],
+			"requestBody": null
 		}
 	],
 	"cgsBiz": [
@@ -1817,6 +1951,20 @@
 							"key": "1"
 						}
 					],
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -4163,20 +4311,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -4237,6 +4371,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -5025,6 +5173,27 @@
 					"type": "integer",
 					"description": "实际同步目录数量",
 					"required": false
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型0:UDP; 1:TCP; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -5141,6 +5310,30 @@
 					"type": "string",
 					"description": "登录的用户名，认证时需要",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型0:UDP; 1:TCP; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				},
 				{
@@ -5335,6 +5528,27 @@
 					"type": "integer",
 					"description": "实际同步目录数量",
 					"required": false
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型0:UDP; 1:TCP; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": null
@@ -5395,10 +5609,91 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "heartbeadCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeadTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "下级域的SIP信令IP地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "name",
 					"type": "string",
-					"description": "名称",
+					"description": "下级域的名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "needAuth",
+					"type": "boolean",
+					"description": "是否需要认证",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "认证密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "下级域网络1:IntranetNetwork; 2:PublicNetwork; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "下级域的SIP信令端口号",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名,建议同gbid",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议0:UDP; 1:TCPPassive; 2:TCPProactive; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型0:UDP; 1:TCP; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				},
 				{
@@ -5572,6 +5867,301 @@
 					"type": "array",
 					"description": "记录",
 					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/GpsSearch/active/{device}/latest",
+			"tag": "GpsSearch",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询指定设备的最新活跃点位",
+			"version": "v1",
+			"methodName": "getDeviceGps",
+			"parameters": [
+				{
+					"key": "device",
+					"type": "string",
+					"description": "设备Id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "upload_source_type",
+					"description": "上报源类型（0:人员上报类型(默认值)；1:终端资产类型）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "deviceId",
+					"type": "string",
+					"description": "设备Id",
+					"required": false
+				},
+				{
+					"key": "gps",
+					"type": "object",
+					"description": "GPS数据",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						}
+					]
+				},
+				{
+					"key": "reportTime",
+					"type": "string",
+					"description": "上报时间",
+					"required": false
+				},
+				{
+					"key": "uploadSourceType",
+					"type": "integer",
+					"description": "上报源类型0:Person; 1:Terminal; ",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/GpsSearch/active/devices/latest",
+			"tag": "GpsSearch",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "查询多个指定设备的最新活跃点位",
+			"version": "v1",
+			"methodName": "searchDevicesGps",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "devices",
+					"type": "array",
+					"description": "设备Id:上报源类型，用 \",\" 分开多个",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/GpsSearch/history/{device}",
+			"tag": "GpsSearch",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询设备GPS历史轨迹",
+			"version": "v1",
+			"methodName": "getDeviceGpsHistory",
+			"parameters": [
+				{
+					"key": "device",
+					"type": "string",
+					"description": "设备ID",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "start_time",
+					"type": "string",
+					"description": "起始时间",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "end_time",
+					"type": "string",
+					"description": "结束时间",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "upload_source_type",
+					"description": "上报源类型（0:人员上报类型(默认值)；1:终端资产类型）",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/GpsSearch/history/{device}/latest",
+			"tag": "GpsSearch",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取设备最后的Gps点位",
+			"version": "v1",
+			"methodName": "getDeviceLatestGps",
+			"parameters": [
+				{
+					"key": "day_intervals",
+					"type": "integer",
+					"description": "最近多少天内",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "device",
+					"type": "string",
+					"description": "设备Id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "upload_source_type",
+					"description": "上报源类型（0:人员上报类型(默认值)；1:终端资产类型）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "deviceId",
+					"type": "string",
+					"description": "设备Id",
+					"required": false
+				},
+				{
+					"key": "gps",
+					"type": "object",
+					"description": "GPS数据",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						}
+					]
+				},
+				{
+					"key": "reportTime",
+					"type": "string",
+					"description": "上报时间",
+					"required": false
+				},
+				{
+					"key": "uploadSourceType",
+					"type": "integer",
+					"description": "上报源类型0:Person; 1:Terminal; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": null
@@ -7300,6 +7890,12 @@
 					"type": "integer",
 					"description": "拍传数量",
 					"required": false
+				},
+				{
+					"key": "alertAmount",
+					"type": "integer",
+					"description": "APTS 告警数量",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -7547,6 +8143,705 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建定时保活任务",
+			"version": "v1",
+			"methodName": "addStreamKeepAliveJobs",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "定时任务Id",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "保活任务状态0:NotStarted; 1:InProgress; 2:Ended; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "jobName",
+					"type": "string",
+					"description": "任务名称",
+					"required": false
+				},
+				{
+					"key": "businessName",
+					"type": "string",
+					"description": "业务名称",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控数量,保活的监控数量",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "modifyTime",
+					"type": "string",
+					"description": "修改时间",
+					"required": false
+				},
+				{
+					"key": "jobMode",
+					"type": "integer",
+					"description": "定时任务的模式（1-定时|2-手动）1:Timing; 2:Manual; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "cron",
+					"type": "string",
+					"description": "Cron表达式",
+					"required": false
+				},
+				{
+					"key": "nextExecuteTime",
+					"type": "string",
+					"description": "下次执行时间",
+					"required": false
+				},
+				{
+					"key": "beginTime",
+					"type": "string",
+					"description": "定时任务开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "定时任务结束时间",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": false
+				},
+				{
+					"key": "keepAliveTime",
+					"type": "string",
+					"description": "保活时长",
+					"required": false
+				},
+				{
+					"key": "isRecording",
+					"type": "boolean",
+					"description": "是否录制",
+					"required": false
+				},
+				{
+					"key": "executionsTotal",
+					"type": "integer",
+					"description": "执行总数",
+					"required": false
+				},
+				{
+					"key": "retryTotal",
+					"type": "integer",
+					"description": "重试总数",
+					"required": false
+				},
+				{
+					"key": "successesTotal",
+					"type": "integer",
+					"description": "保活成功监控总数",
+					"required": false
+				},
+				{
+					"key": "failTotal",
+					"type": "integer",
+					"description": "保活失败监控总数",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签0:CameraGroup; 1:CameraLabel; ",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": [
+				{
+					"key": "jobName",
+					"type": "string",
+					"description": "定时任务Name",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "businessId",
+					"type": "string",
+					"description": "需要保活的组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签0:CameraGroup; 1:CameraLabel; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "keepAliveTime",
+					"type": "string",
+					"description": "保活时长 单位分钟",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "isRecording",
+					"type": "boolean",
+					"description": "是否录像",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "scheduleTask",
+					"type": "object",
+					"description": "定时任务",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取保活任务列表",
+			"version": "v1",
+			"methodName": "getStreamKeepAliveJobs",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字，作业的名称",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取指定保活任务",
+			"version": "v1",
+			"methodName": "getStreamKeepAliveJobById",
+			"operationId": "GetStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "定时任务Id",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "保活任务状态0:NotStarted; 1:InProgress; 2:Ended; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "jobName",
+					"type": "string",
+					"description": "任务名称",
+					"required": false
+				},
+				{
+					"key": "businessName",
+					"type": "string",
+					"description": "业务名称",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控数量,保活的监控数量",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "modifyTime",
+					"type": "string",
+					"description": "修改时间",
+					"required": false
+				},
+				{
+					"key": "jobMode",
+					"type": "integer",
+					"description": "定时任务的模式（1-定时|2-手动）1:Timing; 2:Manual; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "cron",
+					"type": "string",
+					"description": "Cron表达式",
+					"required": false
+				},
+				{
+					"key": "nextExecuteTime",
+					"type": "string",
+					"description": "下次执行时间",
+					"required": false
+				},
+				{
+					"key": "beginTime",
+					"type": "string",
+					"description": "定时任务开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "定时任务结束时间",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": false
+				},
+				{
+					"key": "keepAliveTime",
+					"type": "string",
+					"description": "保活时长",
+					"required": false
+				},
+				{
+					"key": "isRecording",
+					"type": "boolean",
+					"description": "是否录制",
+					"required": false
+				},
+				{
+					"key": "executionsTotal",
+					"type": "integer",
+					"description": "执行总数",
+					"required": false
+				},
+				{
+					"key": "retryTotal",
+					"type": "integer",
+					"description": "重试总数",
+					"required": false
+				},
+				{
+					"key": "successesTotal",
+					"type": "integer",
+					"description": "保活成功监控总数",
+					"required": false
+				},
+				{
+					"key": "failTotal",
+					"type": "integer",
+					"description": "保活失败监控总数",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签0:CameraGroup; 1:CameraLabel; ",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改定时保活任务",
+			"version": "v1",
+			"methodName": "editStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "jobName",
+					"type": "string",
+					"description": "定时任务Name",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "businessId",
+					"type": "string",
+					"description": "需要保活的组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签0:CameraGroup; 1:CameraLabel; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "keepAliveTime",
+					"type": "string",
+					"description": "保活时长 单位分钟",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "isRecording",
+					"type": "boolean",
+					"description": "是否录像",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "scheduleTask",
+					"type": "object",
+					"description": "定时任务",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						}
+					],
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除定时保活任务",
+			"version": "v1",
+			"methodName": "deleteStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "定时任务Id",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "保活任务状态0:NotStarted; 1:InProgress; 2:Ended; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "jobName",
+					"type": "string",
+					"description": "任务名称",
+					"required": false
+				},
+				{
+					"key": "businessName",
+					"type": "string",
+					"description": "业务名称",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控数量,保活的监控数量",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "modifyTime",
+					"type": "string",
+					"description": "修改时间",
+					"required": false
+				},
+				{
+					"key": "jobMode",
+					"type": "integer",
+					"description": "定时任务的模式（1-定时|2-手动）1:Timing; 2:Manual; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "cron",
+					"type": "string",
+					"description": "Cron表达式",
+					"required": false
+				},
+				{
+					"key": "nextExecuteTime",
+					"type": "string",
+					"description": "下次执行时间",
+					"required": false
+				},
+				{
+					"key": "beginTime",
+					"type": "string",
+					"description": "定时任务开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "定时任务结束时间",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": false
+				},
+				{
+					"key": "keepAliveTime",
+					"type": "string",
+					"description": "保活时长",
+					"required": false
+				},
+				{
+					"key": "isRecording",
+					"type": "boolean",
+					"description": "是否录制",
+					"required": false
+				},
+				{
+					"key": "executionsTotal",
+					"type": "integer",
+					"description": "执行总数",
+					"required": false
+				},
+				{
+					"key": "retryTotal",
+					"type": "integer",
+					"description": "重试总数",
+					"required": false
+				},
+				{
+					"key": "successesTotal",
+					"type": "integer",
+					"description": "保活成功监控总数",
+					"required": false
+				},
+				{
+					"key": "failTotal",
+					"type": "integer",
+					"description": "保活失败监控总数",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签0:CameraGroup; 1:CameraLabel; ",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Tasks/{id}",
@@ -18014,18 +19309,6 @@
 					"type": "string",
 					"description": "关联ID（可选）",
 					"required": false
-				},
-				{
-					"key": "accountState",
-					"type": "integer",
-					"description": "账号状态",
-					"required": false
-				},
-				{
-					"key": "photoPath",
-					"type": "string",
-					"description": "头像路径",
-					"required": false
 				}
 			],
 			"requestBody": [
@@ -18314,18 +19597,6 @@
 					"key": "relatedId",
 					"type": "string",
 					"description": "关联ID（可选）",
-					"required": false
-				},
-				{
-					"key": "accountState",
-					"type": "integer",
-					"description": "账号状态",
-					"required": false
-				},
-				{
-					"key": "photoPath",
-					"type": "string",
-					"description": "头像路径",
 					"required": false
 				}
 			],
@@ -19014,6 +20285,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -19252,6 +20529,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -19322,6 +20605,12 @@
 					"key": "owner",
 					"type": "string",
 					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
 					"required": false
 				}
 			],
@@ -19489,6 +20778,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -19531,6 +20826,13 @@
 					"key": "owner",
 					"type": "string",
 					"description": "拥有者（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -19701,6 +21003,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -19717,7 +21025,7 @@
 				{
 					"key": "Type",
 					"type": "integer",
-					"description": "组类型(所有类型组：0（预案组和个人组），个人组：2，预案组类型：3，临时组：4)",
+					"description": "组类型(所有类型组：0（预案组和个人组），个人组：2，预案组类型：3，临时组：4，报备组：6)",
 					"default": 3,
 					"in": "query"
 				},
@@ -19838,6 +21146,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -19908,6 +21222,12 @@
 					"key": "owner",
 					"type": "string",
 					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
 					"required": false
 				}
 			],
@@ -20881,605 +22201,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/contacts/{id}/state",
-			"tag": "Contact",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "联系人账号状态变更",
-			"version": "v2",
-			"methodName": "changeContactState",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "联系人id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "accountState",
-					"type": "integer",
-					"description": "账号状态 0:启用，1:禁用",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/contacts/pinyinAndInitials",
-			"tag": "Contact",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "更新所有联系人拼音和缩写信息（联系人历史数据补全）",
-			"version": "v2",
-			"methodName": "updateContactsPinyinAndInitials",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/upload/photo",
-			"tag": "Contact",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "上传当前联系人头像",
-			"version": "v2",
-			"methodName": "uploadUserAvatar",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "联系人Id",
-					"required": false
-				},
-				{
-					"key": "photoPath",
-					"type": "string",
-					"description": "联系人路径",
-					"required": false
-				}
-			],
-			"requestBody": []
-		},
-		{
-			"url": "/api/contacts/photos",
-			"tag": "Contact",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "更新所有联系人头像信息（联系人历史数据补全）",
-			"version": "v2",
-			"methodName": "updateUserAvatar",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/data/organization",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "导入组织架构",
-			"version": "v2",
-			"methodName": "importOrganization",
-			"parameters": [
-				{
-					"key": "ImportDataMode",
-					"description": "导入类型 0:增量导入， 1:全量覆盖导入",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "ImportNodeType",
-					"description": "部门类型 0:根部门， 1:子部门 , 2:当前部门",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "ParentId",
-					"type": "string",
-					"description": "部门Id（为1，则是根部门）",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "WorkSheet",
-					"type": "string",
-					"description": "Excel的sheet名称",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "任务Id",
-					"required": false
-				},
-				{
-					"key": "importTaskStatus",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "importTaskType",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "descriptor",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "createTaskTime",
-					"type": "string",
-					"description": "任务的创建时间",
-					"required": false
-				},
-				{
-					"key": "endTaskTime",
-					"type": "string",
-					"description": "任务的结束时间",
-					"required": false
-				},
-				{
-					"key": "dataProgress",
-					"type": "number",
-					"description": "数据进度",
-					"required": false
-				},
-				{
-					"key": "importDataSummary",
-					"type": "object",
-					"description": "导入数据统计",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				}
-			],
-			"requestBody": []
-		},
-		{
-			"url": "/api/import/data/validation",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "执行数据校验任务",
-			"version": "v2",
-			"methodName": "checkData",
-			"parameters": [
-				{
-					"key": "importTaskId",
-					"type": "string",
-					"description": "importTaskId",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/data/validation",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "取消执行数据校验任务",
-			"version": "v2",
-			"methodName": "cancelCheckData",
-			"parameters": [
-				{
-					"key": "importTaskId",
-					"type": "string",
-					"description": "importTaskId",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/data",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "执行数据导入任务",
-			"version": "v2",
-			"methodName": "importTask",
-			"parameters": [
-				{
-					"key": "importTaskId",
-					"type": "string",
-					"description": "importTaskId",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/data",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "取消执行数据导入任务",
-			"version": "v2",
-			"methodName": "cancelImportTask",
-			"parameters": [
-				{
-					"key": "importTaskId",
-					"type": "string",
-					"description": "importTaskId",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/organization/validation",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "分页查询校验数据",
-			"version": "v2",
-			"methodName": "getCheckData",
-			"parameters": [
-				{
-					"key": "importTaskId",
-					"type": "string",
-					"description": "importTaskId",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, MaxValue]",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "addTotalCount",
-					"type": "integer",
-					"description": "Add总数",
-					"required": false
-				},
-				{
-					"key": "updateTotalCount",
-					"type": "integer",
-					"description": "Update总数",
-					"required": false
-				},
-				{
-					"key": "deleteTotalCount",
-					"type": "integer",
-					"description": "Delete总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/task/progress",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "查询任务进度",
-			"version": "v2",
-			"methodName": "getTaskProgress",
-			"parameters": [
-				{
-					"key": "importTaskId",
-					"type": "string",
-					"description": "importTaskId",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "任务Id",
-					"required": false
-				},
-				{
-					"key": "importTaskStatus",
-					"type": "integer",
-					"description": "导入任务状态",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "createTaskTime",
-					"type": "string",
-					"description": "任务的创建时间",
-					"required": false
-				},
-				{
-					"key": "endTaskTime",
-					"type": "string",
-					"description": "任务的结束时间",
-					"required": false
-				},
-				{
-					"key": "fileName",
-					"type": "string",
-					"description": "文件名称",
-					"required": false
-				},
-				{
-					"key": "fileSize",
-					"type": "integer",
-					"description": "文件大小",
-					"required": false
-				},
-				{
-					"key": "importDataMode",
-					"type": "integer",
-					"description": "导入数据方式",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "dataProgress",
-					"type": "integer",
-					"description": "数据进度（数据校验或数据导入的进度）",
-					"required": false
-				},
-				{
-					"key": "importDataSummary",
-					"type": "object",
-					"description": "导入数据统计",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/templateFiles/organization",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "下载导入组织架构模板文件",
-			"version": "v2",
-			"methodName": "downloadFiles",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/import/task/running",
-			"tag": "DataHandle",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "查询正在执行的导入任务",
-			"version": "v2",
-			"methodName": "importRunningTask",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "任务Id",
-					"required": false
-				},
-				{
-					"key": "importTaskStatus",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "importTaskType",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "descriptor",
-					"description": "",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "createTaskTime",
-					"type": "string",
-					"description": "任务的创建时间",
-					"required": false
-				},
-				{
-					"key": "endTaskTime",
-					"type": "string",
-					"description": "任务的结束时间",
-					"required": false
-				},
-				{
-					"key": "dataProgress",
-					"type": "number",
-					"description": "数据进度",
-					"required": false
-				},
-				{
-					"key": "importDataSummary",
-					"type": "object",
-					"description": "导入数据统计",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				}
-			],
-			"requestBody": null
-		},
-		{
 			"url": "/api/favorites/{favoriteId}/members",
 			"tag": "Favorites",
 			"subBiz": null,
@@ -21704,6 +22425,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": []
@@ -21720,7 +22447,7 @@
 				{
 					"key": "Type",
 					"type": "integer",
-					"description": "组类型(所有类型组：0（预案组和个人组），个人组：2，预案组类型：3，临时组：4)",
+					"description": "组类型(所有类型组：0（预案组和个人组），个人组：2，预案组类型：3，临时组：4，报备组：6)",
 					"default": 3,
 					"in": "query"
 				},
@@ -21970,6 +22697,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -22012,6 +22745,13 @@
 					"key": "owner",
 					"type": "string",
 					"description": "拥有者（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isReportGroup",
+					"type": "boolean",
+					"description": "是否报备组（报备组是特殊的预案组，0：预案组，1：报备组）",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -22181,12 +22921,6 @@
 						},
 						{
 							"key": "12"
-						},
-						{
-							"key": "13"
-						},
-						{
-							"key": "14"
 						}
 					]
 				},
@@ -22206,18 +22940,6 @@
 					"key": "level",
 					"type": "integer",
 					"description": "节点当前层级",
-					"required": false
-				},
-				{
-					"key": "isLeaf",
-					"type": "boolean",
-					"description": "是否叶子节点",
-					"required": false
-				},
-				{
-					"key": "isLeafGroup",
-					"type": "boolean",
-					"description": "是否叶子组节点",
 					"required": false
 				},
 				{
@@ -22275,12 +22997,6 @@
 					"required": true,
 					"default": null,
 					"in": "path"
-				},
-				{
-					"key": "Type",
-					"description": "查询所有：0（默认），查询部门：1，查询联系人：2",
-					"default": null,
-					"in": "query"
 				},
 				{
 					"key": "page",
@@ -22407,67 +23123,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/organizations/{pid}/descendant/members",
-			"tag": "Organizations",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "分页查询部门下的成员列表（包含子孙成员）",
-			"version": "v2",
-			"methodName": "getDescendantMembers",
-			"parameters": [
-				{
-					"key": "pid",
-					"type": "string",
-					"description": "pid",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "Type",
-					"description": "查询所有：0（默认），查询部门：1，查询联系人：2",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, MaxValue]",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
 			"url": "/api/search",
 			"tag": "Search",
 			"subBiz": null,
@@ -22487,7 +23142,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "查询类型，1：联系人，2：部门，4：预案组，8：个人组，16：收藏夹",
+					"description": "查询类型，1：联系人，2：部门，4：预案组，8：个人组，16：收藏夹，32：报备组",
 					"default": null,
 					"in": "query"
 				},
@@ -30915,6 +31570,97 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Preplans/grouping",
+			"tag": "Preplans",
+			"subBiz": "preplanBiz",
+			"methods": "post",
+			"summary": "按条件获取分组预案集合（分组包括（推荐、其他））",
+			"version": "v1",
+			"methodName": "searchPreplanGroup",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "object",
+					"description": "预案分组数据输出实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": [
+				{
+					"key": "eventTypeId",
+					"type": "string",
+					"description": "事件类型ID,Empty为所有类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "eventPriority",
+					"type": "integer",
+					"description": "事件优先级值,Empty为所有类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "区域码，Empty为所有",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "区域码前缀集合，集合不空，以该集合为准，配合“IsContainCurrentAreCodePreplan”",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空区域码的预案",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/tasks/{taskId}/feedbacks/{id}",
 			"tag": "TaskFeedbacks",
 			"subBiz": "taskBiz",
@@ -34003,7 +34749,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "项目名称",
+					"description": "id",
 					"required": false
 				},
 				{
@@ -34026,22 +34772,19 @@
 				},
 				{
 					"key": "uiStyle",
-					"type": "integer",
-					"description": "界面风格：0政务蓝，1企业蓝，2能源绿0:PoliticsBlue,政务蓝; 1:EnterpriseBlue,企业蓝; 2:EnergyGreen,能源绿; ",
+					"description": "",
 					"required": false,
 					"details": null
 				},
 				{
 					"key": "mapType",
-					"type": "integer",
-					"description": "地图类型：0平铺，1窗口，2无地图0:Tiled,平铺; 1:Windowed,窗口; 2:None,无地图; ",
+					"description": "",
 					"required": false,
 					"details": null
 				},
 				{
 					"key": "layoutType",
-					"type": "integer",
-					"description": "布局类型：0自适应布局，1固定布局0:Adaptive,自适应布局; 1:Fixed,固定布局; ",
+					"description": "",
 					"required": false,
 					"details": null
 				},
@@ -34107,13 +34850,14 @@
 				},
 				{
 					"key": "extension",
+					"type": "string",
 					"description": "扩展字段",
 					"required": false
 				},
 				{
-					"key": "themes",
-					"type": "array",
-					"description": "专题集合",
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
 					"required": false
 				}
 			],
@@ -52545,12 +53289,6 @@
 					"required": false
 				},
 				{
-					"key": "aliasName",
-					"type": "string",
-					"description": "监控别名",
-					"required": false
-				},
-				{
 					"key": "videoEncoder",
 					"type": "integer",
 					"description": "视频编码类型",
@@ -52679,6 +53417,18 @@
 					"key": "isSupportPTZ",
 					"type": "boolean",
 					"description": "是否可以进行云台控制",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false
+				},
+				{
+					"key": "originalName",
+					"type": "string",
+					"description": "原始名称",
 					"required": false
 				},
 				{
@@ -53863,6 +54613,72 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Cameras/{id}/recordingInfo",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "当前用户监控录像信息\r\n<remarks>如果用户对监控没有在录像中，则返回404，否则返回具体的录像信息</remarks>",
+			"version": "v1",
+			"methodName": "getCameraRecordingInfo",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "唯一标识",
+					"required": false
+				},
+				{
+					"key": "streamId",
+					"type": "string",
+					"description": "流id",
+					"required": false
+				},
+				{
+					"key": "associationId",
+					"type": "string",
+					"description": "会议号",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "录制开始时间",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "视频录制截图操作状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTimeOffset",
+					"type": "number",
+					"description": "录制相对时间(单位秒)",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Cameras/{id}/favorite_groups",
 			"tag": "Cameras",
 			"subBiz": null,
@@ -54210,12 +55026,6 @@
 					"type": "integer",
 					"description": "摄像机用途属性",
 					"required": false
-				},
-				{
-					"key": "vodcomefrom",
-					"type": "string",
-					"description": "录像从哪儿来",
-					"required": false
 				}
 			],
 			"requestBody": [
@@ -54545,13 +55355,6 @@
 					"key": "usetype",
 					"type": "integer",
 					"description": "摄像机用途属性",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "vodcomefrom",
-					"type": "string",
-					"description": "录像从哪儿来",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -56006,6 +56809,18 @@
 					"required": false
 				},
 				{
+					"key": "originalName",
+					"type": "string",
+					"description": "原始名称",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false
+				},
+				{
 					"key": "parentId",
 					"type": "string",
 					"description": "父Id",
@@ -56253,6 +57068,18 @@
 					"key": "name",
 					"type": "string",
 					"description": "收藏项名称（只有收藏组有名称）",
+					"required": false
+				},
+				{
+					"key": "originalName",
+					"type": "string",
+					"description": "原始名称",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
 					"required": false
 				},
 				{
@@ -56654,10 +57481,91 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "heartbeadCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeadTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "下级域的SIP信令IP地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "name",
 					"type": "string",
-					"description": "名称",
+					"description": "下级域的名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "needAuth",
+					"type": "integer",
+					"description": "是否需要认证",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "认证密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "下级域网络",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "下级域的SIP信令端口号",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名,建议同gbid",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -56814,6 +57722,27 @@
 					"type": "integer",
 					"description": "实际同步目录数量",
 					"required": false
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": null
@@ -57009,6 +57938,27 @@
 					"type": "integer",
 					"description": "实际同步目录数量",
 					"required": false
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -57117,6 +58067,30 @@
 					"type": "string",
 					"description": "用户名,建议同gbid",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -57294,7 +58268,6 @@
 				},
 				{
 					"key": "UpdateStatus",
-					"type": "integer",
 					"description": "变更状态",
 					"default": null,
 					"in": "query"
@@ -59768,6 +60741,12 @@
 					"description": "视频录制截图操作状态",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "createTimeOffset",
+					"type": "number",
+					"description": "录制相对时间(单位秒)",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -60805,6 +61784,1312 @@
 					"type": "integer",
 					"description": "查询返回的记录数量",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建监控保活作业",
+			"version": "v1",
+			"methodName": "addStreamKeepAliveJob",
+			"operationId": "CreateStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "定时任务Id",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "保活任务状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "businessName",
+					"type": "string",
+					"description": "对象名称",
+					"required": false
+				},
+				{
+					"key": "businessId",
+					"type": "string",
+					"description": "业务对象Id",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控数量",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "modifyTime",
+					"type": "string",
+					"description": "修改时间",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": false
+				},
+				{
+					"key": "retryTotal",
+					"type": "integer",
+					"description": "重试总数",
+					"required": false
+				},
+				{
+					"key": "successesTotal",
+					"type": "integer",
+					"description": "保活成功监控总数",
+					"required": false
+				},
+				{
+					"key": "failTotal",
+					"type": "integer",
+					"description": "保活失败监控总数",
+					"required": false
+				},
+				{
+					"key": "executionsTotal",
+					"type": "integer",
+					"description": "执行总数",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "定时任务id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "businessId",
+					"type": "string",
+					"description": "业务对象Id监控Id或标签Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "按条件查询保活作业列表",
+			"version": "v1",
+			"methodName": "getStreamKeepAliveJobs",
+			"operationId": "GetStreamKeepAliveJobs",
+			"parameters": [
+				{
+					"key": "JobIds",
+					"type": "array",
+					"description": "作业Id集合",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取指定保活作业",
+			"version": "v1",
+			"methodName": "getStreamKeepAliveJobById",
+			"operationId": "GetStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "jobId",
+					"type": "string",
+					"description": "定时任务Id",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "保活任务状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "businessName",
+					"type": "string",
+					"description": "对象名称",
+					"required": false
+				},
+				{
+					"key": "businessId",
+					"type": "string",
+					"description": "业务对象Id",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控数量",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "创建时间",
+					"required": false
+				},
+				{
+					"key": "modifyTime",
+					"type": "string",
+					"description": "修改时间",
+					"required": false
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": false
+				},
+				{
+					"key": "retryTotal",
+					"type": "integer",
+					"description": "重试总数",
+					"required": false
+				},
+				{
+					"key": "successesTotal",
+					"type": "integer",
+					"description": "保活成功监控总数",
+					"required": false
+				},
+				{
+					"key": "failTotal",
+					"type": "integer",
+					"description": "保活失败监控总数",
+					"required": false
+				},
+				{
+					"key": "executionsTotal",
+					"type": "integer",
+					"description": "执行总数",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除保活作业",
+			"version": "v1",
+			"methodName": "deleteStreamKeepAliveJob",
+			"operationId": "DeleteStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改保活作业",
+			"version": "v1",
+			"methodName": "editStreamKeepAliveJob",
+			"operationId": "UpdateStreamKeepAliveJob",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "businessId",
+					"type": "string",
+					"description": "保活的业务对象Id监控组Id或标签Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "巡检类型 0 - 监控组， 1 - 标签",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "owners",
+					"type": "array",
+					"description": "负责人",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "notificationType",
+					"type": "integer",
+					"description": "通知类型",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}/status",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改保活作业的状态",
+			"version": "v1",
+			"methodName": "editStreamKeepAliveJobStatus",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "保活任务状态",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}/task",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取保活作业的执行任务",
+			"version": "v1",
+			"methodName": "getStreamKeepAliveTasks",
+			"operationId": "GetStreamKeepAliveTasks",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/StreamKeepAliveJobs/{id}/record",
+			"tag": "StreamKeepAliveJobs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取保活作业指定任务的保活记录",
+			"version": "v1",
+			"methodName": "getStreamKeepAliveRecords",
+			"operationId": "GetStreamKeepAliveRecords",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "TaskID",
+					"type": "string",
+					"description": "保活作业下的任务ID",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加上级域接口",
+			"version": "v1",
+			"methodName": "addUpperDomain",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "upperId",
+					"type": "string",
+					"description": "上级域标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "Ip地址",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "状态：1-离线，2-在线",
+					"required": false
+				},
+				{
+					"key": "isAuth",
+					"type": "integer",
+					"description": "是否注册认证,0:不认证;1:认证",
+					"required": false
+				},
+				{
+					"key": "username",
+					"type": "string",
+					"description": "注册认证账号",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "注册认证密码",
+					"required": false
+				},
+				{
+					"key": "heartbeatCycle",
+					"type": "integer",
+					"description": "心跳周期,单位:秒",
+					"required": false
+				},
+				{
+					"key": "heartbeatTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时最大次数",
+					"required": false
+				},
+				{
+					"key": "isPublicNetwork",
+					"type": "integer",
+					"description": "下级域网络",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sendCatalogTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sendCatalogOnceCount",
+					"type": "integer",
+					"description": "一次发送目录条数,范围:1-50,仅sendCatalogTransProtocol为TCP时有效",
+					"required": false
+				},
+				{
+					"key": "roleId",
+					"type": "string",
+					"description": "服务的角色Id",
+					"required": false
+				},
+				{
+					"key": "roleName",
+					"type": "string",
+					"description": "角色名称",
+					"required": false
+				},
+				{
+					"key": "taskStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "isRepeat",
+					"type": "integer",
+					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"required": false
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "同步结果0 成功其他都是失败错误码",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "upperId",
+					"type": "string",
+					"description": "上级域标识",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "Ip地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "状态：1-离线，2-在线",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isAuth",
+					"type": "integer",
+					"description": "是否注册认证,0:不认证;1:认证",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "username",
+					"type": "string",
+					"description": "注册认证账号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "注册认证密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeatCycle",
+					"type": "integer",
+					"description": "心跳周期,单位:秒",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeatTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时最大次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isPublicNetwork",
+					"type": "integer",
+					"description": "是否公网对接,0:不用公网对接;1:公网对接",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sendCatalogTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sendCatalogOnceCount",
+					"type": "integer",
+					"description": "一次发送目录条数,范围:1-50,仅sendCatalogTransProtocol为TCP时有效",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "roleId",
+					"type": "string",
+					"description": "服务的角色Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isRepeat",
+					"type": "integer",
+					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/UpperDomains",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询上级域",
+			"version": "v1",
+			"methodName": "getUpperDomains",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/{id}",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改国标上级域",
+			"version": "v1",
+			"methodName": "editUpperDomain",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "Ip地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "状态：1-离线，2-在线",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isAuth",
+					"type": "integer",
+					"description": "是否注册认证,0:不认证;1:认证",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "username",
+					"type": "string",
+					"description": "注册认证账号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "注册认证密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeatCycle",
+					"type": "integer",
+					"description": "心跳周期,单位:秒",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeatTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时最大次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isPublicNetwork",
+					"type": "integer",
+					"description": "下级域网络",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sendCatalogTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sendCatalogOnceCount",
+					"type": "integer",
+					"description": "一次发送目录条数,范围:1-50,仅sendCatalogTransProtocol为TCP时有效",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "roleId",
+					"type": "string",
+					"description": "服务的角色Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isRepeat",
+					"type": "integer",
+					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/UpperDomains/{id}",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除上级域",
+			"version": "v1",
+			"methodName": "deleteUpperDomain",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/{id}",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询上级域详情",
+			"version": "v1",
+			"methodName": "getUpperDomainById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "upperId",
+					"type": "string",
+					"description": "上级域标识",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "Ip地址",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "状态：1-离线，2-在线",
+					"required": false
+				},
+				{
+					"key": "isAuth",
+					"type": "integer",
+					"description": "是否注册认证,0:不认证;1:认证",
+					"required": false
+				},
+				{
+					"key": "username",
+					"type": "string",
+					"description": "注册认证账号",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "注册认证密码",
+					"required": false
+				},
+				{
+					"key": "heartbeatCycle",
+					"type": "integer",
+					"description": "心跳周期,单位:秒",
+					"required": false
+				},
+				{
+					"key": "heartbeatTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时最大次数",
+					"required": false
+				},
+				{
+					"key": "isPublicNetwork",
+					"type": "integer",
+					"description": "下级域网络",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sendCatalogTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sendCatalogOnceCount",
+					"type": "integer",
+					"description": "一次发送目录条数,范围:1-50,仅sendCatalogTransProtocol为TCP时有效",
+					"required": false
+				},
+				{
+					"key": "roleId",
+					"type": "string",
+					"description": "服务的角色Id",
+					"required": false
+				},
+				{
+					"key": "roleName",
+					"type": "string",
+					"description": "角色名称",
+					"required": false
+				},
+				{
+					"key": "taskStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "isRepeat",
+					"type": "integer",
+					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"required": false
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "同步结果0 成功其他都是失败错误码",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/{id}/syncTaskHistories",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "上级域同步历史记录分页查询",
+			"version": "v1",
+			"methodName": "getUpperDomainSyncHistory",
+			"operationId": "GetUpperDomainSyncTaskHistories",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/syncTaskHistories/{id}/records",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "上级域同步记录数据多条件查询,传入id为同步任务的id",
+			"version": "v1",
+			"methodName": "getUpperDomainSyncRecords",
+			"operationId": "GetUpperDomainSyncRecords",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "UpdateStatus",
+					"type": "integer",
+					"description": "变更状态",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Type",
+					"description": "数据类型1-监控2-目录null-全部",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -73322,6 +75607,327 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/AlertRecords",
+			"tag": "AlertRecords",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建告警记录",
+			"version": "v1",
+			"methodName": "addAlertRecord",
+			"operationId": "CreateAlertRecord",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "告警名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "告警描述",
+					"required": false
+				},
+				{
+					"key": "typeId",
+					"type": "string",
+					"description": "告警类型 Id",
+					"required": false
+				},
+				{
+					"key": "typeName",
+					"type": "string",
+					"description": "告警类型名称",
+					"required": false
+				},
+				{
+					"key": "level",
+					"type": "integer",
+					"description": "告警级别",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "告警状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resolverId",
+					"type": "string",
+					"description": "告警消除人 Id",
+					"required": false
+				},
+				{
+					"key": "resolverName",
+					"type": "string",
+					"description": "告警消除人名称",
+					"required": false
+				},
+				{
+					"key": "resolveMessage",
+					"type": "string",
+					"description": "处置信息",
+					"required": false
+				},
+				{
+					"key": "sourceTypeId",
+					"type": "string",
+					"description": "告警源类型 Id",
+					"required": false
+				},
+				{
+					"key": "sourceTypeName",
+					"type": "string",
+					"description": "告警源类型名称",
+					"required": false
+				},
+				{
+					"key": "source",
+					"type": "object",
+					"description": "告警源",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "assetId",
+					"type": "string",
+					"description": "资产 Id",
+					"required": false
+				},
+				{
+					"key": "assetName",
+					"type": "string",
+					"description": "资产名",
+					"required": false
+				},
+				{
+					"key": "createTime",
+					"type": "string",
+					"description": "服务创建记录时间",
+					"required": false
+				},
+				{
+					"key": "updateTime",
+					"type": "string",
+					"description": "服务更新记录时间",
+					"required": false
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "告警源的产生时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "告警消除时间",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源 Id",
+					"required": false
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台 Id",
+					"required": false
+				},
+				{
+					"key": "platformName",
+					"type": "string",
+					"description": "平台名称",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "扩展信息",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "告警名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "告警描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "typeId",
+					"type": "string",
+					"description": "告警类型 Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "typeName",
+					"type": "string",
+					"description": "告警类型名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "level",
+					"type": "integer",
+					"description": "告警级别",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "levelName",
+					"type": "string",
+					"description": "告警级别名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "告警状态",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sourceTypeId",
+					"type": "string",
+					"description": "告警源类型 Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sourceTypeName",
+					"type": "string",
+					"description": "告警源类型名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "source",
+					"type": "object",
+					"description": "告警源",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetId",
+					"type": "string",
+					"description": "资产 Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetName",
+					"type": "string",
+					"description": "资产名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "告警产生时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "告警消除时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"description": "扩展字段(Json 字符串)",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源 Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/AlertRecords/search",
 			"tag": "AlertRecords",
 			"subBiz": null,
@@ -73472,6 +76078,20 @@
 							"key": "1"
 						}
 					],
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -77778,6 +80398,9 @@
 						},
 						{
 							"key": "6"
+						},
+						{
+							"key": "7"
 						}
 					]
 				},
@@ -78053,6 +80676,12 @@
 					"required": false
 				},
 				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区划",
+					"required": false
+				},
+				{
 					"key": "totalMetadataCount",
 					"type": "integer",
 					"description": "",
@@ -78092,6 +80721,13 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区划",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -78151,6 +80787,12 @@
 					"key": "address",
 					"type": "string",
 					"description": "部门地址",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区划",
 					"required": false
 				},
 				{
@@ -78215,6 +80857,13 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区划",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -79757,6 +82406,9 @@
 						},
 						{
 							"key": "6"
+						},
+						{
+							"key": "7"
 						}
 					]
 				},
@@ -82003,6 +84655,9 @@
 						},
 						{
 							"key": "6"
+						},
+						{
+							"key": "7"
 						}
 					]
 				},
