@@ -2329,12 +2329,6 @@
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "标识",
-					"required": false
-				},
-				{
 					"key": "assetType",
 					"type": "integer",
 					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
@@ -2342,27 +2336,9 @@
 					"details": null
 				},
 				{
-					"key": "assetMetrics",
-					"type": "array",
-					"description": "指标",
-					"required": false
-				},
-				{
 					"key": "alertRecords",
 					"type": "array",
 					"description": "告警记录",
-					"required": false
-				},
-				{
-					"key": "areaCode",
-					"type": "string",
-					"description": "行政区域码",
-					"required": false
-				},
-				{
-					"key": "areaName",
-					"type": "string",
-					"description": "行政区域名称",
 					"required": false
 				},
 				{
@@ -2375,6 +2351,30 @@
 					"key": "alertTime",
 					"type": "string",
 					"description": "告警时间",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "areaName",
+					"type": "string",
+					"description": "行政区域名称",
 					"required": false
 				},
 				{
@@ -2440,6 +2440,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "assetIds",
+					"type": "array",
+					"description": "资产ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "关键词",
@@ -2454,10 +2461,17 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "assetType",
 					"type": "integer",
 					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
-					"required": true,
+					"required": false,
 					"details": null,
 					"in": "requestBody"
 				},
@@ -2465,13 +2479,6 @@
 					"key": "secondaryAssetType",
 					"type": "integer",
 					"description": "二级资产类型（依赖一级资产类型）",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "otherTerminalType",
-					"type": "string",
-					"description": "其他终端类型",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -2496,12 +2503,350 @@
 					"required": false,
 					"details": null,
 					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Assets/circle_area",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "周边资产",
+			"version": "v1",
+			"methodName": "getNearAssets",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetIds",
+					"type": "array",
+					"description": "资产ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
 				},
 				{
 					"key": "isMatchNullAreaCode",
 					"type": "boolean",
 					"description": "是否匹配空行政区域码",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型（依赖一级资产类型）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relateTypeId",
+					"type": "string",
+					"description": "关联类型ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "sortRule",
+					"type": "integer",
+					"description": "排序类型0:AscendingByDistance,距离升序; 1:DescendingByDistance,距离降序; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Assets/circle_area/Alert",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "周边告警资产",
+			"version": "v1",
+			"methodName": "getNearAlerts",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetIds",
+					"type": "array",
+					"description": "资产ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型（依赖一级资产类型）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relateTypeId",
+					"type": "string",
+					"description": "关联类型ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alert",
+					"type": "object",
+					"description": "告警筛选",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "assetSortRule",
+					"type": "integer",
+					"description": "资产排序规则0:AscendingByDistance,距离升序; 1:DescendingByDistance,距离降序; 2:DescendingByAlertCount,告警数降序; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -3201,6 +3546,121 @@
 					"type": "boolean",
 					"description": "返回结果是否包含主体资源",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Camera/circle_area",
+			"tag": "Camera",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "周边监控",
+			"version": "v1",
+			"methodName": "getNearCameras",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "监控标签集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sortRule",
+					"type": "integer",
+					"description": "排序类型0:AscendingByDistance,距离升序; 1:DescendingByDistance,距离降序; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -4359,6 +4819,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -4419,20 +4893,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -4950,6 +5410,128 @@
 					"type": "number",
 					"description": "半径范围(单位米)",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Facilities/circle_area",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "周边设施",
+			"version": "v1",
+			"methodName": "getNearFacilities",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "layerIds",
+					"type": "array",
+					"description": "图层Id列表",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "sortRule",
+					"type": "integer",
+					"description": "排序类型0:AscendingByDistance,距离升序; 1:DescendingByDistance,距离降序; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -13279,6 +13861,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					]
 				},
@@ -13330,6 +13915,13 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -13514,6 +14106,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -13545,6 +14140,14 @@
 					"type": "boolean",
 					"description": "",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -13776,6 +14379,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					]
 				},
@@ -13827,8 +14433,43 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ConferenceBiz/conference/{id}",
+			"tag": "ConferenceBiz",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "切换会议模式",
+			"version": "v1",
+			"methodName": "changeConferenceMode",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "0:自由模式；1：对讲模式",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -13964,6 +14605,12 @@
 					"description": "0:Running,通话状态; 1:CallOut,呼叫正在呼出, 被叫还没有振铃; 2:Calling,呼叫状态; 3:Alerting,振铃状态; 4:Idle,空闲状态; 5:Unknow,未知状态; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "photoPath",
+					"type": "string",
+					"description": "头像",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -14085,6 +14732,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -14285,6 +14935,12 @@
 					"type": "string",
 					"description": "关联的联系人ID",
 					"required": false
+				},
+				{
+					"key": "photoPath",
+					"type": "string",
+					"description": "头像",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -14395,6 +15051,13 @@
 					"in": "query"
 				},
 				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台Id",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -14441,6 +15104,13 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -14607,6 +15277,13 @@
 					"key": "ConferenceID",
 					"type": "string",
 					"description": "会议ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台id",
 					"default": null,
 					"in": "query"
 				},
@@ -16250,9 +16927,6 @@
 						},
 						{
 							"key": "9"
-						},
-						{
-							"key": "10"
 						}
 					]
 				},
@@ -16340,6 +17014,13 @@
 					"key": "Keyword",
 					"type": "string",
 					"description": "关键字搜索（搜索短信内容）",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台Id",
 					"default": null,
 					"in": "query"
 				},
@@ -16443,6 +17124,202 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Messages/templates",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "按条件查询短信模板",
+			"version": "v1",
+			"methodName": "getMessageTemplates",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Messages/templates",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新建短信模板",
+			"version": "v1",
+			"methodName": "addMessageTemplate",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "stationId",
+					"type": "string",
+					"description": "节点ID",
+					"required": false
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "模板内容",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "模板内容",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "配置信息",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Messages/templates/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取短信模板",
+			"version": "v1",
+			"methodName": "getMessageTemplateById",
+			"operationId": "GetTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "stationId",
+					"type": "string",
+					"description": "节点ID",
+					"required": false
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "模板内容",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Messages/templates/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改短信模板",
+			"version": "v1",
+			"methodName": "editMessageTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "模板内容",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "配置信息",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Messages/templates/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除短信模板",
+			"version": "v1",
+			"methodName": "deleteMessageTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/NightServices/duty",
@@ -16935,6 +17812,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -17236,56 +18116,6 @@
 					"required": false
 				}
 			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Report/{id}",
-			"tag": "Report",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "新增在线记录",
-			"version": "v1",
-			"methodName": "addReport",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "组织架构id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "hour",
-					"type": "number",
-					"description": "以当前时间为结束时间的在线时长",
-					"required": true,
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/Report/{id}",
-			"tag": "Report",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取在线率统计",
-			"version": "v1",
-			"methodName": "getReportDetails",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -18332,7 +19162,7 @@
 					"key": "name",
 					"type": "string",
 					"description": "模板名称",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -18347,10 +19177,58 @@
 					"key": "content",
 					"type": "string",
 					"description": "文本内容",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/TextTemplates/{id}",
+			"tag": "TextTemplates",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取文本模板",
+			"version": "v1",
+			"methodName": "getTextTemplateById",
+			"operationId": "GetTextTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "主键id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "模板名称",
+					"required": false
+				},
+				{
+					"key": "textTemplateType",
+					"type": "integer",
+					"description": "模板类型，0：语音通知，1：短信通知，2：即时消息通知0:RecordNotify,语音通知; 1:ShortMessage,短信息; 2:InstantMessaging,即时消息; -1:All,全部; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "文本内容",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/TextTemplates/{id}",
@@ -18376,7 +19254,7 @@
 					"key": "name",
 					"type": "string",
 					"description": "模板名称",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -18391,7 +19269,7 @@
 					"key": "content",
 					"type": "string",
 					"description": "文本内容",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -52209,6 +53087,20 @@
 					"required": false
 				},
 				{
+					"key": "syncStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipServerStatus",
+					"type": "integer",
+					"description": "上/下级域状态",
+					"required": false,
+					"details": null
+				},
+				{
 					"key": "useStatus",
 					"type": "integer",
 					"description": "节点选中状态",
@@ -52543,6 +53435,20 @@
 					"type": "string",
 					"description": "国标下级Id",
 					"required": false
+				},
+				{
+					"key": "syncStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipServerStatus",
+					"type": "integer",
+					"description": "上/下级域状态",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "useStatus",
@@ -53000,6 +53906,43 @@
 			]
 		},
 		{
+			"url": "/api/CameraGroups/{id}/camera/top",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "组内监控置顶",
+			"version": "v1",
+			"methodName": "moveCameraTop",
+			"operationId": "MoveCameraTop",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "cameraId",
+					"type": "string",
+					"description": "监控id",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/CameraGroups/{id}/children/{subGroupId}",
 			"tag": "CameraGroups",
 			"subBiz": null,
@@ -53060,6 +54003,20 @@
 					"type": "string",
 					"description": "国标下级Id",
 					"required": false
+				},
+				{
+					"key": "syncStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipServerStatus",
+					"type": "integer",
+					"description": "上/下级域状态",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "useStatus",
@@ -53406,6 +54363,20 @@
 					"type": "string",
 					"description": "国标下级Id",
 					"required": false
+				},
+				{
+					"key": "syncStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipServerStatus",
+					"type": "integer",
+					"description": "上/下级域状态",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "useStatus",
@@ -53910,6 +54881,122 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/Cameras/circle_area",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "周边监控查询",
+			"version": "v1",
+			"methodName": "searchCircleAreaCamera",
+			"operationId": "SearchCircleAreaCamera",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "监控标签集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sortRule",
+					"type": "integer",
+					"description": "排序规则",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Cameras/{id}",
@@ -57185,6 +58272,12 @@
 						},
 						{
 							"key": "23"
+						},
+						{
+							"key": "24"
+						},
+						{
+							"key": "25"
 						}
 					]
 				},
@@ -57349,6 +58442,12 @@
 						},
 						{
 							"key": "23"
+						},
+						{
+							"key": "24"
+						},
+						{
+							"key": "25"
 						}
 					]
 				},
@@ -58134,7 +59233,14 @@
 				{
 					"key": "regionId",
 					"type": "string",
-					"description": "下级域的国标id",
+					"description": "下级域的国标Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "指定目录Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -58212,7 +59318,7 @@
 				{
 					"key": "networkType",
 					"type": "integer",
-					"description": "下级域网络",
+					"description": "上/下级域网络",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -58729,7 +59835,7 @@
 				{
 					"key": "networkType",
 					"type": "integer",
-					"description": "下级域网络",
+					"description": "上/下级域网络",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -60703,6 +61809,1277 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/sync",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "同步国标下级域",
+			"version": "v1",
+			"methodName": "syncLowerDomains",
+			"operationId": "Sync",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "regionId",
+					"type": "string",
+					"description": "下级域的国标Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "指定目录Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/LowerDomains/{id}",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改国标下级域",
+			"version": "v1",
+			"methodName": "editLowerDomains",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "heartbeadCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeadTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "下级域的SIP信令IP地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "下级域的名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "needAuth",
+					"type": "integer",
+					"description": "是否需要认证",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "认证密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "上/下级域网络",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "下级域的SIP信令端口号",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名,建议同gbid",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/LowerDomains/{id}",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询国标下级域详情",
+			"version": "v1",
+			"methodName": "getLowerDomainById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "activeRegister",
+					"type": "boolean",
+					"description": "是否主动注册，对上级平台被动接受注册，填false；对下级平台，需主动向上级发起注册请求，填true",
+					"required": false
+				},
+				{
+					"key": "civilCode",
+					"type": "string",
+					"description": "区域编码",
+					"required": false
+				},
+				{
+					"key": "gbId",
+					"type": "string",
+					"description": "国标id",
+					"required": false
+				},
+				{
+					"key": "heartBeadCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false
+				},
+				{
+					"key": "heartBeadTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时次数",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "下级域ip地址",
+					"required": false
+				},
+				{
+					"key": "manufacturer",
+					"type": "integer",
+					"description": "厂商类型",
+					"required": false
+				},
+				{
+					"key": "model",
+					"type": "string",
+					"description": "型号，可为空",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "下级域名称",
+					"required": false
+				},
+				{
+					"key": "needAuth",
+					"type": "integer",
+					"description": "是否需要认证",
+					"required": false
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型（1：内网，2：公网）",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "认证密码",
+					"required": false
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "下级域状态1：设备离线2：设备在线",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "用户代理类型，常见类型，IPC:131NVR:118Platform(国标平台):2Encoder:113Decoder:114",
+					"required": false
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "认证用户名",
+					"required": false
+				},
+				{
+					"key": "taskStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "timeRemaining",
+					"type": "integer",
+					"description": "同步剩余时间，单位/毫秒",
+					"required": false
+				},
+				{
+					"key": "progress",
+					"type": "integer",
+					"description": "同步进度，百分比",
+					"required": false
+				},
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
+					"required": false
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询下级域（同步的详细信息）",
+			"version": "v1",
+			"methodName": "getLowerDomains",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加下级域接口",
+			"version": "v1",
+			"methodName": "addLowerDomain",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "activeRegister",
+					"type": "boolean",
+					"description": "是否主动注册，对上级平台被动接受注册，填false；对下级平台，需主动向上级发起注册请求，填true",
+					"required": false
+				},
+				{
+					"key": "civilCode",
+					"type": "string",
+					"description": "区域编码",
+					"required": false
+				},
+				{
+					"key": "gbId",
+					"type": "string",
+					"description": "国标id",
+					"required": false
+				},
+				{
+					"key": "heartBeadCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false
+				},
+				{
+					"key": "heartBeadTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时次数",
+					"required": false
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "下级域ip地址",
+					"required": false
+				},
+				{
+					"key": "manufacturer",
+					"type": "integer",
+					"description": "厂商类型",
+					"required": false
+				},
+				{
+					"key": "model",
+					"type": "string",
+					"description": "型号，可为空",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "下级域名称",
+					"required": false
+				},
+				{
+					"key": "needAuth",
+					"type": "integer",
+					"description": "是否需要认证",
+					"required": false
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "网络类型（1：内网，2：公网）",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "认证密码",
+					"required": false
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "下级域状态1：设备离线2：设备在线",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "用户代理类型，常见类型，IPC:131NVR:118Platform(国标平台):2Encoder:113Decoder:114",
+					"required": false
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "认证用户名",
+					"required": false
+				},
+				{
+					"key": "taskStatus",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "timeRemaining",
+					"type": "integer",
+					"description": "同步剩余时间，单位/毫秒",
+					"required": false
+				},
+				{
+					"key": "progress",
+					"type": "integer",
+					"description": "同步进度，百分比",
+					"required": false
+				},
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
+					"required": false
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": [
+				{
+					"key": "activeRegister",
+					"type": "boolean",
+					"description": "是否主动注册",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "civilcode",
+					"type": "string",
+					"description": "区域编码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "gbId",
+					"type": "string",
+					"description": "下级域的国标id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeadCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeadTimeoutCount",
+					"type": "integer",
+					"description": "心跳超时次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ip",
+					"type": "string",
+					"description": "下级域的SIP信令IP地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "manufacturer",
+					"type": "integer",
+					"description": "厂商，可为空",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "model",
+					"type": "string",
+					"description": "型号，可为空",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "下级域的名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "needAuth",
+					"type": "integer",
+					"description": "是否需要认证",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "认证密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "networkType",
+					"type": "integer",
+					"description": "上/下级域网络",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "下级域的SIP信令端口号",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "用户代理类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名,建议同gbid",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/LowerDomains/unused_domains",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取未管理的下级域",
+			"version": "v1",
+			"methodName": "getUnusedLowerDomains",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/batch",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "批量删除国标下级域",
+			"version": "v1",
+			"methodName": "batchDeleteLowerDomains",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "gbIds",
+					"type": "array",
+					"description": "下级域Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/LowerDomains/{id}/data",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "清空下级域所有数据",
+			"version": "v1",
+			"methodName": "clearLowerDomains",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/{id}/syncTaskHistories",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "同步历史记录分页查询",
+			"version": "v1",
+			"methodName": "getLowerDomainsSyncHistories",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/syncTaskHistories/{id}",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询指定同步历史记录",
+			"version": "v1",
+			"methodName": "getSyncTaskHistoryById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
+					"required": false
+				},
+				{
+					"key": "addNum",
+					"type": "integer",
+					"description": "添加数量",
+					"required": false
+				},
+				{
+					"key": "updateNum",
+					"type": "integer",
+					"description": "修改数量",
+					"required": false
+				},
+				{
+					"key": "deleteNum",
+					"type": "integer",
+					"description": "删除数量",
+					"required": false
+				},
+				{
+					"key": "conflictNum",
+					"type": "integer",
+					"description": "冲突数量",
+					"required": false
+				},
+				{
+					"key": "time",
+					"type": "integer",
+					"description": "耗时,单位秒",
+					"required": false
+				},
+				{
+					"key": "offlineNum",
+					"type": "integer",
+					"description": "离线数量",
+					"required": false
+				},
+				{
+					"key": "onlineNum",
+					"type": "integer",
+					"description": "在线数量",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控总数",
+					"required": false
+				},
+				{
+					"key": "groupTotal",
+					"type": "integer",
+					"description": "监控组总数",
+					"required": false
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "指定的目录",
+					"required": false
+				},
+				{
+					"key": "groupName",
+					"type": "string",
+					"description": "目录名称",
+					"required": false
+				},
+				{
+					"key": "taskId",
+					"type": "string",
+					"description": "同步任务id",
+					"required": false
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "同步任务开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "同步任务结束时间",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "同步结束，0为成功，其他为错误码",
+					"required": false
+				},
+				{
+					"key": "sipServerId",
+					"type": "string",
+					"description": "同步上/下级Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "syncType",
+					"type": "integer",
+					"description": "同步类型0-全量同步1-增量同步2-目录同步",
+					"required": false,
+					"details": null
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/syncTaskHistories/{id}/records",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "同步记录数据多条件查询,传入id为同步任务的id",
+			"version": "v1",
+			"methodName": "searchSyncTaskHistory",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "UpdateStatus",
+					"description": "变更状态",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Type",
+					"description": "数据类型1-监控2-目录null-全部",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/{id}/expired",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询过期监控与监控组",
+			"version": "v1",
+			"methodName": "getExpiredLowerDomains",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "StartTime",
+					"type": "string",
+					"description": "开始时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "EndTime",
+					"type": "string",
+					"description": "结束时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Type",
+					"description": "类型，摄像头 0 组 1",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/LowerDomains/{id}/expired/batch",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "删除过期监控与监控组",
+			"version": "v1",
+			"methodName": "batchDeleteExpiredLowerDomains",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "过期记录删除类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "批量删除数据记录列表",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "timeRange",
+					"type": "integer",
+					"description": "删除近几天记录",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/LowerDomains/{id}/Conflict",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "解决同步冲突",
+			"version": "v1",
+			"methodName": "resolveLowerDomainsConflict",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "integer",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "conflictType",
+					"type": "integer",
+					"description": "冲突的类型0-没有冲突1-组冲突2-经纬度冲突3-全都有",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/LowerDomains/{id}/state/records",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取下级域状态变更记录",
+			"version": "v1",
+			"methodName": "getLowerDomainStateRecords",
+			"operationId": "GetLowerDomainStateRecords",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
 				},
 				{
 					"key": "X-version",
@@ -63360,12 +65737,13 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "状态：1-离线，2-在线",
-					"required": false
+					"description": "上/下级域状态",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "isAuth",
-					"type": "integer",
+					"type": "boolean",
 					"description": "是否注册认证,0:不认证;1:认证",
 					"required": false
 				},
@@ -63396,7 +65774,7 @@
 				{
 					"key": "isPublicNetwork",
 					"type": "integer",
-					"description": "下级域网络",
+					"description": "上/下级域网络",
 					"required": false,
 					"details": null
 				},
@@ -63434,7 +65812,7 @@
 				},
 				{
 					"key": "isRepeat",
-					"type": "integer",
+					"type": "boolean",
 					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
 					"required": false
 				},
@@ -63485,14 +65863,15 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "状态：1-离线，2-在线",
+					"description": "上/下级域状态",
 					"required": false,
+					"details": null,
 					"in": "requestBody"
 				},
 				{
 					"key": "isAuth",
-					"type": "integer",
-					"description": "是否注册认证,0:不认证;1:认证",
+					"type": "boolean",
+					"description": "是否注册认证,false:不认证;true:认证",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -63527,8 +65906,9 @@
 				{
 					"key": "isPublicNetwork",
 					"type": "integer",
-					"description": "是否公网对接,0:不用公网对接;1:公网对接",
+					"description": "上/下级域网络",
 					"required": false,
+					"details": null,
 					"in": "requestBody"
 				},
 				{
@@ -63555,8 +65935,8 @@
 				},
 				{
 					"key": "isRepeat",
-					"type": "integer",
-					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"type": "boolean",
+					"description": "是否支持重复数据上报,false不支持，true支持，默认不支持",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -63668,14 +66048,15 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "状态：1-离线，2-在线",
+					"description": "上/下级域状态",
 					"required": false,
+					"details": null,
 					"in": "requestBody"
 				},
 				{
 					"key": "isAuth",
-					"type": "integer",
-					"description": "是否注册认证,0:不认证;1:认证",
+					"type": "boolean",
+					"description": "是否注册认证,false:不认证;true:认证",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -63710,7 +66091,7 @@
 				{
 					"key": "isPublicNetwork",
 					"type": "integer",
-					"description": "下级域网络",
+					"description": "上/下级域网络",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -63739,8 +66120,8 @@
 				},
 				{
 					"key": "isRepeat",
-					"type": "integer",
-					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"type": "boolean",
+					"description": "是否支持重复数据上报,false不支持，true支持，默认不支持",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -63834,12 +66215,13 @@
 				{
 					"key": "status",
 					"type": "integer",
-					"description": "状态：1-离线，2-在线",
-					"required": false
+					"description": "上/下级域状态",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "isAuth",
-					"type": "integer",
+					"type": "boolean",
 					"description": "是否注册认证,0:不认证;1:认证",
 					"required": false
 				},
@@ -63870,7 +66252,7 @@
 				{
 					"key": "isPublicNetwork",
 					"type": "integer",
-					"description": "下级域网络",
+					"description": "上/下级域网络",
 					"required": false,
 					"details": null
 				},
@@ -63908,7 +66290,7 @@
 				},
 				{
 					"key": "isRepeat",
-					"type": "integer",
+					"type": "boolean",
 					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
 					"required": false
 				},
@@ -64014,6 +66396,62 @@
 					"description": "数据类型1-监控2-目录null-全部",
 					"default": null,
 					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/{id}/state/records",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取上级域状态变更记录",
+			"version": "v1",
+			"methodName": "getUpperDomainStateRecords",
+			"operationId": "GetUpperDomainStateRecords",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
 				},
 				{
 					"key": "page",
@@ -68664,6 +71102,24 @@
 					"type": "string",
 					"description": "网络ID【用于探测的网络筛选】",
 					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "distance",
+					"type": "number",
+					"description": "距离",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -68827,6 +71283,164 @@
 					"type": "string",
 					"description": "关联类型ID",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Assets/circle_area",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "周边资产搜索",
+			"version": "v1",
+			"methodName": "searchCircleAreaAsset",
+			"operationId": "SearchCircleAreaAsset",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetIds",
+					"type": "array",
+					"description": "资产ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型（依赖一级资产类型）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relateTypeId",
+					"type": "string",
+					"description": "关联类型ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "upLeft",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "bottomRight",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标点",
+					"required": true,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "sortRule",
+					"type": "integer",
+					"description": "排序规则0:AscendingByDistance; 1:DescendingByDistance; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
