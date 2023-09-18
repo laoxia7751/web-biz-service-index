@@ -4825,6 +4825,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -4885,20 +4899,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -6970,6 +6970,9 @@
 						},
 						{
 							"key": "1"
+						},
+						{
+							"key": "2"
 						}
 					]
 				}
@@ -8493,6 +8496,70 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/search/resource",
+			"tag": "Search",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索（联系人、组、监控、视频会议终端）",
+			"version": "v1",
+			"methodName": "queryResource",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Limit",
+					"type": "integer",
+					"description": "搜索数量范围(单一资源和群组资源)",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "resources",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "resourceGroups",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Statistical/events",
@@ -20306,6 +20373,18 @@
 					"type": "string",
 					"description": "关联ID（可选）",
 					"required": false
+				},
+				{
+					"key": "accountState",
+					"type": "integer",
+					"description": "账号状态",
+					"required": false
+				},
+				{
+					"key": "photoPath",
+					"type": "string",
+					"description": "头像路径",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -20594,6 +20673,18 @@
 					"key": "relatedId",
 					"type": "string",
 					"description": "关联ID（可选）",
+					"required": false
+				},
+				{
+					"key": "accountState",
+					"type": "integer",
+					"description": "账号状态",
+					"required": false
+				},
+				{
+					"key": "photoPath",
+					"type": "string",
+					"description": "头像路径",
 					"required": false
 				}
 			],
@@ -23149,13 +23240,69 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/contacts/statistics",
+			"url": "/api/contacts/{id}/state",
+			"tag": "Contact",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "联系人账号状态变更",
+			"version": "v2",
+			"methodName": "changeContactState",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "联系人id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "accountState",
+					"type": "integer",
+					"description": "账号状态 0:启用，1:禁用",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/contacts/pinyinAndInitials",
+			"tag": "Contact",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新所有联系人拼音和缩写信息（联系人历史数据补全）",
+			"version": "v2",
+			"methodName": "updateContactsPinyinAndInitials",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/upload/photo",
 			"tag": "Contact",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "根据职位统计人员数量",
+			"summary": "上传当前联系人头像",
 			"version": "v2",
-			"methodName": "queryContactStatistics",
+			"methodName": "uploadUserAvatar",
 			"parameters": [
 				{
 					"key": "X-version",
@@ -23167,19 +23314,529 @@
 			],
 			"responses": [
 				{
-					"key": "total",
-					"type": "integer",
-					"description": "人员总数",
+					"key": "id",
+					"type": "string",
+					"description": "联系人Id",
 					"required": false
 				},
 				{
-					"key": "statisticsTags",
-					"type": "array",
-					"description": "每个标签的统计数量集合",
+					"key": "photoPath",
+					"type": "string",
+					"description": "联系人路径",
 					"required": false
 				}
 			],
 			"requestBody": []
+		},
+		{
+			"url": "/api/contacts/photos",
+			"tag": "Contact",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新所有联系人头像信息（联系人历史数据补全）",
+			"version": "v2",
+			"methodName": "updateUserAvatar",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data/organization",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "导入组织架构",
+			"version": "v2",
+			"methodName": "importOrganization",
+			"parameters": [
+				{
+					"key": "ImportDataMode",
+					"description": "导入类型 0:增量导入， 1:全量覆盖导入",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ImportNodeType",
+					"description": "部门类型 0:根部门， 1:子部门 , 2:当前部门",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ParentId",
+					"type": "string",
+					"description": "部门Id（为1，则是根部门）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "WorkSheet",
+					"type": "string",
+					"description": "Excel的sheet名称",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "任务Id",
+					"required": false
+				},
+				{
+					"key": "importTaskStatus",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "importTaskType",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "descriptor",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTaskTime",
+					"type": "string",
+					"description": "任务的创建时间",
+					"required": false
+				},
+				{
+					"key": "endTaskTime",
+					"type": "string",
+					"description": "任务的结束时间",
+					"required": false
+				},
+				{
+					"key": "dataProgress",
+					"type": "number",
+					"description": "数据进度",
+					"required": false
+				},
+				{
+					"key": "importDataSummary",
+					"type": "object",
+					"description": "导入数据统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				}
+			],
+			"requestBody": []
+		},
+		{
+			"url": "/api/import/data/validation",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "执行数据校验任务",
+			"version": "v2",
+			"methodName": "checkData",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data/validation",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "取消执行数据校验任务",
+			"version": "v2",
+			"methodName": "cancelCheckData",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "执行数据导入任务",
+			"version": "v2",
+			"methodName": "importTask",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/data",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "取消执行数据导入任务",
+			"version": "v2",
+			"methodName": "cancelImportTask",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/organization/validation",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询校验数据",
+			"version": "v2",
+			"methodName": "getCheckData",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "addTotalCount",
+					"type": "integer",
+					"description": "Add总数",
+					"required": false
+				},
+				{
+					"key": "updateTotalCount",
+					"type": "integer",
+					"description": "Update总数",
+					"required": false
+				},
+				{
+					"key": "deleteTotalCount",
+					"type": "integer",
+					"description": "Delete总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/task/progress",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询任务进度",
+			"version": "v2",
+			"methodName": "getTaskProgress",
+			"parameters": [
+				{
+					"key": "importTaskId",
+					"type": "string",
+					"description": "importTaskId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "任务Id",
+					"required": false
+				},
+				{
+					"key": "importTaskStatus",
+					"type": "integer",
+					"description": "导入任务状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTaskTime",
+					"type": "string",
+					"description": "任务的创建时间",
+					"required": false
+				},
+				{
+					"key": "endTaskTime",
+					"type": "string",
+					"description": "任务的结束时间",
+					"required": false
+				},
+				{
+					"key": "fileName",
+					"type": "string",
+					"description": "文件名称",
+					"required": false
+				},
+				{
+					"key": "fileSize",
+					"type": "integer",
+					"description": "文件大小",
+					"required": false
+				},
+				{
+					"key": "importDataMode",
+					"type": "integer",
+					"description": "导入数据方式",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "dataProgress",
+					"type": "integer",
+					"description": "数据进度（数据校验或数据导入的进度）",
+					"required": false
+				},
+				{
+					"key": "importDataSummary",
+					"type": "object",
+					"description": "导入数据统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/templateFiles/organization",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "下载导入组织架构模板文件",
+			"version": "v2",
+			"methodName": "downloadFiles",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/import/task/running",
+			"tag": "DataHandle",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询正在执行的导入任务",
+			"version": "v2",
+			"methodName": "importRunningTask",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "任务Id",
+					"required": false
+				},
+				{
+					"key": "importTaskStatus",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "importTaskType",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "descriptor",
+					"description": "",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "createTaskTime",
+					"type": "string",
+					"description": "任务的创建时间",
+					"required": false
+				},
+				{
+					"key": "endTaskTime",
+					"type": "string",
+					"description": "任务的结束时间",
+					"required": false
+				},
+				{
+					"key": "dataProgress",
+					"type": "number",
+					"description": "数据进度",
+					"required": false
+				},
+				{
+					"key": "importDataSummary",
+					"type": "object",
+					"description": "导入数据统计",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/favorites/{favoriteId}/members",
@@ -23777,6 +24434,60 @@
 			]
 		},
 		{
+			"url": "/api/groups",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询所有组",
+			"version": "v2",
+			"methodName": "getAllGroupsV2",
+			"parameters": [
+				{
+					"key": "Type",
+					"type": "integer",
+					"description": "组类型(所有类型组：0（预案组和个人组），个人组：2，预案组类型：3，临时组：4)",
+					"default": 3,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/organizations/{id}",
 			"tag": "Organizations",
 			"subBiz": null,
@@ -23883,6 +24594,12 @@
 						},
 						{
 							"key": "12"
+						},
+						{
+							"key": "13"
+						},
+						{
+							"key": "14"
 						}
 					]
 				},
@@ -23902,6 +24619,18 @@
 					"key": "level",
 					"type": "integer",
 					"description": "节点当前层级",
+					"required": false
+				},
+				{
+					"key": "isLeaf",
+					"type": "boolean",
+					"description": "是否叶子节点",
+					"required": false
+				},
+				{
+					"key": "isLeafGroup",
+					"type": "boolean",
+					"description": "是否叶子组节点",
 					"required": false
 				},
 				{
@@ -23959,6 +24688,12 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "Type",
+					"description": "查询所有：0（默认），查询部门：1，查询联系人：2",
+					"default": null,
+					"in": "query"
 				},
 				{
 					"key": "page",
@@ -24079,6 +24814,108 @@
 					"key": "pathInfoItems",
 					"type": "array",
 					"description": "路径集合",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/organizations/{pid}/descendant/members",
+			"tag": "Organizations",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询部门下的成员列表（包含子孙成员）",
+			"version": "v2",
+			"methodName": "getDescendantMembers",
+			"parameters": [
+				{
+					"key": "pid",
+					"type": "string",
+					"description": "pid",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/organizations",
+			"tag": "Organizations",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询Root部门（带统计成员）",
+			"version": "v2",
+			"methodName": "getRootOrganizations",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
 				}
 			],
@@ -45263,6 +46100,13 @@
 			"operationId": "GetGroupKeys",
 			"parameters": [
 				{
+					"key": "ProductId",
+					"type": "string",
+					"description": "产品Id",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -57336,6 +58180,12 @@
 					"type": "integer",
 					"description": "未检测监控总数",
 					"required": false
+				},
+				{
+					"key": "progress",
+					"type": "integer",
+					"description": "进度",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -57578,6 +58428,9 @@
 						},
 						{
 							"key": "17"
+						},
+						{
+							"key": "18"
 						}
 					]
 				}
@@ -57748,6 +58601,9 @@
 						},
 						{
 							"key": "17"
+						},
+						{
+							"key": "18"
 						}
 					]
 				}
@@ -59366,6 +60222,12 @@
 					"in": "path"
 				},
 				{
+					"key": "Type",
+					"description": "类型，摄像头 0 组 1",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "StartTime",
 					"type": "string",
 					"description": "开始时间",
@@ -59380,8 +60242,9 @@
 					"in": "query"
 				},
 				{
-					"key": "Type",
-					"description": "类型，摄像头 0 组 1",
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
 					"default": null,
 					"in": "query"
 				},
@@ -62143,6 +63006,12 @@
 					"in": "path"
 				},
 				{
+					"key": "Type",
+					"description": "类型，摄像头 0 组 1",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "StartTime",
 					"type": "string",
 					"description": "开始时间",
@@ -62157,8 +63026,9 @@
 					"in": "query"
 				},
 				{
-					"key": "Type",
-					"description": "类型，摄像头 0 组 1",
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
 					"default": null,
 					"in": "query"
 				},
@@ -65072,7 +65942,7 @@
 				{
 					"key": "isRepeat",
 					"type": "boolean",
-					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"description": "是否支持重复数据上报,false不支持，true支持",
 					"required": false
 				},
 				{
@@ -65550,7 +66420,7 @@
 				{
 					"key": "isRepeat",
 					"type": "boolean",
-					"description": "是否支持重复数据上报,0不支持，1支持，默认不支持",
+					"description": "是否支持重复数据上报,false不支持，true支持",
 					"required": false
 				},
 				{
