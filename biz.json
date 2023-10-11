@@ -5220,20 +5220,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -5294,6 +5280,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -8934,6 +8934,70 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/search/resource",
+			"tag": "Search",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索（联系人、组、监控、视频会议终端）",
+			"version": "v1",
+			"methodName": "queryResource",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Limit",
+					"type": "integer",
+					"description": "搜索数量范围(单一资源和群组资源数量不共享)",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "resources",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "resourceGroups",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Statistical/events",
@@ -53870,7 +53934,7 @@
 			"tag": "CameraGroups",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "根据父Id获取组监控",
+			"summary": "根据父Id获取监控组",
 			"version": "v1",
 			"methodName": "getChildrenCameraGroupsById",
 			"operationId": "GetChildrenCameraGroups",
@@ -54326,6 +54390,126 @@
 					"type": "array",
 					"description": "记录",
 					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/CameraGroups/advance_search",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "监控组和监控搜索",
+			"version": "v1",
+			"methodName": "searchGroupAndCamera",
+			"parameters": [
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "GroupType",
+					"type": "integer",
+					"description": "资源所属监控组类型,0表示搜索全部，1是国标资源，2是预案资源，4是本地资源，支持多种资源搜索，比如输入5，5=1+4，搜索国标资源和本地资源",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Status",
+					"type": "integer",
+					"description": "监控状态，0表示搜索全部；1是离线；2是在线；4是下级域离线后设备离线；8是设备在录像，设备一般为 IPC；支持多种资源搜索，比如输入5，5=1+4，搜索离线和下级域离线后设备离线，该参数限制0-15",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Quality",
+					"type": "array",
+					"description": "质量",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Resolution",
+					"type": "array",
+					"description": "分辨率",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Encode",
+					"type": "array",
+					"description": "压缩格式",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Audio",
+					"type": "boolean",
+					"description": "是否有音频",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "LabelIds",
+					"type": "array",
+					"description": "标签",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "searchGroupOut",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "searchCameraOut",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -55320,86 +55504,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/Cameras/area_query",
-			"tag": "Cameras",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "监控搜索（区域搜索）",
-			"version": "v1",
-			"methodName": "getCamerasByArea",
-			"operationId": "GetCamerasByArea",
-			"parameters": [
-				{
-					"key": "UpLeft.Longitude",
-					"type": "number",
-					"description": "经度",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "UpLeft.Latitude",
-					"type": "number",
-					"description": "纬度",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "BottomRight.Longitude",
-					"type": "number",
-					"description": "经度",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "BottomRight.Latitude",
-					"type": "number",
-					"description": "纬度",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
 			"url": "/api/Cameras/circle_area",
 			"tag": "Cameras",
 			"subBiz": null,
@@ -55874,6 +55978,86 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Cameras/area_query",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "监控搜索（区域搜索）",
+			"version": "v1",
+			"methodName": "getCamerasByArea",
+			"operationId": "GetCamerasByArea",
+			"parameters": [
+				{
+					"key": "UpLeft.Longitude",
+					"type": "number",
+					"description": "经度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "UpLeft.Latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "BottomRight.Longitude",
+					"type": "number",
+					"description": "经度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "BottomRight.Latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Cameras/search",
@@ -58439,6 +58623,63 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/CurrentDomains",
+			"tag": "CurrentDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取国标本级域信息",
+			"version": "v1",
+			"methodName": "getCurrentDomains",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "gbId",
+					"type": "string",
+					"description": "GB ID",
+					"required": false
+				},
+				{
+					"key": "serverIp",
+					"type": "string",
+					"description": "服务器 IP 地址",
+					"required": false
+				},
+				{
+					"key": "sipPort",
+					"type": "integer",
+					"description": "SIP 端口号",
+					"required": false
+				},
+				{
+					"key": "sipProtocolType",
+					"type": "integer",
+					"description": "SIP协议类型(0:UDP;1:TCP;2:UDP/TCP同时支持)",
+					"required": false
+				},
+				{
+					"key": "httpPort",
+					"type": "integer",
+					"description": "HTTP 端口号",
+					"required": false
+				},
+				{
+					"key": "publicNetworkIp",
+					"type": "string",
+					"description": "公网 IP 地址",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/DetectionTasks/{id}/pause",
 			"tag": "DetectionTasks",
 			"subBiz": null,
@@ -60140,7 +60381,7 @@
 				{
 					"key": "timeRemaining",
 					"type": "integer",
-					"description": "同步剩余时间，单位/毫秒",
+					"description": "同步剩余时间，单位/秒",
 					"required": false
 				},
 				{
@@ -60374,7 +60615,7 @@
 				{
 					"key": "timeRemaining",
 					"type": "integer",
-					"description": "同步剩余时间，单位/毫秒",
+					"description": "同步剩余时间，单位/秒",
 					"required": false
 				},
 				{
@@ -62823,7 +63064,7 @@
 				{
 					"key": "timeRemaining",
 					"type": "integer",
-					"description": "同步剩余时间，单位/毫秒",
+					"description": "同步剩余时间，单位/秒",
 					"required": false
 				},
 				{
@@ -63059,7 +63300,7 @@
 				{
 					"key": "timeRemaining",
 					"type": "integer",
-					"description": "同步剩余时间，单位/毫秒",
+					"description": "同步剩余时间，单位/秒",
 					"required": false
 				},
 				{
@@ -63296,6 +63537,61 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/LowerDomains/{id}/syncTaskHistories",
+			"tag": "LowerDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "同步历史记录分页查询",
+			"version": "v1",
+			"methodName": "getLowerDomainsSyncHistories",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/LowerDomains/batch",
 			"tag": "LowerDomains",
 			"subBiz": null,
@@ -63351,61 +63647,6 @@
 				}
 			],
 			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/LowerDomains/{id}/syncTaskHistories",
-			"tag": "LowerDomains",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "同步历史记录分页查询",
-			"version": "v1",
-			"methodName": "getLowerDomainsSyncHistories",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
 			"requestBody": null
 		},
 		{
@@ -67120,6 +67361,170 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/UpperDomains/syncTaskHistories/{id}",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据同步记录id查询上级域历史同步记录",
+			"version": "v1",
+			"methodName": "getUpperSyncTaskHistoryById",
+			"operationId": "GetUpperSyncTaskHistoryById",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "catalogsNum",
+					"type": "integer",
+					"description": "信令同步目录数量值",
+					"required": false
+				},
+				{
+					"key": "actualCatalogsNum",
+					"type": "integer",
+					"description": "实际同步目录数量",
+					"required": false
+				},
+				{
+					"key": "addNum",
+					"type": "integer",
+					"description": "添加数量",
+					"required": false
+				},
+				{
+					"key": "updateNum",
+					"type": "integer",
+					"description": "修改数量",
+					"required": false
+				},
+				{
+					"key": "deleteNum",
+					"type": "integer",
+					"description": "删除数量",
+					"required": false
+				},
+				{
+					"key": "conflictNum",
+					"type": "integer",
+					"description": "冲突数量",
+					"required": false
+				},
+				{
+					"key": "time",
+					"type": "string",
+					"description": "同步耗时",
+					"required": false
+				},
+				{
+					"key": "offlineNum",
+					"type": "integer",
+					"description": "离线数量",
+					"required": false
+				},
+				{
+					"key": "onlineNum",
+					"type": "integer",
+					"description": "在线数量",
+					"required": false
+				},
+				{
+					"key": "cameraTotal",
+					"type": "integer",
+					"description": "监控总数",
+					"required": false
+				},
+				{
+					"key": "groupTotal",
+					"type": "integer",
+					"description": "监控组总数",
+					"required": false
+				},
+				{
+					"key": "groupId",
+					"type": "string",
+					"description": "指定的目录",
+					"required": false
+				},
+				{
+					"key": "groupName",
+					"type": "string",
+					"description": "目录名称",
+					"required": false
+				},
+				{
+					"key": "taskId",
+					"type": "string",
+					"description": "同步任务id",
+					"required": false
+				},
+				{
+					"key": "startTime",
+					"type": "string",
+					"description": "同步任务开始时间",
+					"required": false
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "同步任务结束时间",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "同步状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "同步结束，0为成功，其他为错误码",
+					"required": false
+				},
+				{
+					"key": "sipServerId",
+					"type": "string",
+					"description": "同步上/下级Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "syncType",
+					"type": "integer",
+					"description": "同步类型0-全量同步1-增量同步2-目录同步",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "hasConflictData",
+					"type": "boolean",
+					"description": "是否有冲突数据",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/UpperDomains/{id}/syncTaskHistories",
 			"tag": "UpperDomains",
 			"subBiz": null,
@@ -67847,6 +68252,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "groupType",
+					"type": "integer",
+					"description": "资源所属监控组类型，0表示搜索全部,1是国标资源，2是预案资源，4是本地资源，支持多种资源搜索，比如输入5，5=1+4，搜索国标资源和本地资源",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "pageIndex",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -67858,6 +68270,1266 @@
 					"type": "integer",
 					"description": "页容量",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加国标监控终端",
+			"version": "v2",
+			"methodName": "addGbCamera",
+			"operationId": "AddGbCamera",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "videoEncoder",
+					"type": "integer",
+					"description": "视频编码类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resolution",
+					"type": "integer",
+					"description": "分辨率",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "audio",
+					"type": "boolean",
+					"description": "是否有音频",
+					"required": false
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resultDetail",
+					"type": "object",
+					"description": "图片质量",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						},
+						{
+							"key": "9"
+						},
+						{
+							"key": "10"
+						},
+						{
+							"key": "11"
+						},
+						{
+							"key": "12"
+						},
+						{
+							"key": "13"
+						}
+					]
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "监控名字路径",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "监控ID路径",
+					"required": false
+				},
+				{
+					"key": "order",
+					"type": "integer",
+					"description": "排序字段",
+					"required": false
+				},
+				{
+					"key": "detectionCount",
+					"type": "integer",
+					"description": "巡检的次数",
+					"required": false
+				},
+				{
+					"key": "faultDetail",
+					"type": "integer",
+					"description": "质量故障的错误码：http://git.rdapp.com/product/knowledge-planet/issues/818",
+					"required": false
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "是否是手动设置",
+					"required": false
+				},
+				{
+					"key": "labels",
+					"type": "array",
+					"description": "标签",
+					"required": false
+				},
+				{
+					"key": "audioEncodingFormat",
+					"type": "string",
+					"description": "音频编码属性",
+					"required": false
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以进行云台控制",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false
+				},
+				{
+					"key": "originalName",
+					"type": "string",
+					"description": "原始名称",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "监控状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "thumbnailID",
+					"type": "string",
+					"description": "图片id",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "lowerDomainId",
+					"type": "string",
+					"description": "下级域Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "videoChannelId",
+					"type": "string",
+					"description": "视频通道标识",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "ipAddress",
+					"type": "string",
+					"description": "IP地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeatCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "maxHeartbeatTimeoutCount",
+					"type": "integer",
+					"description": "最大心跳超时次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isPublicNetwork",
+					"type": "boolean",
+					"description": "是否公网",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isAuth",
+					"type": "boolean",
+					"description": "是否启用认证",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/{id}",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新国标监控终端",
+			"version": "v2",
+			"methodName": "updateGbCamera",
+			"operationId": "UpdateGbCamera",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "True手动检测/ false智能检测，可为null，为null表示不修改",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "监控标签id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "ipAddress",
+					"type": "string",
+					"description": "IP地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "integer",
+					"description": "端口",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "heartbeatCycle",
+					"type": "integer",
+					"description": "心跳周期",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "maxHeartbeatTimeoutCount",
+					"type": "integer",
+					"description": "最大心跳超时次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "sipTransProtocol",
+					"type": "integer",
+					"description": "SIP传输协议类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpSendType",
+					"type": "integer",
+					"description": "国标流媒体向下级发流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "rtpRecvType",
+					"type": "integer",
+					"description": "国标流媒体收流协议",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isPublicNetwork",
+					"type": "boolean",
+					"description": "是否公网",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isAuth",
+					"type": "boolean",
+					"description": "是否启用认证",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/nonstandard",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加非标终端(包括视频推/拉流两种类型)",
+			"version": "v2",
+			"methodName": "addNonStandardCamera",
+			"operationId": "AddNonStandardCamera",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "videoEncoder",
+					"type": "integer",
+					"description": "视频编码类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resolution",
+					"type": "integer",
+					"description": "分辨率",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "audio",
+					"type": "boolean",
+					"description": "是否有音频",
+					"required": false
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resultDetail",
+					"type": "object",
+					"description": "图片质量",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						},
+						{
+							"key": "9"
+						},
+						{
+							"key": "10"
+						},
+						{
+							"key": "11"
+						},
+						{
+							"key": "12"
+						},
+						{
+							"key": "13"
+						}
+					]
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "监控名字路径",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "监控ID路径",
+					"required": false
+				},
+				{
+					"key": "order",
+					"type": "integer",
+					"description": "排序字段",
+					"required": false
+				},
+				{
+					"key": "detectionCount",
+					"type": "integer",
+					"description": "巡检的次数",
+					"required": false
+				},
+				{
+					"key": "faultDetail",
+					"type": "integer",
+					"description": "质量故障的错误码：http://git.rdapp.com/product/knowledge-planet/issues/818",
+					"required": false
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "是否是手动设置",
+					"required": false
+				},
+				{
+					"key": "labels",
+					"type": "array",
+					"description": "标签",
+					"required": false
+				},
+				{
+					"key": "audioEncodingFormat",
+					"type": "string",
+					"description": "音频编码属性",
+					"required": false
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以进行云台控制",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false
+				},
+				{
+					"key": "originalName",
+					"type": "string",
+					"description": "原始名称",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "监控状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "thumbnailID",
+					"type": "string",
+					"description": "图片id",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pullAddress",
+					"type": "string",
+					"description": "拉流地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/nonstandard/{id}",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新非标监控终端",
+			"version": "v2",
+			"methodName": "updateNonStandardCamera",
+			"operationId": "UpdateNonStandardCamera",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "pullAddress",
+					"type": "string",
+					"description": "拉流地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "True手动检测/ false智能检测，可为null，为null表示不修改",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "监控标签id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/virtual",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加视频文件虚拟终端",
+			"version": "v2",
+			"methodName": "addVirtualFile",
+			"operationId": "AddVirtualFile",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "videoEncoder",
+					"type": "integer",
+					"description": "视频编码类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resolution",
+					"type": "integer",
+					"description": "分辨率",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "audio",
+					"type": "boolean",
+					"description": "是否有音频",
+					"required": false
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resultDetail",
+					"type": "object",
+					"description": "图片质量",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						},
+						{
+							"key": "9"
+						},
+						{
+							"key": "10"
+						},
+						{
+							"key": "11"
+						},
+						{
+							"key": "12"
+						},
+						{
+							"key": "13"
+						}
+					]
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "监控名字路径",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "监控ID路径",
+					"required": false
+				},
+				{
+					"key": "order",
+					"type": "integer",
+					"description": "排序字段",
+					"required": false
+				},
+				{
+					"key": "detectionCount",
+					"type": "integer",
+					"description": "巡检的次数",
+					"required": false
+				},
+				{
+					"key": "faultDetail",
+					"type": "integer",
+					"description": "质量故障的错误码：http://git.rdapp.com/product/knowledge-planet/issues/818",
+					"required": false
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "是否是手动设置",
+					"required": false
+				},
+				{
+					"key": "labels",
+					"type": "array",
+					"description": "标签",
+					"required": false
+				},
+				{
+					"key": "audioEncodingFormat",
+					"type": "string",
+					"description": "音频编码属性",
+					"required": false
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以进行云台控制",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false
+				},
+				{
+					"key": "originalName",
+					"type": "string",
+					"description": "原始名称",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "监控状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "thumbnailID",
+					"type": "string",
+					"description": "图片id",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "fileUrl",
+					"type": "string",
+					"description": "视频文件地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/virtual/{id}",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新虚拟终端",
+			"version": "v2",
+			"methodName": "updateVirtualFileCamera",
+			"operationId": "UpdateVirtualFileCamera",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "fileUrl",
+					"type": "string",
+					"description": "视频文件地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "监控别名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "quality",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isManual",
+					"type": "boolean",
+					"description": "True手动检测/ false智能检测，可为null，为null表示不修改",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "监控标签id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/id",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "生成国标 Id",
+			"version": "v2",
+			"methodName": "generateGbId",
+			"operationId": "GenerateGbId",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "gbId",
+					"type": "string",
+					"description": "国标 Id",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "国标Id类型",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -70495,13 +72167,6 @@
 			"methodName": "getMcuData",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -70513,6 +72178,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -71104,6 +72776,70 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Search",
+			"tag": "Search",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取符合查询条件的终端和终端组",
+			"version": "v1",
+			"methodName": "searchTerminalAndGroup",
+			"parameters": [
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "模糊匹配关键字",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "MaxTotalCount",
+					"type": "integer",
+					"description": "最多查询总数",
+					"default": 50,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "terminals",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "groups",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/TerminalOrganizations/{id}/terminals",
 			"tag": "TerminalOrganizations",
 			"subBiz": null,
@@ -71121,13 +72857,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -71139,6 +72868,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -88803,7 +90539,15 @@
 			"summary": "查询资源库树",
 			"version": "v1",
 			"methodName": "getResourceDbTree",
-			"parameters": null,
+			"parameters": [
+				{
+					"key": "ProductId",
+					"type": "string",
+					"description": "ProductId",
+					"default": null,
+					"in": "query"
+				}
+			],
 			"responses": [
 				{
 					"key": "id",
@@ -88979,6 +90723,13 @@
 					"description": "拓展信息",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "ProductId",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -89141,6 +90892,13 @@
 					"key": "extension",
 					"type": "string",
 					"description": "拓展信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "ProductId",
 					"required": false,
 					"in": "requestBody"
 				}
