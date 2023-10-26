@@ -5220,6 +5220,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -5280,20 +5294,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -8233,6 +8233,99 @@
 					"key": "isMatchNullAreaCode",
 					"type": "boolean",
 					"description": "是否匹配空区域码的预案",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Projects",
+			"tag": "Projects",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增项目",
+			"version": "v1",
+			"methodName": "addProject",
+			"operationId": "CreateProject",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "totalMetadataCount",
+					"type": "integer",
+					"description": "元数据统计总数",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "项目描述",
+					"required": false
+				},
+				{
+					"key": "themes",
+					"type": "array",
+					"description": "项目专题列表",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "ResourceId",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "项目名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -14172,35 +14265,6 @@
 			]
 		},
 		{
-			"url": "/api/CallBiz",
-			"tag": "CallBiz",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "呼叫",
-			"version": "v1",
-			"methodName": "callBiz",
-			"parameters": [
-				{
-					"key": "caller",
-					"type": "string",
-					"description": "",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "called",
-					"type": "string",
-					"description": "",
-					"required": true,
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
 			"url": "/api/ClientContext",
 			"tag": "ClientContext",
 			"subBiz": null,
@@ -14500,6 +14564,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					]
 				},
@@ -14551,6 +14618,13 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
 			"requestBody": [
@@ -14735,6 +14809,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -14766,6 +14843,14 @@
 					"type": "boolean",
 					"description": "",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null,
 					"in": "requestBody"
 				}
 			]
@@ -14997,6 +15082,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					]
 				},
@@ -15048,8 +15136,43 @@
 					"type": "string",
 					"description": "会议开启时间",
 					"required": false
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "语音会议模式 0:自由模式；1：对讲模式0:Default,自由模式; 1:Talkback,对讲模式; ",
+					"required": false,
+					"details": null
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/ConferenceBiz/conference/{id}",
+			"tag": "ConferenceBiz",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "切换会议模式",
+			"version": "v1",
+			"methodName": "changeConferenceMode",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "mode",
+					"type": "integer",
+					"description": "0:自由模式；1：对讲模式",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -15185,6 +15308,12 @@
 					"description": "0:Running,通话状态; 1:CallOut,呼叫正在呼出, 被叫还没有振铃; 2:Calling,呼叫状态; 3:Alerting,振铃状态; 4:Idle,空闲状态; 5:Unknow,未知状态; ",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "photoPath",
+					"type": "string",
+					"description": "头像",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -15306,6 +15435,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -15506,6 +15638,12 @@
 					"type": "string",
 					"description": "关联的联系人ID",
 					"required": false
+				},
+				{
+					"key": "photoPath",
+					"type": "string",
+					"description": "头像",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -15616,6 +15754,13 @@
 					"in": "query"
 				},
 				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台Id",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -15662,6 +15807,13 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "platformId",
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": [
@@ -15828,6 +15980,13 @@
 					"key": "ConferenceID",
 					"type": "string",
 					"description": "会议ID",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台id",
 					"default": null,
 					"in": "query"
 				},
@@ -17471,6 +17630,9 @@
 						},
 						{
 							"key": "9"
+						},
+						{
+							"key": "10"
 						}
 					]
 				},
@@ -17558,6 +17720,13 @@
 					"key": "Keyword",
 					"type": "string",
 					"description": "关键字搜索（搜索短信内容）",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PlatformId",
+					"type": "string",
+					"description": "分级平台Id",
 					"default": null,
 					"in": "query"
 				},
@@ -17658,6 +17827,231 @@
 					"type": "string",
 					"description": "短信内容",
 					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Messages/templates",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "按条件查询短信模板",
+			"version": "v1",
+			"methodName": "getMessageTemplates",
+			"parameters": [
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Messages/templates",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新建短信模板",
+			"version": "v1",
+			"methodName": "addMessageTemplate",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "stationId",
+					"type": "string",
+					"description": "节点ID",
+					"required": false
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "模板内容",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "模板内容",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "配置信息",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Messages/templates/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取短信模板",
+			"version": "v1",
+			"methodName": "getMessageTemplateById",
+			"operationId": "GetTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "stationId",
+					"type": "string",
+					"description": "节点ID",
+					"required": false
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "模板内容",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Messages/templates/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改短信模板",
+			"version": "v1",
+			"methodName": "editMessageTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "模板内容",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "配置信息",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Messages/templates/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除短信模板",
+			"version": "v1",
+			"methodName": "deleteMessageTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/Messages/conversations/{id}",
+			"tag": "Messages",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "修改短信会话名称",
+			"version": "v1",
+			"methodName": "editMessageSessionName",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "短信会话名称",
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -18153,6 +18547,9 @@
 						},
 						{
 							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -19500,7 +19897,7 @@
 					"key": "name",
 					"type": "string",
 					"description": "模板名称",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -19515,10 +19912,58 @@
 					"key": "content",
 					"type": "string",
 					"description": "文本内容",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/TextTemplates/{id}",
+			"tag": "TextTemplates",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过ID获取文本模板",
+			"version": "v1",
+			"methodName": "getTextTemplateById",
+			"operationId": "GetTextTemplate",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "主键id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "模板名称",
+					"required": false
+				},
+				{
+					"key": "textTemplateType",
+					"type": "integer",
+					"description": "模板类型，0：语音通知，1：短信通知，2：即时消息通知0:RecordNotify,语音通知; 1:ShortMessage,短信息; 2:InstantMessaging,即时消息; -1:All,全部; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "文本内容",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/TextTemplates/{id}",
@@ -19544,7 +19989,7 @@
 					"key": "name",
 					"type": "string",
 					"description": "模板名称",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				},
 				{
@@ -19559,7 +20004,7 @@
 					"key": "content",
 					"type": "string",
 					"description": "文本内容",
-					"required": false,
+					"required": true,
 					"in": "requestBody"
 				}
 			]
@@ -19572,169 +20017,6 @@
 			"summary": "删除文本模板",
 			"version": "v1",
 			"methodName": "deleteTextTemplates",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/VillageProjectBroadcast/tasks",
-			"tag": "VillageProjectBroadcast",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "查询进行中的广播任务",
-			"version": "v1",
-			"methodName": "getBroadcastTasks",
-			"parameters": null,
-			"responses": [
-				{
-					"key": "data",
-					"type": "array",
-					"description": "",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/VillageProjectBroadcast/tasks",
-			"tag": "VillageProjectBroadcast",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "发布广播任务",
-			"version": "v1",
-			"methodName": "addBroadcastTask",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "deviceIds",
-					"type": "array",
-					"description": "广播的设备id",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "content",
-					"type": "string",
-					"description": "广播内容",
-					"required": true,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/VillageProjectBroadcast/devices",
-			"tag": "VillageProjectBroadcast",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "查询所有广播设备",
-			"version": "v1",
-			"methodName": "getBroadcastDevices",
-			"parameters": null,
-			"responses": [
-				{
-					"key": "name",
-					"type": "string",
-					"description": "河背村-1",
-					"required": false
-				},
-				{
-					"key": "pId",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "id",
-					"type": "string",
-					"description": "",
-					"required": false
-				},
-				{
-					"key": "deviceInfo",
-					"type": "object",
-					"description": "设备信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						},
-						{
-							"key": "3"
-						},
-						{
-							"key": "4"
-						},
-						{
-							"key": "5"
-						},
-						{
-							"key": "6"
-						},
-						{
-							"key": "7"
-						},
-						{
-							"key": "8"
-						},
-						{
-							"key": "9"
-						},
-						{
-							"key": "10"
-						},
-						{
-							"key": "11"
-						},
-						{
-							"key": "12"
-						},
-						{
-							"key": "13"
-						},
-						{
-							"key": "14"
-						},
-						{
-							"key": "15"
-						},
-						{
-							"key": "16"
-						}
-					]
-				},
-				{
-					"key": "child",
-					"type": "array",
-					"description": "",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/VillageProjectBroadcast/tasks/{id}",
-			"tag": "VillageProjectBroadcast",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "结束广播任务",
-			"version": "v1",
-			"methodName": "deleteBroadcastTask",
 			"parameters": [
 				{
 					"key": "id",
@@ -44460,6 +44742,88 @@
 			]
 		},
 		{
+			"url": "/api/GeoConfigs/{productId}/mapConfig",
+			"tag": "GeoConfigs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据产品Id获取地图默认配置（基础配置、图层配置、效果配置）",
+			"version": "v1",
+			"methodName": "getMapConfigByProductId",
+			"operationId": "GetMapConfigByProductId",
+			"parameters": [
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "productId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": [
+				{
+					"key": "geoConfig",
+					"type": "object",
+					"description": "图层配置实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						},
+						{
+							"key": "9"
+						},
+						{
+							"key": "10"
+						},
+						{
+							"key": "11"
+						},
+						{
+							"key": "12"
+						}
+					]
+				},
+				{
+					"key": "geoEffectConfigs",
+					"type": "array",
+					"description": "地图效果配置",
+					"required": false
+				},
+				{
+					"key": "layerConfigs",
+					"type": "array",
+					"description": "地图图层配置",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/GeoConfigs/effect",
 			"tag": "GeoConfigs",
 			"subBiz": null,
@@ -46606,26 +46970,6 @@
 				}
 			],
 			"requestBody": null
-		},
-		{
-			"url": "/api/Layers",
-			"tag": "Layers",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "根据Id集合或number集合批量删除图层",
-			"version": "v1",
-			"methodName": "batchDeleteLayers",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "ids",
-					"type": "array",
-					"description": "Id 集合",
-					"required": true,
-					"in": "requestBody"
-				}
-			]
 		},
 		{
 			"url": "/api/Plots/{id}",
@@ -72056,13 +72400,6 @@
 			"methodName": "getMcuData",
 			"parameters": [
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -72074,6 +72411,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
@@ -72746,13 +73090,6 @@
 					"in": "path"
 				},
 				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				},
-				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -72764,6 +73101,13 @@
 					"type": "integer",
 					"description": "页容量, [1, 128]",
 					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"default": null,
 					"in": "query"
 				}
 			],
