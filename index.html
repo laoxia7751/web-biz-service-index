@@ -2,7 +2,7 @@
  * @Author: xiajitao xiajitao@genew.com
  * @Date: 2023-08-01 16:37:29
  * @LastEditors: xiajitao xiajitao@genew.com
- * @LastEditTime: 2023-11-03 16:28:23
+ * @LastEditTime: 2023-11-07 15:24:53
  * @FilePath: falseweb-biz-service-indexfalseindex.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -12,11 +12,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="stylesheet" href="./assets/index.css" />
     <link href="./assets/tailwind.min.css" rel="stylesheet" />
+    <link href="./assets/style.css" rel="stylesheet" />
     <script src="./assets/vue.global.js"></script>
     <script src="./assets/index.full.js"></script>
     <title>web-biz-service请求库方法汇总</title>
   </head>
-  <body>
+  <body >
     <div id="app">
       <el-container style="height: 100vh">
         <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
@@ -30,8 +31,8 @@
           </el-menu>
         </el-aside>
         <el-container>
-          <el-header class="shadow-md flex justify-center items-center relative">
-            <div class="w-2/4 flex justify-center items-center">
+          <el-header class="flex justify-center items-center relative">
+            <!-- <div class="w-2/4 flex justify-center items-center">
               <el-select v-model="searchType" size="large" placeholder="请选择搜索类型">
                 <el-option label="请求名称" value="1"></el-option>
                 <el-option label="请求URL" value="2"></el-option>
@@ -40,11 +41,39 @@
               <el-input size="large" placeholder="请输入内容" v-model="searchValue" class="input-with-select" clearable @change="search" @clear="search"> </el-input>
               <el-button size="large" type="primary" @click="search">搜索</el-button>
               <el-button size="large" plain type="primary" @click="reset">重置</el-button>
+            </div> -->
+            <div class="w-1/3 flex justify-center items-center">
+              <div class="absolute top-1/2 left-10 transform -translate-y-2/4">
+                <el-tag class="" type="danger">版本：1.6.22</el-tag>
+              </div>
+              <el-input
+                v-model="searchValue"
+                placeholder="请输入"
+                class="input-with-select"
+                clearable @change="search" @clear="search"
+              >
+                <template #prepend>
+                  <el-select v-model="searchType" placeholder="Select" style="width: 115px">
+                    <el-option label="请求名称" value="1"></el-option>
+                    <el-option label="请求URL" value="2"></el-option>
+                    <el-option label="请求描述" value="3"></el-option>
+                  </el-select>
+                </template>
+                <template #append>
+                  <el-button @click="search">搜索</el-button>
+                </template>
+              </el-input>
             </div>
             <div class="absolute top-1/2 right-10 transform -translate-y-2/4">
-              <el-tag class="" type="primary">版本：1.6.22</el-tag>
-              　
-              <el-link class="" type="primary" href="https://greasyfork.org/zh-CN/scripts/450328-swaggerskiptocustommethods" target="_blank">油猴脚本工具</el-link>
+              <el-link  type="info" href="https://greasyfork.org/zh-CN/scripts/450328-swaggerskiptocustommethods" target="_blank">油猴脚本工具</el-link>
+              &nbsp;
+              <el-switch
+                v-model="dark"
+                inline-prompt
+                active-text="☀️"
+                inactive-text="🌙"
+                @change="setDefaultShowType"
+              />
             </div>
           </el-header>
           <el-main>
@@ -73,14 +102,14 @@
               <el-table-column label="所属模块" prop="bizName" width="280px">
                 <template #default="scope">
                   <el-tag>{{scope.row.subBiz || scope.row.bizName}}</el-tag> -
-                  <span class="text-sm text-gray-600">{{descMap[scope.row.subBiz || scope.row.bizName]?.desc || ''}}</span>
+                  <span class="text-sm muduleLabel">{{descMap[scope.row.subBiz || scope.row.bizName]?.desc || ''}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="请求描述" prop="summary"> </el-table-column>
               <el-table-column label="请求URL" prop="url"> </el-table-column>
               <el-table-column label="请求类型" prop="methods" width="150px">
                 <template #default="scope">
-                  <el-tag size="large" :type="methodColorType[scope.row.methods]" effect="dark">{{scope.row.methods.toUpperCase()}}</el-tag>
+                  <el-tag size="small" :type="methodColorType[scope.row.methods]" effect="dark">{{scope.row.methods.toUpperCase()}}</el-tag>
                 </template>
               </el-table-column>
 
@@ -89,9 +118,10 @@
                   <el-tag>{{scope.row.version}}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="文档地址" align="center" width="150px">
+              <el-table-column label="操作" align="center" width="150px">
                 <template #default="scope">
-                  <el-link type="info" @click="skipSwagger(scope.row)" v-if="descMap[scope.row.bizName]?.doc">查看</el-link>
+                  <el-button size="small" type="primary" @click.stop="skipSwagger(scope.row)" v-if="descMap[scope.row.bizName]?.doc">查看</el-button>
+                  <el-button size="small" type="warning"  @click.stop="copyName(scope.row)" v-if="descMap[scope.row.bizName]?.doc">复制</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -110,6 +140,7 @@
               this.search();
               this.loading = false;
             });
+            document.querySelector('html').setAttribute('data-theme', this.dark ? 'dark' : 'light');
         },
         data() {
           return {
@@ -127,41 +158,42 @@
             expands: [],
             // 加载
             loading: true,
+            // 暗黑模式
+            dark: localStorage.getItem('dark') === 'true',
           };
         },
         computed: {
           // biz模块信息说明
           descMap() {
             return {
-              gcsBiz: { desc: 'GPS点位服务', doc: 'http://10.8.109.235:7319' },
-              cgsBiz: { desc: '认知服务(文字转语音)', doc: 'http://10.8.109.235:3378' },
-              mmtBiz: { desc: '拍传服务', doc: 'http://10.8.109.235:17599' },
-              aggsBiz: { desc: '聚合查询服务', doc: 'http://10.8.109.235:3885' },
-              authBiz: { desc: '认证授权服务', doc: 'http://10.8.109.235:9810' },
-              edmsBiz: { desc: '调度服务', doc: 'http://10.8.109.235:3333' },
-              orgsBiz: { desc: '组织架构服务', doc: 'http://10.8.109.232:10270' },
-              eventBiz: { desc: '事件服务', doc: 'http://10.8.109.235:3088' },
-              preplanBiz: { desc: '事件服务-预案', doc: 'http://10.8.109.235:3088' },
-              taskBiz: { desc: '事件服务-任务', doc: 'http://10.8.109.235:3088' },
-              associatedBiz: { desc: '事件服务-事件关联', doc: 'http://10.8.109.235:3088' },
-              viscsBiz: { desc: '可视化配置服务', doc: 'http://10.8.109.231:12360' },
-              alarmBiz: { desc: '告警服务', doc: 'http://10.8.109.235:20173' },
-              quartzBiz: { desc: '定时任务服务', doc: 'http://10.8.109.235:5198' },
-              geoDataBiz: { desc: '地理数据服务', doc: 'http://10.8.109.233:3098' },
-              fileStorageBiz: { desc: '文件存储服务', doc: 'http://10.8.109.235:17591' },
-              geoAnalysisBiz: { desc: '地理分析服务', doc: 'http://10.8.109.235:3099' },
-              preplanAnalysisBiz: { desc: '预案分析服务', doc: 'http://10.8.109.235:3089' },
-              modelAnalysisBiz: { desc: '模型分析服务', doc: 'http://10.8.109.235:20175' },
-              videoFusionServiceBiz: { desc: '视频融合服务', doc: 'http://10.8.109.235:3078' },
-              vcsBiz: { desc: '视频会议服务', doc: 'http://10.8.109.235:41303' },
-              auditBiz: { desc: '审计服务', doc: 'http://10.8.109.233:32537' },
-              assetBiz: { desc: '资产服务', doc: 'http://10.8.109.235:13735' },
-              rrsBiz: { desc: '资源关联服务', doc: 'http://10.8.109.235:54229' },
-              alertsPlatformBiz: { desc: '告警平台服务', doc: 'http://10.8.109.235:20080' },
-              scheduleBiz: { desc: '日程服务', doc: 'http://10.8.109.235:38839' },
-              dcsBiz: { desc: '数据中台服务', doc: 'http://10.8.109.235:3079' },
-              facilityBiz: { desc: '设施服务层(不维护)', doc: 'http://10.8.109.235:3078' },
-              resourceBiz: { desc: '静态资源服务', doc: '' },
+              gcsBiz: { noSwagger:false, desc: 'GPS点位服务', doc: 'http://10.8.109.235:7319' },
+              cgsBiz: { noSwagger:false, desc: '认知服务(文字转语音)', doc: 'http://10.8.109.235:3378' },
+              mmtBiz: { noSwagger:false, desc: '拍传服务', doc: 'http://10.8.109.235:17599' },
+              aggsBiz: { noSwagger:true, desc: '聚合查询服务', doc: 'http://10.8.109.235:3885' },
+              authBiz: { noSwagger:false, desc: '认证授权服务', doc: 'http://10.8.109.235:9810' },
+              edmsBiz: { noSwagger:false, desc: '调度服务', doc: 'http://10.8.109.235:3333' },
+              orgsBiz: { noSwagger:false, desc: '组织架构服务', doc: 'http://10.8.109.232:10270' },
+              eventBiz: { noSwagger:true, desc: '事件服务', doc: 'http://10.8.109.235:3088' },
+              preplanBiz: { noSwagger:true, desc: '事件服务-预案', doc: 'http://10.8.109.235:3088' },
+              taskBiz: { noSwagger:true, desc: '事件服务-任务', doc: 'http://10.8.109.235:3088' },
+              associatedBiz: { noSwagger:true, desc: '事件服务-事件关联', doc: 'http://10.8.109.235:3088' },
+              viscsBiz: { noSwagger:false, desc: '可视化配置服务', doc: 'http://10.8.109.231:12360' },
+              alarmBiz: { noSwagger:false, desc: '告警服务', doc: 'http://10.8.109.235:20173' },
+              quartzBiz: { noSwagger:false, desc: '定时任务服务', doc: 'http://10.8.109.235:5198' },
+              geoDataBiz: { noSwagger:false, desc: '地理数据服务', doc: 'http://10.8.109.233:3098' },
+              fileStorageBiz: { noSwagger:false, desc: '文件存储服务', doc: 'http://10.8.109.235:17591' },
+              geoAnalysisBiz: { noSwagger:false, desc: '地理分析服务', doc: 'http://10.8.109.235:3099' },
+              preplanAnalysisBiz: { noSwagger:false, desc: '预案分析服务', doc: 'http://10.8.109.235:3089' },
+              modelAnalysisBiz: { noSwagger:false, desc: '模型分析服务', doc: 'http://10.8.109.235:20175' },
+              videoFusionServiceBiz: { noSwagger:false, desc: '视频融合服务', doc: 'http://10.8.109.235:3078' },
+              vcsBiz: { noSwagger:false, desc: '视频会议服务', doc: 'http://10.8.109.235:41303' },
+              auditBiz: { noSwagger:false, desc: '审计服务', doc: 'http://10.8.109.233:32537' },
+              assetBiz: { noSwagger:true, desc: '资产服务', doc: 'http://10.8.109.235:13735' },
+              rrsBiz: { noSwagger:false, desc: '资源关联服务', doc: 'http://10.8.109.235:54229' },
+              alertsPlatformBiz: { noSwagger:false, desc: '告警平台服务', doc: 'http://10.8.109.235:20080' },
+              scheduleBiz: { noSwagger:false, desc: '日程服务', doc: 'http://10.8.109.235:38839' },
+              dcsBiz: { noSwagger:false, desc: '数据中台服务', doc: 'http://10.8.109.235:3079' },
+              resourceBiz: { noSwagger:false, desc: '静态资源服务', doc: '' },
             };
           },
           // 搜索关系映射
@@ -169,7 +201,7 @@
             return { 1: 'methodName', 2: 'url', 3: 'summary' }[this.searchType];
           },
           // 请求类型演示映射
-          methodColorType: () => ({ get: '', post: 'success', put: 'warning', delete: 'danger' }),
+          methodColorType: () => ({ get: 'info', post: 'success', put: 'warning', delete: 'danger' }),
         },
 
         methods: {
@@ -217,11 +249,19 @@
           },
           // 跳转文档地址
           skipSwagger(data) {
-            try {
-              let hash = `#operations-${data.tag}-${data?.operationId || data.methods + data.url.replace(/\/|\{|\}/g, '_')}`;
-              window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}${hash}`);
-            } catch (error) {
-              window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}`);
+           console.log("skipSwagger ~ data", data)
+            if(this.descMap[data.bizName]?.noSwagger){
+              let url = data.operationId ? 
+              `${this.descMap[data.bizName]?.doc}/index.html#/${data.version}/${data.tag}/${data.operationId}?x=1&methodName=${data.bizName}.${data.methodName}` : 
+              `${this.descMap[data.bizName]?.doc}/index.html#/?x=1&version=${data.version}&tag=${data.tag}&url=${data.url}&requestType=${data.methods.toUpperCase()}&methodName=${data.bizName}.${data.methodName}`
+              window.open(url);
+            } else {
+              try {
+                let hash = `#operations-${data.tag}-${data?.operationId || data.methods + data.url.replace(/\/|\{|\}/g, '_')}`;
+                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? 'urls.primaryName=' + data.version : ''}${hash}&methodName=${data.bizName}.${data.methodName}`);
+              } catch (error) {
+                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? 'urls.primaryName=' + data.version : ''}&methodName=${data.bizName}.${data.methodName}`);
+              }
             }
           },
           // 模糊匹配
@@ -264,6 +304,24 @@
               this.expands.push(row.methodName);
             }
           },
+          // 复制函数名
+          async copyName({methodName}){
+            try {
+              await navigator.clipboard.writeText(methodName);
+              this.$message({
+                type:'success',
+                message: '复制成功'
+              });
+            } catch (err) {
+              console.error('Failed to copy: ', err);
+            }
+          },
+          // 修改显示模式
+          setDefaultShowType(val) {
+            this.dark = val;
+            localStorage.setItem('dark', val);
+            document.querySelector('html').setAttribute('data-theme', val ? 'dark' : 'light');
+          }
         },
       };
       Vue.createApp(App).use(ElementPlus).mount('#app');
