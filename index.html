@@ -2,7 +2,7 @@
  * @Author: xiajitao xiajitao@genew.com
  * @Date: 2023-08-01 16:37:29
  * @LastEditors: xiajitao xiajitao@genew.com
- * @LastEditTime: 2023-11-07 15:24:53
+ * @LastEditTime: 2023-11-08 09:21:09
  * @FilePath: falseweb-biz-service-indexfalseindex.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -258,9 +258,9 @@
             } else {
               try {
                 let hash = `#operations-${data.tag}-${data?.operationId || data.methods + data.url.replace(/\/|\{|\}/g, '_')}`;
-                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? 'urls.primaryName=' + data.version : ''}${hash}&methodName=${data.bizName}.${data.methodName}`);
+                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}${hash}&methodName=${data.bizName}.${data.methodName}`);
               } catch (error) {
-                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? 'urls.primaryName=' + data.version : ''}&methodName=${data.bizName}.${data.methodName}`);
+                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}&methodName=${data.bizName}.${data.methodName}`);
               }
             }
           },
@@ -305,12 +305,13 @@
             }
           },
           // 复制函数名
-          async copyName({methodName}){
+          async copyName({bizName,methodName}){
             try {
-              await navigator.clipboard.writeText(methodName);
+              await navigator.clipboard.writeText(bizName+'.'+methodName+'()');
               this.$message({
                 type:'success',
-                message: '复制成功'
+                message: '复制成功',
+                duration: 1800
               });
             } catch (err) {
               console.error('Failed to copy: ', err);
