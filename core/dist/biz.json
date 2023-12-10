@@ -1,0 +1,232 @@
+{
+	"geoDataBiz": [
+		{
+			"url": "/api/Districts/analysis",
+			"tag": "Districts",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据条件分析获取对应行政区域",
+			"version": "v1",
+			"methodName": "",
+			"operationId": "GetDistrictsByAnalysis",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "coordinate",
+					"type": "object",
+					"description": "行政区域点位入参",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "useDefaultUserDistrict",
+					"type": "boolean",
+					"description": "是否使用默认的用户行政区域（用户区域权限内的最高层级权限）",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/MapTypeOverlays/format/url",
+			"tag": "MapTypeOverlays",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取地图服务转换后的地址",
+			"version": "v1",
+			"methodName": "",
+			"operationId": "GetUrlFormat",
+			"parameters": [
+				{
+					"key": "Url",
+					"type": "string",
+					"description": "url地址",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "NeedProxy",
+					"type": "boolean",
+					"description": "是否需要网络代理",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ProxyIp",
+					"type": "string",
+					"description": "代理Ip",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ProxyPort",
+					"type": "integer",
+					"description": "代理端口",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "urlFormat",
+					"type": "string",
+					"description": "格式化后的url地址",
+					"required": false
+				}
+			],
+			"requestBody": null
+		}
+	],
+	"vcsBiz": [
+		{
+			"url": "/api/PlatformData/default",
+			"tag": "PlatformData",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "切换当前的会议平台",
+			"version": "v1",
+			"methodName": "",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "platformID",
+					"type": "string",
+					"description": "平台id（不填使用默认平台）",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/PlatformData/default/joinedConfig",
+			"tag": "PlatformData",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取当前平台的音视频入会配置",
+			"version": "v1",
+			"methodName": "",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/PlatformData/host",
+			"tag": "PlatformData",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取全部平台的host信息",
+			"version": "v1",
+			"methodName": "",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "平台ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "平台名称",
+					"required": false
+				},
+				{
+					"key": "host",
+					"type": "string",
+					"description": "平台host",
+					"required": false
+				}
+			],
+			"requestBody": null
+		}
+	],
+	"dcsBiz": [
+		{
+			"url": "/api/ResourceDb/search",
+			"tag": "ResourceDb",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "通过productId获取资源库集合（带元数据和数据源）",
+			"version": "v1",
+			"methodName": "",
+			"operationId": "GetResourceDbsByProductId",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "产品Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		}
+	]
+}

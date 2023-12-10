@@ -1,0 +1,157 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/index.css" />
+    <link href="./assets/tailwind.min.css" rel="stylesheet" />
+    <link href="./assets/style.css" rel="stylesheet" />
+    <script src="./assets/vue.global.js"></script>
+    <script src="./assets/index.full.js"></script>
+	<script src="./assets/axios.min.js"></script>
+    <title>web-biz-service请求库管理</title>
+  </head>
+  <body>
+    <div id="admin">
+      <el-container style="height: 100vh">
+        <el-header>
+           <div class="logo">接口管理</div>
+           <div class="nav">
+            <div class="navItem" :class="{active: item.name === activeName}" v-for="item in menuItem" :key="item.name" @click="handleMenuClick(item)">{{item.label}}</div>
+           </div>
+        </el-header>
+        <el-main  v-loading="loading">
+            <div class="addContainer" v-if="activeName === 'add'">
+				<div class="tableContainer">
+					<div class="bizItem" v-for="(list, name) in newApi" :key="name">
+						<h4 class="bizName">{{name}}</h4>
+						<el-table :data="list" style="width: 100%">
+							<el-table-column type="expand">
+								<template v-slot="props">
+								  <el-row class="px-10 py-5">
+									<el-col :span="12">
+									  <el-descriptions title="请求参数" :column="1">
+										<el-descriptions-item :label="key" v-for="(value, key) in getParams(props.row)">{{value || ''}}</el-descriptions-item>
+									  </el-descriptions>
+									</el-col>
+									<el-col :span="12">
+									  <el-descriptions title="请求结果" :column="1">
+										<el-descriptions-item :label="key" v-for="(value, key) in getResponse(props.row)">{{value || ''}}</el-descriptions-item>
+									  </el-descriptions>
+									</el-col>
+								  </el-row>
+								</template>
+							</el-table-column>
+
+							<el-table-column prop="summary" label="接口描述"></el-table-column>
+							<el-table-column prop="url" label="url" width="350"></el-table-column>
+							<el-table-column prop="methods" label="请求类型" width="180">
+								<template #default="scope">
+									<el-tag size="small" :type="methodColorType[scope.row.methods]" effect="dark">{{scope.row.methods.toUpperCase()}}</el-tag>
+								</template>
+							</el-table-column>
+							<el-table-column prop="tag" label="标签" width="180"></el-table-column>
+							<el-table-column prop="version" label="version" width="120"></el-table-column>
+							<el-table-column prop="methodName" label="方法名" width="250">
+								<template #default="scope">
+									<el-input v-model="scope.row.methodName" placeholder="请输入" />
+								</template>
+							</el-table-column>
+							<el-table-column prop="operationId" label="operationId" width="200">
+								<template #default="scope" >
+									<el-button type="primary" size="small" v-if="scope.row.operationId">{{scope.row.operationId}}</el-button>
+								</template>
+							</el-table-column>
+							<el-table-column label="操作" width="180">
+								<template #default="scope">
+									<el-button type="primary" size="small" @click="operation('ignore',name,scope.$index)">忽略</el-button>
+									<el-button type="danger" size="small"  @click="operation('delete',name,scope.$index)">删除</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+					</div>
+				</div>
+				<div class="operation">
+					<el-button type="primary" size="large" @click="save">下一步</el-button>
+				</div>
+            </div>
+        </el-main>
+      </el-container>
+    </div>
+
+    <script>
+      const App = {
+        data() {
+            return {
+                activeName:'add',
+                newApi:{},
+                loading: false,
+				expands: [],
+            }
+        },
+        computed: {
+            menuItem(){
+                return [
+                    {label:'新增接口',name:'add'},
+                    {label:'管理旧接口',name:'manage'},
+                    {label:'查看',name:'preview'},
+            	]
+            },
+			// 请求类型演示映射
+			methodColorType: () => ({ get: 'info', post: 'success', put: 'warning', delete: 'danger' }),
+        },
+        methods: {
+            handleMenuClick({name}){
+                if(name === 'preview'){
+                    window.location.href = '/'
+                } else {
+                    this.activeName = name
+                }
+                if(name === 'add'){
+                  this.getNew()
+                }
+            },
+            getNew(){
+              	this.loading = true
+                fetch('/api/newApi').then(res => res.json()).then(res => {
+                    this.newApi = res.data || {}
+                }).finally(() => {
+                    this.loading = false
+                })
+            },
+			// 参数格式化
+			getParams(data) {
+				const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
+				return formatParamsData.reduce((obj, i) => {
+				let str = `参数类型：${i?.in === 'header' ? 'headers' : i.type} 参数说明：${i?.description || '空'} ${i?.default ? ' 默认值：' + i?.default : ''} ${i?.required ? '（必填）' : ''}`;
+				return { ...obj, [i.key]: str };
+				}, {});
+			},
+			// 响应格式化
+			getResponse(data) {
+				if (!data.responses) return {};
+				return data.responses.reduce((pre, i) => ({ ...pre, [i.key]: i.description }), {});
+			},
+			save(){
+
+			},
+			// 接口操作
+			async operation(scene,name, index){
+				// 将此接口永久忽略
+				if(scene === 'ignore'){
+					const data = this.newApi[name][index]
+					await axios.post('/api/ignore',{
+							bizName: name,
+							url: data.url,
+					})
+				}
+				// 此次编辑忽略此接口
+				if(scene === 'delete'){
+					this.$set(this.newApi,name, this.newApi[name].filter((_,i) => index !== i))
+				}
+			}
+        }
+      };
+      Vue.createApp(App).use(ElementPlus).mount('#admin');
+    </script>
+  </body>
+</html>
