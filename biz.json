@@ -1039,6 +1039,12 @@
 					"type": "string",
 					"description": "行政区域码",
 					"required": false
+				},
+				{
+					"key": "districtName",
+					"type": "string",
+					"description": "行政区域名",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -1230,6 +1236,13 @@
 					"description": "行政区域码前缀",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -1382,6 +1395,12 @@
 					"required": false
 				},
 				{
+					"key": "districtName",
+					"type": "string",
+					"description": "行政区域名",
+					"required": false
+				},
+				{
 					"key": "fileRecords",
 					"type": "array",
 					"description": "文件记录",
@@ -1417,6 +1436,42 @@
 			],
 			"responses": null,
 			"requestBody": null
+		},
+		{
+			"url": "/api/MultimediaTransfers/data_completion",
+			"tag": "MultimediaTransfers",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "拍传数据补全",
+			"version": "v1",
+			"methodName": "completeMultimediaTransfers",
+			"operationId": "CompleteData",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "beginTime",
+					"type": "string",
+					"description": "开始时间",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "endTime",
+					"type": "string",
+					"description": "结束时间",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Templates",
@@ -2461,12 +2516,6 @@
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "标识",
-					"required": false
-				},
-				{
 					"key": "assetType",
 					"type": "integer",
 					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
@@ -2474,15 +2523,15 @@
 					"details": null
 				},
 				{
-					"key": "assetMetrics",
-					"type": "array",
-					"description": "指标",
+					"key": "id",
+					"type": "string",
+					"description": "标识",
 					"required": false
 				},
 				{
-					"key": "alertRecords",
-					"type": "array",
-					"description": "告警记录",
+					"key": "resourceId",
+					"type": "string",
+					"description": "来源Id",
 					"required": false
 				},
 				{
@@ -2510,9 +2559,15 @@
 					"required": false
 				},
 				{
-					"key": "resourceId",
-					"type": "string",
-					"description": "来源Id",
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
+				},
+				{
+					"key": "alertRecords",
+					"type": "array",
+					"description": "告警记录",
 					"required": false
 				}
 			],
@@ -5657,6 +5712,24 @@
 					"required": false
 				},
 				{
+					"key": "confirmedTaskCount",
+					"type": "integer",
+					"description": "已确认的任务总数（父任务）",
+					"required": false
+				},
+				{
+					"key": "inProcessTaskCount",
+					"type": "integer",
+					"description": "进行中的任务总数（父任务）",
+					"required": false
+				},
+				{
+					"key": "pausedTaskCount",
+					"type": "integer",
+					"description": "暂停中的任务总数（父任务）",
+					"required": false
+				},
+				{
 					"key": "isDeleted",
 					"type": "boolean",
 					"description": "是否已被删除",
@@ -5730,6 +5803,20 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -5790,20 +5877,6 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
 					"in": "query"
 				},
 				{
@@ -6145,6 +6218,13 @@
 						}
 					],
 					"in": "requestBody"
+				},
+				{
+					"key": "isShowAlert",
+					"type": "boolean",
+					"description": "是否显示告警【默认不聚合设施告警】",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -6257,6 +6337,13 @@
 							"key": "1"
 						}
 					],
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowAlert",
+					"type": "boolean",
+					"description": "是否显示告警【默认不聚合设施告警】",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -6443,6 +6530,283 @@
 					"description": "排序类型0:AscendingByDistance,距离升序; 1:DescendingByDistance,距离降序; ",
 					"required": false,
 					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Facilities/{alertId}/Match",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过告警ID匹配所属设施",
+			"version": "v1",
+			"methodName": "getFacilitiesByAlertId",
+			"parameters": [
+				{
+					"key": "alertId",
+					"type": "integer",
+					"description": "alertId",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "resourceId",
+					"type": "string",
+					"description": "资源Id",
+					"required": false
+				},
+				{
+					"key": "layerId",
+					"type": "string",
+					"description": "图层Id",
+					"required": false
+				},
+				{
+					"key": "layerDetail",
+					"type": "object",
+					"description": "图层实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						}
+					]
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "详情",
+					"required": false
+				},
+				{
+					"key": "owner",
+					"type": "string",
+					"description": "设施负责人",
+					"required": false
+				},
+				{
+					"key": "number",
+					"type": "string",
+					"description": "联系电话",
+					"required": false
+				},
+				{
+					"key": "geoFilePath",
+					"type": "string",
+					"description": "重点区域的资源文件路径",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "设施地址",
+					"required": false
+				},
+				{
+					"key": "extension",
+					"description": "扩展项",
+					"required": false
+				},
+				{
+					"key": "areaCode",
+					"type": "string",
+					"description": "行政区域代码",
+					"required": false
+				},
+				{
+					"key": "height",
+					"type": "number",
+					"description": "设施高度",
+					"required": false
+				},
+				{
+					"key": "geometryData",
+					"type": "object",
+					"description": "面、线数据输出",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "资源所属平台Id",
+					"required": false
+				},
+				{
+					"key": "facilityState",
+					"type": "string",
+					"description": "设施状态",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Facilities/metrics",
+			"tag": "Facilities",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "设施关联告警、指标实时值查询",
+			"version": "v1",
+			"methodName": "getFacilityMetrics",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyWord",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layerIds",
+					"type": "array",
+					"description": "图层Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layerName",
+					"type": "string",
+					"description": "图层名,可模糊匹配",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域代码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀代码,传入完整区域码也会被处理为前缀区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "querySubordinateFacility",
+					"type": "boolean",
+					"description": "是否查询下级行政区域设施",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "relateTypeId",
+					"type": "string",
+					"description": "监测设备类型ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "alertTypeId",
+					"type": "string",
+					"description": "告警类型ID",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -8247,6 +8611,12 @@
 					"required": false
 				},
 				{
+					"key": "districtName",
+					"type": "string",
+					"description": "行政区域名",
+					"required": false
+				},
+				{
 					"key": "fileRecords",
 					"type": "array",
 					"description": "文件记录",
@@ -8361,6 +8731,13 @@
 					"key": "prefixAreaCodes",
 					"type": "array",
 					"description": "行政区域码前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -21832,6 +22209,12 @@
 					"type": "string",
 					"description": "头像路径",
 					"required": false
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "扩展属性",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -21947,6 +22330,13 @@
 					"key": "departmentIds",
 					"type": "array",
 					"description": "父节点Id集合（包含全部的）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "扩展属性",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -22133,6 +22523,12 @@
 					"type": "string",
 					"description": "头像路径",
 					"required": false
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "扩展属性",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -22248,6 +22644,13 @@
 					"key": "relatedId",
 					"type": "string",
 					"description": "关联ID（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extension",
+					"type": "string",
+					"description": "扩展属性",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -22820,6 +23223,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -22848,6 +23257,13 @@
 					"key": "members",
 					"type": "array",
 					"description": "组成员Id集合（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -22975,6 +23391,13 @@
 					"description": "组成员Id集合（可选）",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -23058,6 +23481,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -23128,6 +23557,12 @@
 					"key": "owner",
 					"type": "string",
 					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false
 				}
 			],
@@ -23295,6 +23730,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -23337,6 +23778,13 @@
 					"key": "owner",
 					"type": "string",
 					"description": "拥有者（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -23424,6 +23872,13 @@
 					"description": "拥有者（可选）",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -23506,6 +23961,12 @@
 					"key": "type",
 					"type": "integer",
 					"description": "组类型",
+					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false
 				}
 			],
@@ -23644,6 +24105,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -23714,6 +24181,12 @@
 					"key": "owner",
 					"type": "string",
 					"description": "负责人",
+					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false
 				}
 			],
@@ -23924,6 +24397,12 @@
 					"type": "string",
 					"description": "资源Id",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -23966,6 +24445,13 @@
 					"key": "typologyNodeExtra",
 					"type": "object",
 					"description": "拓扑附加信息,json格式",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -24044,6 +24530,13 @@
 					"key": "owner",
 					"type": "string",
 					"description": "拥有者(可选)",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -24128,6 +24621,12 @@
 					"key": "resourceId",
 					"type": "string",
 					"description": "资源Id",
+					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false
 				}
 			],
@@ -25510,6 +26009,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": []
@@ -25776,6 +26281,12 @@
 					"type": "integer",
 					"description": "组类型",
 					"required": false
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -25818,6 +26329,13 @@
 					"key": "owner",
 					"type": "string",
 					"description": "拥有者（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -25875,6 +26393,13 @@
 					"key": "owner",
 					"type": "string",
 					"description": "拥有者（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -26047,6 +26572,9 @@
 						},
 						{
 							"key": "14"
+						},
+						{
+							"key": "15"
 						}
 					]
 				},
@@ -26061,6 +26589,12 @@
 					"description": "",
 					"required": false,
 					"details": null
+				},
+				{
+					"key": "relatedId",
+					"type": "string",
+					"description": "外部资源Id",
+					"required": false
 				},
 				{
 					"key": "level",
@@ -42707,6 +43241,18 @@
 					"required": false
 				},
 				{
+					"key": "defaultMapServerType",
+					"type": "string",
+					"description": "初始地图服务类型",
+					"required": false
+				},
+				{
+					"key": "mapServerTypes",
+					"type": "array",
+					"description": "产品选中的地图服务类型集合",
+					"required": false
+				},
+				{
 					"key": "clusterStyle",
 					"type": "string",
 					"description": "聚合样式",
@@ -42738,6 +43284,20 @@
 						},
 						{
 							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "viewBox",
+					"type": "object",
+					"description": "可视范围",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
 						}
 					]
 				},
@@ -43951,6 +44511,62 @@
 			]
 		},
 		{
+			"url": "/api/Districts/analysis",
+			"tag": "Districts",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据条件分析获取对应行政区域",
+			"version": "v1",
+			"methodName": "getDistrictsByAnalysis",
+			"operationId": "GetDistrictsByAnalysis",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "coordinate",
+					"type": "object",
+					"description": "行政区域点位入参",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "useDefaultUserDistrict",
+					"type": "boolean",
+					"description": "是否使用默认的用户行政区域（用户区域权限内的最高层级权限）",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Facilities/layers",
 			"tag": "Facilities",
 			"subBiz": null,
@@ -45126,6 +45742,18 @@
 					"required": false
 				},
 				{
+					"key": "defaultMapServerType",
+					"type": "string",
+					"description": "初始地图服务类型",
+					"required": false
+				},
+				{
+					"key": "mapServerTypes",
+					"type": "array",
+					"description": "产品选中的地图服务类型集合",
+					"required": false
+				},
+				{
 					"key": "clusterStyle",
 					"type": "string",
 					"description": "聚合样式",
@@ -45157,6 +45785,20 @@
 						},
 						{
 							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "viewBox",
+					"type": "object",
+					"description": "可视范围",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
 						}
 					]
 				},
@@ -45278,6 +45920,20 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "defaultMapServerType",
+					"type": "string",
+					"description": "初始地图服务类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mapServerTypes",
+					"type": "array",
+					"description": "产品选中的地图服务类型集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "clusterStyle",
 					"type": "string",
 					"description": "聚合样式",
@@ -45317,10 +45973,94 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "viewBox",
+					"type": "object",
+					"description": "可视范围",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
 					"key": "useFakeMapSdk",
 					"type": "boolean",
 					"description": "是否使用SDK",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "lowViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "middleViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "highViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "maxiMinZoom",
+					"type": "object",
+					"description": "图层大小",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
 					"in": "requestBody"
 				}
 			]
@@ -45371,6 +46111,18 @@
 					"required": false
 				},
 				{
+					"key": "defaultMapServerType",
+					"type": "string",
+					"description": "初始地图服务类型",
+					"required": false
+				},
+				{
+					"key": "mapServerTypes",
+					"type": "array",
+					"description": "产品选中的地图服务类型集合",
+					"required": false
+				},
+				{
 					"key": "clusterStyle",
 					"type": "string",
 					"description": "聚合样式",
@@ -45402,6 +46154,20 @@
 						},
 						{
 							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "viewBox",
+					"type": "object",
+					"description": "可视范围",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
 						}
 					]
 				},
@@ -45516,6 +46282,18 @@
 					"required": false
 				},
 				{
+					"key": "defaultMapServerType",
+					"type": "string",
+					"description": "初始地图服务类型",
+					"required": false
+				},
+				{
+					"key": "mapServerTypes",
+					"type": "array",
+					"description": "产品选中的地图服务类型集合",
+					"required": false
+				},
+				{
 					"key": "clusterStyle",
 					"type": "string",
 					"description": "聚合样式",
@@ -45547,6 +46325,20 @@
 						},
 						{
 							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "viewBox",
+					"type": "object",
+					"description": "可视范围",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
 						}
 					]
 				},
@@ -45646,6 +46438,20 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "defaultMapServerType",
+					"type": "string",
+					"description": "初始地图服务类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mapServerTypes",
+					"type": "array",
+					"description": "产品选中的地图服务类型集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "clusterStyle",
 					"type": "string",
 					"description": "聚合样式",
@@ -45685,10 +46491,94 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "viewBox",
+					"type": "object",
+					"description": "可视范围",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
 					"key": "useFakeMapSdk",
 					"type": "boolean",
 					"description": "是否使用SDK",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "lowViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "middleViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "highViewPoint",
+					"type": "object",
+					"description": "近、中、远景实体",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "maxiMinZoom",
+					"type": "object",
+					"description": "图层大小",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
 					"in": "requestBody"
 				}
 			]
@@ -45757,6 +46647,15 @@
 						},
 						{
 							"key": "12"
+						},
+						{
+							"key": "13"
+						},
+						{
+							"key": "14"
+						},
+						{
+							"key": "15"
 						}
 					]
 				},
@@ -46275,9 +47174,23 @@
 						},
 						{
 							"key": "2"
+						}
+					]
+				},
+				{
+					"key": "layerIconBackground",
+					"type": "object",
+					"description": "图层图标",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
 						},
 						{
-							"key": "3"
+							"key": "1"
+						},
+						{
+							"key": "2"
 						}
 					]
 				},
@@ -46295,9 +47208,6 @@
 						},
 						{
 							"key": "2"
-						},
-						{
-							"key": "3"
 						}
 					]
 				},
@@ -46315,9 +47225,6 @@
 						},
 						{
 							"key": "2"
-						},
-						{
-							"key": "3"
 						}
 					]
 				},
@@ -46325,6 +47232,24 @@
 					"key": "isShow",
 					"type": "boolean",
 					"description": "是否显示图层",
+					"required": false
+				},
+				{
+					"key": "isShowLabel",
+					"type": "boolean",
+					"description": "是否显示点位标签",
+					"required": false
+				},
+				{
+					"key": "isShowAlert",
+					"type": "boolean",
+					"description": "是否显示点位告警",
+					"required": false
+				},
+				{
+					"key": "hasChildren",
+					"type": "boolean",
+					"description": "是否有子节点",
 					"required": false
 				},
 				{
@@ -46401,6 +47326,12 @@
 					]
 				},
 				{
+					"key": "layerType",
+					"type": "string",
+					"description": "图层类型：点、线、面、区划、标牌、柱图",
+					"required": false
+				},
+				{
 					"key": "lineConfig",
 					"type": "object",
 					"description": "线配置",
@@ -46535,6 +47466,90 @@
 							"key": "20"
 						}
 					]
+				},
+				{
+					"key": "areaConfig",
+					"type": "object",
+					"description": "区划配置参数",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					]
+				},
+				{
+					"key": "barConfig",
+					"type": "object",
+					"description": "柱图配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						}
+					]
+				},
+				{
+					"key": "signageConfig",
+					"type": "object",
+					"description": "标牌配置参数",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -46581,9 +47596,24 @@
 						},
 						{
 							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "layerIconBackground",
+					"type": "object",
+					"description": "图层图标",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
 						},
 						{
-							"key": "3"
+							"key": "1"
+						},
+						{
+							"key": "2"
 						}
 					],
 					"in": "requestBody"
@@ -46602,9 +47632,6 @@
 						},
 						{
 							"key": "2"
-						},
-						{
-							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -46623,9 +47650,6 @@
 						},
 						{
 							"key": "2"
-						},
-						{
-							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -46634,6 +47658,20 @@
 					"key": "isShow",
 					"type": "boolean",
 					"description": "是否显示图层",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowLabel",
+					"type": "boolean",
+					"description": "是否显示点位标签",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowAlert",
+					"type": "boolean",
+					"description": "是否显示点位告警",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -46716,6 +47754,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "layerType",
+					"type": "string",
+					"description": "图层类型：点、线、面、区划、标牌、柱图",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "lineConfig",
 					"type": "object",
 					"description": "线配置",
@@ -46852,6 +47897,93 @@
 						}
 					],
 					"in": "requestBody"
+				},
+				{
+					"key": "areaConfig",
+					"type": "object",
+					"description": "区划配置参数",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "barConfig",
+					"type": "object",
+					"description": "柱图配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "signageConfig",
+					"type": "object",
+					"description": "标牌配置参数",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
 				}
 			]
 		},
@@ -46884,7 +48016,6 @@
 				{
 					"key": "MapType",
 					"description": "地图类型 0-电子，1-卫星，2-科幻",
-					"required": true,
 					"default": null,
 					"in": "query"
 				}
@@ -46956,9 +48087,24 @@
 						},
 						{
 							"key": "2"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "layerIconBackground",
+					"type": "object",
+					"description": "图层图标",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
 						},
 						{
-							"key": "3"
+							"key": "1"
+						},
+						{
+							"key": "2"
 						}
 					],
 					"in": "requestBody"
@@ -46977,9 +48123,6 @@
 						},
 						{
 							"key": "2"
-						},
-						{
-							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -46998,9 +48141,6 @@
 						},
 						{
 							"key": "2"
-						},
-						{
-							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -47009,6 +48149,20 @@
 					"key": "isShow",
 					"type": "boolean",
 					"description": "是否显示图层",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowLabel",
+					"type": "boolean",
+					"description": "是否显示点位标签",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isShowAlert",
+					"type": "boolean",
+					"description": "是否显示点位告警",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -47088,6 +48242,13 @@
 							"key": "1"
 						}
 					],
+					"in": "requestBody"
+				},
+				{
+					"key": "layerType",
+					"type": "string",
+					"description": "图层类型：点、线、面、区划、标牌、柱图",
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -47227,8 +48388,165 @@
 						}
 					],
 					"in": "requestBody"
+				},
+				{
+					"key": "areaConfig",
+					"type": "object",
+					"description": "区划配置参数",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						},
+						{
+							"key": "8"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "barConfig",
+					"type": "object",
+					"description": "柱图配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						},
+						{
+							"key": "4"
+						},
+						{
+							"key": "5"
+						},
+						{
+							"key": "6"
+						},
+						{
+							"key": "7"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "signageConfig",
+					"type": "object",
+					"description": "标牌配置参数",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						}
+					],
+					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/GeoConfigs/layers/{id}",
+			"tag": "GeoConfigs",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "根据Id删除图层配置",
+			"version": "v1",
+			"methodName": "deleteLayerConfig",
+			"operationId": "DeleteLayerConfig",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/GeoConfigs/layers/root",
+			"tag": "GeoConfigs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页查询地图图层根节点配置",
+			"version": "v1",
+			"methodName": "getRootLayerConfig",
+			"operationId": "GetRootLayerConfigs",
+			"parameters": [
+				{
+					"key": "ProductId",
+					"type": "string",
+					"description": "产品id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, int.MaxValue]",
+					"default": 100,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/GeoConfigs/layers/children",
@@ -47259,7 +48577,6 @@
 				{
 					"key": "MapType",
 					"description": "地图类型 0-电子，1-卫星，2-科幻",
-					"required": true,
 					"default": null,
 					"in": "query"
 				},
@@ -47323,7 +48640,6 @@
 				{
 					"key": "MapType",
 					"description": "地图类型 0-电子，1-卫星，2-科幻",
-					"required": true,
 					"default": null,
 					"in": "query"
 				},
@@ -48217,6 +49533,18 @@
 					"required": false
 				},
 				{
+					"key": "coordinate",
+					"type": "array",
+					"description": "中心点",
+					"required": false
+				},
+				{
+					"key": "zoom",
+					"type": "number",
+					"description": "地图层级",
+					"required": false
+				},
+				{
 					"key": "epsg",
 					"type": "string",
 					"description": "坐标系",
@@ -48262,6 +49590,20 @@
 					"key": "name",
 					"type": "string",
 					"description": "类型名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "coordinate",
+					"type": "array",
+					"description": "中心点",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "zoom",
+					"type": "number",
+					"description": "地图层级",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -48331,6 +49673,18 @@
 					"required": false
 				},
 				{
+					"key": "coordinate",
+					"type": "array",
+					"description": "中心点",
+					"required": false
+				},
+				{
+					"key": "zoom",
+					"type": "number",
+					"description": "地图层级",
+					"required": false
+				},
+				{
 					"key": "epsg",
 					"type": "string",
 					"description": "坐标系",
@@ -48355,6 +49709,20 @@
 					"key": "name",
 					"type": "string",
 					"description": "类型名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "coordinate",
+					"type": "array",
+					"description": "中心点",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "zoom",
+					"type": "number",
+					"description": "地图层级",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -48516,6 +49884,12 @@
 					"key": "url",
 					"type": "string",
 					"description": "地址",
+					"required": false
+				},
+				{
+					"key": "urlFormat",
+					"type": "string",
+					"description": "转换成地图网关的地址",
 					"required": false
 				},
 				{
@@ -48716,6 +50090,12 @@
 					"required": false
 				},
 				{
+					"key": "urlFormat",
+					"type": "string",
+					"description": "转换成地图网关的地址",
+					"required": false
+				},
+				{
 					"key": "isStandard",
 					"type": "boolean",
 					"description": "是否标准服务",
@@ -48864,6 +50244,56 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/MapTypeOverlays/format/url",
+			"tag": "MapTypeOverlays",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取地图服务转换后的地址",
+			"version": "v1",
+			"methodName": "getUrlFormat",
+			"operationId": "GetUrlFormat",
+			"parameters": [
+				{
+					"key": "Url",
+					"type": "string",
+					"description": "url地址",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "NeedProxy",
+					"type": "boolean",
+					"description": "是否需要网络代理",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ProxyIp",
+					"type": "string",
+					"description": "代理Ip",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ProxyPort",
+					"type": "integer",
+					"description": "代理端口",
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": [
+				{
+					"key": "urlFormat",
+					"type": "string",
+					"description": "格式化后的url地址",
+					"required": false
+				}
+			],
+			"requestBody": null
 		},
 		{
 			"url": "/api/Plots/{id}",
@@ -55938,6 +57368,210 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/CameraGroups/cameras",
+			"tag": "CameraGroups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取分组列表",
+			"version": "v1",
+			"methodName": "getCameraGroupList",
+			"parameters": [
+				{
+					"key": "GroupType",
+					"description": "-1：全部(默认)；0：监控组 1：预案组 2：自定义组",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ParentId",
+					"type": "string",
+					"description": "父节点id，不填时查询根节点",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "数据类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父节点Id",
+					"required": false
+				},
+				{
+					"key": "idPath",
+					"type": "string",
+					"description": "当前目录id路径",
+					"required": false
+				},
+				{
+					"key": "namePath",
+					"type": "string",
+					"description": "当前目录名称路径",
+					"required": false
+				},
+				{
+					"key": "videoEncoder",
+					"type": "integer",
+					"description": "视频编码类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "resolution",
+					"type": "integer",
+					"description": "分辨率",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "audio",
+					"type": "boolean",
+					"description": "是否有音频",
+					"required": false
+				},
+				{
+					"key": "result",
+					"type": "integer",
+					"description": "图片质量类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "labels",
+					"type": "array",
+					"description": "标签集合",
+					"required": false
+				},
+				{
+					"key": "audioEncodingFormat",
+					"type": "string",
+					"description": "音频编码",
+					"required": false
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否有云台控制",
+					"required": false
+				},
+				{
+					"key": "aliasName",
+					"type": "string",
+					"description": "别名",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "监控状态",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经纬度",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "经纬度",
+					"required": false
+				},
+				{
+					"key": "isLeafGroup",
+					"type": "boolean",
+					"description": "是叶子组节点",
+					"required": false
+				},
+				{
+					"key": "isLeaf",
+					"type": "boolean",
+					"description": "是叶子节点",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "描述",
+					"required": false
+				},
+				{
+					"key": "groupType",
+					"type": "integer",
+					"description": "类型组：0-监控组，1-预案组 2-自定义组",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "cameraCount",
+					"type": "integer",
+					"description": "当前目录下监控总数",
+					"required": false
+				},
+				{
+					"key": "cameraOnlineCount",
+					"type": "integer",
+					"description": "当前目录下在线监控总数",
+					"required": false
+				},
+				{
+					"key": "selfCameraCount",
+					"type": "integer",
+					"description": "当前目录自身监控总数",
+					"required": false
+				},
+				{
+					"key": "selfCameraOnlineCount",
+					"type": "integer",
+					"description": "当前目录自身在线监控总数",
+					"required": false
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/CameraGroups/batch",
 			"tag": "CameraGroups",
 			"subBiz": null,
@@ -58232,6 +59866,39 @@
 					"default": null,
 					"in": "query"
 				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Cameras/statics/files",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取静态资源文件名",
+			"version": "v1",
+			"methodName": "getStaticFiles",
+			"parameters": [
 				{
 					"key": "X-version",
 					"type": "string",
@@ -74874,7 +76541,7 @@
 			"tag": "PlatformData",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "获取默认的主平台",
+			"summary": "获取当前的会议平台",
 			"version": "v1",
 			"methodName": "getDefaultPlatformData",
 			"parameters": null,
@@ -74899,6 +76566,38 @@
 					"required": false
 				}
 			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/PlatformData/default",
+			"tag": "PlatformData",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "切换当前的会议平台",
+			"version": "v1",
+			"methodName": "switchPlatform",
+			"parameters": [
+				{
+					"key": "platformType",
+					"description": "0: yms 2X; 2: yms 4X; 3: GMeet",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/PlatformData/default/joinedConfig",
+			"tag": "PlatformData",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取当前平台的音视频入会配置",
+			"version": "v1",
+			"methodName": "getPlatformJoinConfig",
+			"parameters": null,
+			"responses": null,
 			"requestBody": null
 		},
 		{
@@ -75024,6 +76723,44 @@
 					"key": "name",
 					"type": "string",
 					"description": "平台名称",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/PlatformData/host",
+			"tag": "PlatformData",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取全部平台的host信息",
+			"version": "v1",
+			"methodName": "getPlatformDataHost",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "视频会议平台类型0:Yealink,亿联会议平台2.X; 1:Tencent,腾讯会议平台; 2:YealinkPlus,亿联会议平台4.X; 3:GMeet,GMeet会议平台; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "平台ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "平台名称",
+					"required": false
+				},
+				{
+					"key": "host",
+					"type": "string",
+					"description": "平台host",
 					"required": false
 				}
 			],
@@ -75339,6 +77076,12 @@
 					"type": "boolean",
 					"description": "是否在线",
 					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -75419,6 +77162,12 @@
 					"type": "integer",
 					"description": "子终端数量（统计子子孙孙节点数量）",
 					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -75476,6 +77225,12 @@
 					"type": "integer",
 					"description": "子终端数量（统计子子孙孙节点数量）",
 					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -75532,6 +77287,12 @@
 					"key": "totalCount",
 					"type": "integer",
 					"description": "子终端数量（统计子子孙孙节点数量）",
+					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
 					"required": false
 				}
 			],
@@ -75597,6 +77358,12 @@
 					"key": "totalCount",
 					"type": "integer",
 					"description": "子终端数量（统计子子孙孙节点数量）",
+					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
 					"required": false
 				}
 			],
@@ -75723,6 +77490,12 @@
 					"type": "boolean",
 					"description": "是否在线",
 					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -75834,6 +77607,12 @@
 					"key": "isOnline",
 					"type": "boolean",
 					"description": "是否在线",
+					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
 					"required": false
 				}
 			],
@@ -75994,6 +77773,12 @@
 					"key": "isOnline",
 					"type": "boolean",
 					"description": "是否在线",
+					"required": false
+				},
+				{
+					"key": "paths",
+					"type": "array",
+					"description": "路径path",
 					"required": false
 				}
 			],
@@ -93058,63 +94843,33 @@
 					"description": "ProductId",
 					"default": null,
 					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
 				}
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "对应数据类型的主键id",
-					"required": false
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "节点名称",
-					"required": false
-				},
-				{
-					"key": "parentId",
-					"type": "string",
-					"description": "父节点id，为空时表示根节点",
-					"required": false
-				},
-				{
-					"key": "index",
+					"key": "totalCount",
 					"type": "integer",
-					"description": "排序编号",
+					"description": "总数",
 					"required": false
 				},
 				{
-					"key": "dataType",
-					"type": "integer",
-					"description": "数据类型，1:资源库分组，2：资源库  3：元数据分组 4：元数据",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "nodeType",
-					"type": "integer",
-					"description": "节点类型，0：非叶子节点，1：叶子节点",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "resourceId",
-					"type": "string",
-					"description": "数据源id",
-					"required": false
-				},
-				{
-					"key": "number",
-					"type": "string",
-					"description": "GDS图层id信息",
-					"required": false
-				},
-				{
-					"key": "productId",
-					"type": "string",
-					"description": "ProductId",
+					"key": "records",
+					"type": "array",
+					"description": "记录",
 					"required": false
 				}
 			],
@@ -93499,6 +95254,54 @@
 					"key": "productId",
 					"type": "string",
 					"description": "项目Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/ResourceDb/search",
+			"tag": "ResourceDb",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "通过productId获取资源库集合（带元数据和数据源）",
+			"version": "v1",
+			"methodName": "getResourceDbsById",
+			"operationId": "GetResourceDbsByProductId",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "productId",
+					"type": "string",
+					"description": "产品Id",
 					"required": false,
 					"in": "requestBody"
 				}

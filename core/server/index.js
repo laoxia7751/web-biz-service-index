@@ -3,11 +3,13 @@ const path = require("path");
 const { readFileSync } = require("fs-extra")
 const childProcess = require('child_process');
 const bodyParser = require('body-parser')
-const { ignorePaths}  = require("./config.js")
+const { ignorePaths}  = require("../config.js")
 const app = express();
 
 const router = express.Router();
-router.use(express.static(path.join(__dirname, "../dist")));
+
+router.use(express.static(path.join(__dirname, "../dist/")));
+
 router.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "../dist/index.html"));
 });

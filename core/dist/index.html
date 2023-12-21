@@ -130,6 +130,7 @@
             .then((res) => {
               this.bizData = res;
               this.search();
+            }).finally(() => {
               this.loading = false;
             });
             document.querySelector('html').setAttribute('data-theme', this.dark ? 'dark' : 'light');
