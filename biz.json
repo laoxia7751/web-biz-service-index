@@ -2473,6 +2473,20 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "eventName",
+					"type": "string",
+					"description": "告警名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "eventDescription",
+					"type": "string",
+					"description": "事件描述",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "eventPriority",
 					"type": "integer",
 					"description": "事件等级 1-未定级 2-IV级(一般) 4-III级(较大) 8-II级(重大) 16-I级(特大)1:One; 2:Two; 4:Three; 8:Four; 16:Five; ",
@@ -5803,20 +5817,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -5877,6 +5877,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -47161,6 +47175,12 @@
 					"required": false
 				},
 				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父节点Id",
+					"required": false
+				},
+				{
 					"key": "layerIcon",
 					"type": "object",
 					"description": "图层图标",
@@ -57114,6 +57134,13 @@
 					"in": "query"
 				},
 				{
+					"key": "PathPrefix",
+					"type": "string",
+					"description": "路径前缀，目录有多个路径时去当前前缀相匹配的路径",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "SelectedIds",
 					"type": "array",
 					"description": "被选中的节点，用于计算其父节点是否是全选,半选和未选中",
@@ -57368,11 +57395,11 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/CameraGroups/cameras",
+			"url": "/api/CameraGroups/children",
 			"tag": "CameraGroups",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "获取分组列表",
+			"summary": "获取监控和目录集合",
 			"version": "v1",
 			"methodName": "getCameraGroupList",
 			"parameters": [
@@ -57435,125 +57462,6 @@
 					"key": "namePath",
 					"type": "string",
 					"description": "当前目录名称路径",
-					"required": false
-				},
-				{
-					"key": "videoEncoder",
-					"type": "integer",
-					"description": "视频编码类型",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "resolution",
-					"type": "integer",
-					"description": "分辨率",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "audio",
-					"type": "boolean",
-					"description": "是否有音频",
-					"required": false
-				},
-				{
-					"key": "result",
-					"type": "integer",
-					"description": "图片质量类型",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "labels",
-					"type": "array",
-					"description": "标签集合",
-					"required": false
-				},
-				{
-					"key": "audioEncodingFormat",
-					"type": "string",
-					"description": "音频编码",
-					"required": false
-				},
-				{
-					"key": "isSupportPTZ",
-					"type": "boolean",
-					"description": "是否有云台控制",
-					"required": false
-				},
-				{
-					"key": "aliasName",
-					"type": "string",
-					"description": "别名",
-					"required": false
-				},
-				{
-					"key": "status",
-					"type": "integer",
-					"description": "监控状态",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "longitude",
-					"type": "number",
-					"description": "经纬度",
-					"required": false
-				},
-				{
-					"key": "latitude",
-					"type": "number",
-					"description": "经纬度",
-					"required": false
-				},
-				{
-					"key": "isLeafGroup",
-					"type": "boolean",
-					"description": "是叶子组节点",
-					"required": false
-				},
-				{
-					"key": "isLeaf",
-					"type": "boolean",
-					"description": "是叶子节点",
-					"required": false
-				},
-				{
-					"key": "description",
-					"type": "string",
-					"description": "描述",
-					"required": false
-				},
-				{
-					"key": "groupType",
-					"type": "integer",
-					"description": "类型组：0-监控组，1-预案组 2-自定义组",
-					"required": false,
-					"details": null
-				},
-				{
-					"key": "cameraCount",
-					"type": "integer",
-					"description": "当前目录下监控总数",
-					"required": false
-				},
-				{
-					"key": "cameraOnlineCount",
-					"type": "integer",
-					"description": "当前目录下在线监控总数",
-					"required": false
-				},
-				{
-					"key": "selfCameraCount",
-					"type": "integer",
-					"description": "当前目录自身监控总数",
-					"required": false
-				},
-				{
-					"key": "selfCameraOnlineCount",
-					"type": "integer",
-					"description": "当前目录自身在线监控总数",
 					"required": false
 				},
 				{
@@ -58742,9 +58650,23 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "excludeGroupIds",
+					"type": "array",
+					"description": "被排除的子节点Id列表",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
 					"key": "cameraIds",
 					"type": "array",
 					"description": "监控id列表",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "excludeCameraIds",
+					"type": "array",
+					"description": "被排除的监控Id列表",
 					"required": true,
 					"in": "requestBody"
 				}
@@ -58769,6 +58691,13 @@
 					"key": "ParentId",
 					"type": "string",
 					"description": "父节点id，不填时查询根节点",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PathPrefix",
+					"type": "string",
+					"description": "路径前缀，目录有多个路径时去当前前缀相匹配的路径",
 					"default": null,
 					"in": "query"
 				},
@@ -59166,6 +59095,13 @@
 					"key": "IsSupportPTZ",
 					"type": "boolean",
 					"description": "是否可以进行云台控制true-可以false-不可以null-全部",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "PathPrefix",
+					"type": "string",
+					"description": "路径前缀，目录有多个路径时去当前前缀相匹配的路径",
 					"default": null,
 					"in": "query"
 				},
