@@ -1,862 +1,780 @@
 {
-	"authBiz": [
-		{
-			"url": "/api/authentications/check/userActive",
-			"tag": "Authentications",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "检查用户是否激活",
-			"version": "v1",
-			"methodName": "",
-			"parameters": [
-				{
-					"key": "tokenInfo",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		}
-	],
-	"edmsBiz": [
-		{
-			"url": "/api/CallBiz/forced_insert",
-			"tag": "CallBiz",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "强插指定号码",
-			"version": "v1",
-			"methodName": "",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "line",
-					"type": "string",
-					"description": "电话线路",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "destination",
-					"type": "string",
-					"description": "目标电话",
-					"required": true,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/CallBiz/forced_release",
-			"tag": "CallBiz",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "强拆指定号码",
-			"version": "v1",
-			"methodName": "",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "line",
-					"type": "string",
-					"description": "电话线路",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "destination",
-					"type": "string",
-					"description": "目标电话",
-					"required": true,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/CallBiz/monitor",
-			"tag": "CallBiz",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "监听指定号码",
-			"version": "v1",
-			"methodName": "",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "line",
-					"type": "string",
-					"description": "电话线路",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "destination",
-					"type": "string",
-					"description": "目标电话",
-					"required": true,
-					"in": "requestBody"
-				}
-			]
-		}
-	],
-	"eventBiz": [
-		{
-			"url": "/api/Preplans/Recommend",
-			"tag": "Preplans",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "通过事件ID推荐预案",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "GetRecommendPreplan",
-			"parameters": [
-				{
-					"key": "EventId",
-					"type": "string",
-					"description": "事件ID",
-					"required": true,
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "预案ID",
-					"required": false
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "预案名称",
-					"required": false
-				},
-				{
-					"key": "eventType",
-					"type": "object",
-					"description": "事件类型信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				},
-				{
-					"key": "areaCode",
-					"type": "string",
-					"description": "区域码",
-					"required": false
-				},
-				{
-					"key": "eventPriority",
-					"type": "integer",
-					"description": "适用于哪种事件优先级",
-					"required": false
-				},
-				{
-					"key": "eventAffectRadius",
-					"type": "integer",
-					"description": "事件影响半径",
-					"required": false
-				},
-				{
-					"key": "dangerousSources",
-					"type": "array",
-					"description": "危险源",
-					"required": false
-				},
-				{
-					"key": "keyProtections",
-					"type": "array",
-					"description": "重点防护目标",
-					"required": false
-				},
-				{
-					"key": "shelters",
-					"type": "array",
-					"description": "避难场所",
-					"required": false
-				},
-				{
-					"key": "warehouses",
-					"type": "array",
-					"description": "仓库",
-					"required": false
-				},
-				{
-					"key": "emergencyFacilities",
-					"type": "array",
-					"description": "应急设备",
-					"required": false
-				},
-				{
-					"key": "manpowerResources",
-					"type": "array",
-					"description": "人力资源",
-					"required": false
-				},
-				{
-					"key": "medicalResources",
-					"type": "array",
-					"description": "医疗资源",
-					"required": false
-				},
-				{
-					"key": "pollutionSources",
-					"type": "array",
-					"description": "污染源",
-					"required": false
-				},
-				{
-					"key": "textTemplate",
-					"type": "string",
-					"description": "文本模板",
-					"required": false
-				},
-				{
-					"key": "sceneParameters",
-					"type": "array",
-					"description": "情景参数",
-					"required": false
-				},
-				{
-					"key": "directoryRecordId",
-					"type": "string",
-					"description": "预案文档储存文件夹ID",
-					"required": false
-				},
-				{
-					"key": "taskTemplate",
-					"type": "object",
-					"description": "任务模板简略信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						}
-					]
-				},
-				{
-					"key": "associatedGroup",
-					"type": "object",
-					"description": "组信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				},
-				{
-					"key": "sceneGroup",
-					"type": "object",
-					"description": "组信息",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						}
-					]
-				},
-				{
-					"key": "firstResponseLevel",
-					"type": "object",
-					"description": "响应级别",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						},
-						{
-							"key": "3"
-						}
-					]
-				},
-				{
-					"key": "secondResponseLevel",
-					"type": "object",
-					"description": "响应级别",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						},
-						{
-							"key": "3"
-						}
-					]
-				},
-				{
-					"key": "thirdResponseLevel",
-					"type": "object",
-					"description": "响应级别",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						},
-						{
-							"key": "3"
-						}
-					]
-				},
-				{
-					"key": "fourthResponseLevel",
-					"type": "object",
-					"description": "响应级别",
-					"required": false,
-					"details": [
-						{
-							"key": "0"
-						},
-						{
-							"key": "1"
-						},
-						{
-							"key": "2"
-						},
-						{
-							"key": "3"
-						}
-					]
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台来源ID",
-					"required": false
-				},
-				{
-					"key": "resourceId",
-					"type": "string",
-					"description": "外部资源唯一Id",
-					"required": false
-				},
-				{
-					"key": "cameraLabels",
-					"type": "array",
-					"description": "监控标签",
-					"required": false
-				},
-				{
-					"key": "preplanGroups",
-					"type": "array",
-					"description": "预案组",
-					"required": false
-				},
-				{
-					"key": "videoConferenceTerminals",
-					"type": "array",
-					"description": "视频会议终端",
-					"required": false
-				},
-				{
-					"key": "thirdPlatforms",
-					"type": "array",
-					"description": "业务系统",
-					"required": false
-				},
-				{
-					"key": "customResources",
-					"type": "object",
-					"description": "自定义类型",
-					"required": false
-				}
-			],
-			"requestBody": null
-		}
-	],
-	"geoDataBiz": [
-		{
-			"url": "/api/Coordinates",
-			"tag": "Coordinates",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "添加坐标系",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "CreateCoordinate",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "坐标系编码",
-					"required": false
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "坐标系名称",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "坐标系编码",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "坐标系名称",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/Coordinates",
-			"tag": "Coordinates",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取坐标系集合",
-			"version": "v1",
-			"methodName": "",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Coordinates/{id}",
-			"tag": "Coordinates",
-			"subBiz": null,
-			"methods": "delete",
-			"summary": "删除坐标系",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "DeleteCoordinate",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		}
-	],
-	"videoFusionServiceBiz": [
-		{
-			"url": "/api/CameraOrGroupDeleteRecords",
-			"tag": "CameraOrGroupDeleteRecords",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取删除记录",
-			"version": "v1",
-			"methodName": "",
-			"parameters": [
-				{
-					"key": "SipServiceId",
-					"type": "string",
-					"description": "所属下级Id",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "SyncTaskId",
-					"type": "string",
-					"description": "同步任务Id",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		}
-	],
-	"vcsBiz": [
-		{
-			"url": "/api/Conferences/{id}/conventioneers/inviteRecords",
-			"tag": "Conferences",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取邀请记录列表",
-			"version": "v1",
-			"methodName": "",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "平台id（不填使用默认平台）",
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": [
-				{
-					"key": "callFails",
-					"type": "array",
-					"description": "呼叫失败",
-					"required": false
-				},
-				{
-					"key": "callSucceeds",
-					"type": "array",
-					"description": "呼叫成功",
-					"required": false
-				}
-			],
-			"requestBody": null
-		}
-	],
-	"assetBiz": [
-		{
-			"url": "/api/Terminals/camera/upgrade",
-			"tag": "Terminals",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "升级关联监控",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "UpgradeRelateCamera",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/TypeConfigs/search",
-			"tag": "TypeConfigs",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "搜索类型配置",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "SearchTypeConfigs",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "pageIndex",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "pageSize",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "platformId",
-					"type": "string",
-					"description": "分级平台ID",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "keyword",
-					"type": "string",
-					"description": "关键词",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "type",
-					"type": "integer",
-					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; ",
-					"required": false,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
-					"key": "ids",
-					"type": "array",
-					"description": "Id集合",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/TypeConfigs/export",
-			"tag": "TypeConfigs",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "类型配置导出",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "ExportTypeConfigs",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "typeConfigs",
-					"type": "array",
-					"description": "类型配置",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "ids",
-					"type": "array",
-					"description": "id集合",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		}
-	],
-	"dcsBiz": [
-		{
-			"url": "/api/ResourceDb/export/ExternalData",
-			"tag": "ResourceDb",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "导出资源库条目",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "ExportExternalDataEntry",
-			"parameters": null,
-			"responses": [
-				{
-					"key": "externalDataEntries",
-					"type": "array",
-					"description": "资源库条目导出实体集合",
-					"required": false
-				},
-				{
-					"key": "resourceDbs",
-					"type": "array",
-					"description": "资源库导出实体集合",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "productId",
-					"type": "string",
-					"description": "产品Id",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/ResourceDb/import/ExternalData",
-			"tag": "ResourceDb",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "导入资源库条目",
-			"version": "v1",
-			"methodName": "",
-			"operationId": "ImportExternalDataEntry",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "resourceDbs",
-					"type": "array",
-					"description": "导入资源库列表",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "externalDataEntries",
-					"type": "array",
-					"description": "资源库条目导入实体集合",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		}
-	]
+  "authBiz": [
+    {
+      "url": "/api/authentications/check/userActive",
+      "tag": "Authentications",
+      "subBiz": null,
+      "methods": "post",
+      "summary": "检查用户是否激活",
+      "version": "v1",
+      "methodName": "checkUserActive",
+      "parameters": [
+        {
+          "key": "tokenInfo",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": null,
+      "requestBody": null
+    }
+  ],
+  "edmsBiz": [],
+  "eventBiz": [
+    {
+      "url": "/api/Preplans/Recommend",
+      "tag": "Preplans",
+      "subBiz": null,
+      "methods": "get",
+      "summary": "通过事件ID推荐预案",
+      "version": "v1",
+      "methodName": "getRecommendPreplan",
+      "operationId": "GetRecommendPreplan",
+      "parameters": [
+        {
+          "key": "EventId",
+          "type": "string",
+          "description": "事件ID",
+          "required": true,
+          "default": null,
+          "in": "query"
+        },
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "预案ID",
+          "required": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "description": "预案名称",
+          "required": false
+        },
+        {
+          "key": "eventType",
+          "type": "object",
+          "description": "事件类型信息",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            }
+          ]
+        },
+        {
+          "key": "areaCode",
+          "type": "string",
+          "description": "区域码",
+          "required": false
+        },
+        {
+          "key": "eventPriority",
+          "type": "integer",
+          "description": "适用于哪种事件优先级",
+          "required": false
+        },
+        {
+          "key": "eventAffectRadius",
+          "type": "integer",
+          "description": "事件影响半径",
+          "required": false
+        },
+        {
+          "key": "dangerousSources",
+          "type": "array",
+          "description": "危险源",
+          "required": false
+        },
+        {
+          "key": "keyProtections",
+          "type": "array",
+          "description": "重点防护目标",
+          "required": false
+        },
+        {
+          "key": "shelters",
+          "type": "array",
+          "description": "避难场所",
+          "required": false
+        },
+        {
+          "key": "warehouses",
+          "type": "array",
+          "description": "仓库",
+          "required": false
+        },
+        {
+          "key": "emergencyFacilities",
+          "type": "array",
+          "description": "应急设备",
+          "required": false
+        },
+        {
+          "key": "manpowerResources",
+          "type": "array",
+          "description": "人力资源",
+          "required": false
+        },
+        {
+          "key": "medicalResources",
+          "type": "array",
+          "description": "医疗资源",
+          "required": false
+        },
+        {
+          "key": "pollutionSources",
+          "type": "array",
+          "description": "污染源",
+          "required": false
+        },
+        {
+          "key": "textTemplate",
+          "type": "string",
+          "description": "文本模板",
+          "required": false
+        },
+        {
+          "key": "sceneParameters",
+          "type": "array",
+          "description": "情景参数",
+          "required": false
+        },
+        {
+          "key": "directoryRecordId",
+          "type": "string",
+          "description": "预案文档储存文件夹ID",
+          "required": false
+        },
+        {
+          "key": "taskTemplate",
+          "type": "object",
+          "description": "任务模板简略信息",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            }
+          ]
+        },
+        {
+          "key": "associatedGroup",
+          "type": "object",
+          "description": "组信息",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            }
+          ]
+        },
+        {
+          "key": "sceneGroup",
+          "type": "object",
+          "description": "组信息",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            }
+          ]
+        },
+        {
+          "key": "firstResponseLevel",
+          "type": "object",
+          "description": "响应级别",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            },
+            {
+              "key": "3"
+            }
+          ]
+        },
+        {
+          "key": "secondResponseLevel",
+          "type": "object",
+          "description": "响应级别",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            },
+            {
+              "key": "3"
+            }
+          ]
+        },
+        {
+          "key": "thirdResponseLevel",
+          "type": "object",
+          "description": "响应级别",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            },
+            {
+              "key": "3"
+            }
+          ]
+        },
+        {
+          "key": "fourthResponseLevel",
+          "type": "object",
+          "description": "响应级别",
+          "required": false,
+          "details": [
+            {
+              "key": "0"
+            },
+            {
+              "key": "1"
+            },
+            {
+              "key": "2"
+            },
+            {
+              "key": "3"
+            }
+          ]
+        },
+        {
+          "key": "platformId",
+          "type": "string",
+          "description": "平台来源ID",
+          "required": false
+        },
+        {
+          "key": "resourceId",
+          "type": "string",
+          "description": "外部资源唯一Id",
+          "required": false
+        },
+        {
+          "key": "cameraLabels",
+          "type": "array",
+          "description": "监控标签",
+          "required": false
+        },
+        {
+          "key": "preplanGroups",
+          "type": "array",
+          "description": "预案组",
+          "required": false
+        },
+        {
+          "key": "videoConferenceTerminals",
+          "type": "array",
+          "description": "视频会议终端",
+          "required": false
+        },
+        {
+          "key": "thirdPlatforms",
+          "type": "array",
+          "description": "业务系统",
+          "required": false
+        },
+        {
+          "key": "customResources",
+          "type": "object",
+          "description": "自定义类型",
+          "required": false
+        }
+      ],
+      "requestBody": null
+    }
+  ],
+  "geoDataBiz": [
+    {
+      "url": "/api/Coordinates",
+      "tag": "Coordinates",
+      "subBiz": null,
+      "methods": "post",
+      "summary": "添加坐标系",
+      "version": "v1",
+      "methodName": "addCoordinate",
+      "operationId": "CreateCoordinate",
+      "parameters": [
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "坐标系编码",
+          "required": false
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "description": "坐标系名称",
+          "required": false
+        }
+      ],
+      "requestBody": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "坐标系编码",
+          "required": false,
+          "in": "requestBody"
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "description": "坐标系名称",
+          "required": false,
+          "in": "requestBody"
+        }
+      ]
+    },
+    {
+      "url": "/api/Coordinates",
+      "tag": "Coordinates",
+      "subBiz": null,
+      "methods": "get",
+      "summary": "获取坐标系集合",
+      "version": "v1",
+      "methodName": "getCoordinates",
+      "parameters": [
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "totalCount",
+          "type": "integer",
+          "description": "总数",
+          "required": false
+        },
+        {
+          "key": "records",
+          "type": "array",
+          "description": "记录",
+          "required": false
+        }
+      ],
+      "requestBody": null
+    },
+    {
+      "url": "/api/Coordinates/{id}",
+      "tag": "Coordinates",
+      "subBiz": null,
+      "methods": "delete",
+      "summary": "删除坐标系",
+      "version": "v1",
+      "methodName": "deleteCoordinate",
+      "operationId": "DeleteCoordinate",
+      "parameters": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "id",
+          "required": true,
+          "default": null,
+          "in": "path"
+        },
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": null,
+      "requestBody": null
+    }
+  ],
+  "videoFusionServiceBiz": [
+    {
+      "url": "/api/CameraOrGroupDeleteRecords",
+      "tag": "CameraOrGroupDeleteRecords",
+      "subBiz": null,
+      "methods": "get",
+      "summary": "获取删除记录",
+      "version": "v1",
+      "methodName": "getCameraOrGroupDeleteRecords",
+      "parameters": [
+        {
+          "key": "SipServiceId",
+          "type": "string",
+          "description": "所属下级Id",
+          "default": null,
+          "in": "query"
+        },
+        {
+          "key": "SyncTaskId",
+          "type": "string",
+          "description": "同步任务Id",
+          "default": null,
+          "in": "query"
+        },
+        {
+          "key": "Keyword",
+          "type": "string",
+          "description": "关键字",
+          "default": null,
+          "in": "query"
+        },
+        {
+          "key": "page",
+          "type": "integer",
+          "description": "页码, 从1开始",
+          "default": 1,
+          "in": "query"
+        },
+        {
+          "key": "per_page",
+          "type": "integer",
+          "description": "页容量",
+          "default": 100,
+          "in": "query"
+        },
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "totalCount",
+          "type": "integer",
+          "description": "总数",
+          "required": false
+        },
+        {
+          "key": "records",
+          "type": "array",
+          "description": "记录",
+          "required": false
+        }
+      ],
+      "requestBody": null
+    }
+  ],
+  "vcsBiz": [
+    {
+      "url": "/api/Conferences/{id}/conventioneers/inviteRecords",
+      "tag": "Conferences",
+      "subBiz": null,
+      "methods": "get",
+      "summary": "获取邀请记录列表",
+      "version": "v1",
+      "methodName": "getInviteRecords",
+      "parameters": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "id",
+          "required": true,
+          "default": null,
+          "in": "path"
+        },
+        {
+          "key": "platformId",
+          "type": "string",
+          "description": "平台id（不填使用默认平台）",
+          "default": null,
+          "in": "query"
+        }
+      ],
+      "responses": [
+        {
+          "key": "callFails",
+          "type": "array",
+          "description": "呼叫失败",
+          "required": false
+        },
+        {
+          "key": "callSucceeds",
+          "type": "array",
+          "description": "呼叫成功",
+          "required": false
+        }
+      ],
+      "requestBody": null
+    }
+  ],
+  "assetBiz": [
+    {
+      "url": "/api/Terminals/camera/upgrade",
+      "tag": "Terminals",
+      "subBiz": null,
+      "methods": "get",
+      "summary": "升级关联监控",
+      "version": "v1",
+      "methodName": "upgradeRelateCamera",
+      "operationId": "UpgradeRelateCamera",
+      "parameters": [
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "totalCount",
+          "type": "integer",
+          "description": "总数",
+          "required": false
+        },
+        {
+          "key": "records",
+          "type": "array",
+          "description": "记录",
+          "required": false
+        }
+      ],
+      "requestBody": null
+    },
+    {
+      "url": "/api/TypeConfigs/search",
+      "tag": "TypeConfigs",
+      "subBiz": null,
+      "methods": "post",
+      "summary": "搜索类型配置",
+      "version": "v1",
+      "methodName": "searchTypeConfigs",
+      "operationId": "SearchTypeConfigs",
+      "parameters": [
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "totalCount",
+          "type": "integer",
+          "description": "总数",
+          "required": false
+        },
+        {
+          "key": "records",
+          "type": "array",
+          "description": "记录",
+          "required": false
+        }
+      ],
+      "requestBody": [
+        {
+          "key": "pageIndex",
+          "type": "integer",
+          "description": "页码, 从1开始",
+          "required": false,
+          "in": "requestBody"
+        },
+        {
+          "key": "pageSize",
+          "type": "integer",
+          "description": "页容量, [1, 128]",
+          "required": false,
+          "in": "requestBody"
+        },
+        {
+          "key": "platformId",
+          "type": "string",
+          "description": "分级平台ID",
+          "required": false,
+          "in": "requestBody"
+        },
+        {
+          "key": "keyword",
+          "type": "string",
+          "description": "关键词",
+          "required": false,
+          "in": "requestBody"
+        },
+        {
+          "key": "type",
+          "type": "integer",
+          "description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; ",
+          "required": false,
+          "details": null,
+          "in": "requestBody"
+        },
+        {
+          "key": "ids",
+          "type": "array",
+          "description": "Id集合",
+          "required": false,
+          "in": "requestBody"
+        }
+      ]
+    },
+    {
+      "url": "/api/TypeConfigs/export",
+      "tag": "TypeConfigs",
+      "subBiz": null,
+      "methods": "post",
+      "summary": "类型配置导出",
+      "version": "v1",
+      "methodName": "exportTypeConfigs",
+      "operationId": "ExportTypeConfigs",
+      "parameters": [
+        {
+          "key": "X-version",
+          "type": "string",
+          "description": "",
+          "default": null,
+          "in": "header"
+        }
+      ],
+      "responses": [
+        {
+          "key": "typeConfigs",
+          "type": "array",
+          "description": "类型配置",
+          "required": false
+        }
+      ],
+      "requestBody": [
+        {
+          "key": "ids",
+          "type": "array",
+          "description": "id集合",
+          "required": false,
+          "in": "requestBody"
+        }
+      ]
+    }
+  ],
+  "dcsBiz": [
+    {
+      "url": "/api/ResourceDb/export/ExternalData",
+      "tag": "ResourceDb",
+      "subBiz": null,
+      "methods": "post",
+      "summary": "导出资源库条目",
+      "version": "v1",
+      "methodName": "exportExternalDataEntry",
+      "operationId": "ExportExternalDataEntry",
+      "parameters": null,
+      "responses": [
+        {
+          "key": "externalDataEntries",
+          "type": "array",
+          "description": "资源库条目导出实体集合",
+          "required": false
+        },
+        {
+          "key": "resourceDbs",
+          "type": "array",
+          "description": "资源库导出实体集合",
+          "required": false
+        }
+      ],
+      "requestBody": [
+        {
+          "key": "productId",
+          "type": "string",
+          "description": "产品Id",
+          "required": false,
+          "in": "requestBody"
+        }
+      ]
+    },
+    {
+      "url": "/api/ResourceDb/import/ExternalData",
+      "tag": "ResourceDb",
+      "subBiz": null,
+      "methods": "post",
+      "summary": "导入资源库条目",
+      "version": "v1",
+      "methodName": "importExternalDataEntry",
+      "operationId": "ImportExternalDataEntry",
+      "parameters": null,
+      "responses": null,
+      "requestBody": [
+        {
+          "key": "resourceDbs",
+          "type": "array",
+          "description": "导入资源库列表",
+          "required": false,
+          "in": "requestBody"
+        },
+        {
+          "key": "externalDataEntries",
+          "type": "array",
+          "description": "资源库条目导入实体集合",
+          "required": false,
+          "in": "requestBody"
+        }
+      ]
+    }
+  ]
 }
