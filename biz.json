@@ -743,6 +743,27 @@
 					"description": "语言",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "usingNeural",
+					"type": "boolean",
+					"description": "使用使用神经网络声音（高质量语音）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "waitNeural",
+					"type": "boolean",
+					"description": "是否等待神经网络声音生成再返回如果不等待，将临时返回低质量语音文件，高质量语音将在后台转换后，提供缓存缓存的key为NeuralVoiceName+VoiceName，使用SHA-256哈希算法生成唯一文件名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "neuralVoiceName",
+					"type": "string",
+					"description": "voice name 如果传入不支持的语音名字，将自动采用默认",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -2780,6 +2801,12 @@
 			],
 			"responses": [
 				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
 					"key": "assetType",
 					"type": "integer",
 					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
@@ -2787,15 +2814,15 @@
 					"details": null
 				},
 				{
-					"key": "id",
-					"type": "string",
-					"description": "标识",
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false
 				},
 				{
-					"key": "resourceId",
-					"type": "string",
-					"description": "来源Id",
+					"key": "alertRecords",
+					"type": "array",
+					"description": "告警记录",
 					"required": false
 				},
 				{
@@ -2823,15 +2850,9 @@
 					"required": false
 				},
 				{
-					"key": "assetMetrics",
-					"type": "array",
-					"description": "指标",
-					"required": false
-				},
-				{
-					"key": "alertRecords",
-					"type": "array",
-					"description": "告警记录",
+					"key": "resourceId",
+					"type": "string",
+					"description": "来源Id",
 					"required": false
 				}
 			],
@@ -2944,6 +2965,28 @@
 					"key": "relateTypeIds",
 					"type": "array",
 					"description": "关联类型ID集合查询",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "center",
+					"type": "object",
+					"description": "坐标",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "radius",
+					"type": "number",
+					"description": "半径（单位米）",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -3259,6 +3302,119 @@
 					"type": "number",
 					"description": "半径（单位米）",
 					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Assets/search",
+			"tag": "Assets",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "通用搜索",
+			"version": "v1",
+			"methodName": "commonAssetSearch",
+			"operationId": "CommonAssetSearch",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "platformId",
+					"type": "string",
+					"description": "分级平台ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetIds",
+					"type": "array",
+					"description": "资产ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型（依赖一级资产类型）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relateTypeId",
+					"type": "string",
+					"description": "关联类型ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "relateTypeIds",
+					"type": "array",
+					"description": "关联类型ID集合查询",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -3656,6 +3812,9 @@
 						},
 						{
 							"key": "20"
+						},
+						{
+							"key": "21"
 						}
 					]
 				}
@@ -4001,6 +4160,9 @@
 						},
 						{
 							"key": "20"
+						},
+						{
+							"key": "21"
 						}
 					]
 				},
@@ -4199,6 +4361,9 @@
 						},
 						{
 							"key": "20"
+						},
+						{
+							"key": "21"
 						}
 					]
 				},
@@ -6176,20 +6341,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -6250,6 +6401,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -10854,6 +11019,133 @@
 			]
 		},
 		{
+			"url": "/api/Schemes",
+			"tag": "Schemes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索协议",
+			"version": "v1",
+			"methodName": "getSchemes",
+			"operationId": "GetSchemes",
+			"parameters": [
+				{
+					"key": "scene",
+					"type": "string",
+					"description": "场景",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Schemes/range_value",
+			"tag": "Schemes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "协议key范围值查询",
+			"version": "v1",
+			"methodName": "getRangeValues",
+			"operationId": "GetRangeValues",
+			"parameters": [
+				{
+					"key": "Key",
+					"type": "string",
+					"description": "协议Key",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词搜索",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "scene",
+					"type": "string",
+					"description": "场景",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/search/resource",
 			"tag": "Search",
 			"subBiz": null,
@@ -11617,6 +11909,181 @@
 					"type": "number",
 					"description": "半径（单位米）",
 					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Statistical/Area/camera",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据行政区域获取监控统计数据",
+			"version": "v1",
+			"methodName": "getCameraStatisticsByArea",
+			"operationId": "PrefixAreaCodeCameraStatistics",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "areaCodes",
+					"type": "array",
+					"description": "行政区域【包含下级】",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Statistical/AssetType",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "资产类型统计",
+			"version": "v1",
+			"methodName": "getAssetTypeStatistics",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "functionTypes",
+					"type": "integer",
+					"description": "资产功能分类1:Normal,普通; 2:GPS,定位; 4:Camera,监控; 8:Number,号码; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isIncludeConferenceTerminal",
+					"type": "boolean",
+					"description": "是否包含视频会议终端",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Statistical/TypeConfig",
+			"tag": "Statistical",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "三级分类统计",
+			"version": "v1",
+			"methodName": "getTypeConfigStatistics",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键词",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetTypeId",
+					"type": "string",
+					"description": "资产类型ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -18157,6 +18624,13 @@
 					"in": "query"
 				},
 				{
+					"key": "Content",
+					"type": "string",
+					"description": "搜索通话内容",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -19826,6 +20300,9 @@
 						},
 						{
 							"key": "10"
+						},
+						{
+							"key": "11"
 						}
 					]
 				},
@@ -20851,6 +21328,13 @@
 					"key": "eventID",
 					"type": "string",
 					"description": "关联的事件ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "voiceName",
+					"type": "string",
+					"description": "播音员：需从cgs获取具体语音名称，不传则默认使用服务配置TTSAnnouncer：0-女生，1-男生",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -26720,6 +27204,260 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/contacts/districts",
+			"tag": "Contact",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新所有联系人行政区划（联系人历史数据补全）",
+			"version": "v2",
+			"methodName": "editContractDistricts",
+			"parameters": [
+				{
+					"key": "defaultAreaCode",
+					"type": "string",
+					"description": "默认行政区划编码，若该值为空，默认值则使用配置文件的值",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "isUpdateAreaCodeEmpty",
+					"type": "boolean",
+					"description": "是否只更新行政区域码为空的联系人",
+					"required": true,
+					"default": true,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/contactTypes",
+			"tag": "ContactType",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新建用户类型",
+			"version": "v2",
+			"methodName": "addContactType",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "用户类型名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "用户类型描述",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "用户类型名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "用户类型描述",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/contactTypes",
+			"tag": "ContactType",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询所有的用户类型",
+			"version": "v2",
+			"methodName": "getContactTypes",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "用户类型名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "用户类型描述",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/contactTypes/{id}",
+			"tag": "ContactType",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "编辑用户类型",
+			"version": "v2",
+			"methodName": "editContactType",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "用户类型名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "用户类型描述",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/contactTypes/{id}",
+			"tag": "ContactType",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除用户类型",
+			"version": "v2",
+			"methodName": "deleteContactType",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/contactTypes/{id}",
+			"tag": "ContactType",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "查询用户类型详情",
+			"version": "v2",
+			"methodName": "getContactTypeById",
+			"operationId": "GetContactTypeDetail",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id标识",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "Id",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "用户类型名称",
+					"required": false
+				},
+				{
+					"key": "description",
+					"type": "string",
+					"description": "用户类型描述",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/import/data/organization",
 			"tag": "DataHandle",
 			"subBiz": null,
@@ -27879,6 +28617,89 @@
 					"key": "records",
 					"type": "array",
 					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/groups/{id}/contacts",
+			"tag": "Groups",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据关键字分页搜索组内联系人成员接口（含组下联系人的统计）",
+			"version": "v2",
+			"methodName": "querySearchGroupContacts",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "组Id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字（联系人姓名、电话号码）",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "phone_type",
+					"type": "string",
+					"description": "电话类型（type为空则查询所有类型）telephoneNumber：办公电话ipPhone：IP话机homePhone：家庭电话facsimileTelephoneNumber：传真号码mobile：手机pttNumber：对讲号码",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, MaxValue]",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "currentRecords",
+					"type": "object",
+					"description": "分页查询结果",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						}
+					]
+				},
+				{
+					"key": "statistics",
+					"type": "array",
+					"description": "统计数量",
 					"required": false
 				}
 			],
@@ -47097,6 +47918,54 @@
 			]
 		},
 		{
+			"url": "/api/Districts/analysis/address",
+			"tag": "Districts",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "通过经纬度分析地址",
+			"version": "v1",
+			"methodName": "analysisAddress",
+			"operationId": "AnalysisAddress",
+			"parameters": [
+				{
+					"key": "coordinate.Longitude",
+					"type": "number",
+					"description": "经度",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "coordinate.Latitude",
+					"type": "number",
+					"description": "纬度",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "districts",
+					"type": "array",
+					"description": "所属行政区域列表",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "地址信息",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
 			"url": "/api/Districts/export",
 			"tag": "Districts",
 			"subBiz": null,
@@ -57187,6 +58056,12 @@
 					"key": "extension",
 					"description": "扩展字段",
 					"required": false
+				},
+				{
+					"key": "duration",
+					"type": "string",
+					"description": "时长单位秒",
+					"required": false
 				}
 			],
 			"requestBody": null
@@ -57418,6 +58293,12 @@
 				{
 					"key": "extension",
 					"description": "扩展字段",
+					"required": false
+				},
+				{
+					"key": "duration",
+					"type": "string",
+					"description": "时长单位秒",
 					"required": false
 				}
 			],
@@ -57680,6 +58561,12 @@
 					"key": "extension",
 					"description": "扩展字段",
 					"required": false
+				},
+				{
+					"key": "duration",
+					"type": "string",
+					"description": "时长单位秒",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -57747,6 +58634,18 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/Files/duration",
+			"tag": "Files",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新文件的播放时长",
+			"version": "v1",
+			"methodName": "updateFileDuration",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/ZEnums/StorageKind",
@@ -75943,6 +76842,48 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Statistics/camera/prefixAreaCode",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据行政区域前缀获取监控统计数据",
+			"version": "v1",
+			"methodName": "getCameraStatisticsByArea",
+			"operationId": "PrefixAreaCodeCameraStatistics",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "prefixAreaCode",
+					"type": "string",
+					"description": "行政区域码",
+					"required": false
+				},
+				{
+					"key": "count",
+					"type": "integer",
+					"description": "监控总数",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域集合",
+					"required": true,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/StreamKeepAliveJobs",
 			"tag": "StreamKeepAliveJobs",
 			"subBiz": null,
@@ -76544,200 +77485,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/UpperDomains/{id}/state/records",
-			"tag": "UpperDomains",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "分页获取上级域状态变更记录",
-			"version": "v1",
-			"methodName": "getUpperDomainStateRecords",
-			"operationId": "GetUpperDomainStateRecords",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "Online",
-					"type": "boolean",
-					"description": "是否在线 true：在线，false：离线",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "StartTime",
-					"type": "string",
-					"description": "开始时间",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "EndTime",
-					"type": "string",
-					"description": "结束时间",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/UpperDomains/cameras/state/records",
-			"tag": "UpperDomains",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "条件查询监控状态变更上报记录",
-			"version": "v1",
-			"methodName": "getCamerasStateHistory",
-			"parameters": [
-				{
-					"key": "UpperId",
-					"type": "string",
-					"description": "上级域Id",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "Online",
-					"type": "boolean",
-					"description": "监控在线状态,true-在线，false-离线",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "ReportResult",
-					"type": "boolean",
-					"description": "上报结果:true-上报成功，false-上报失败",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "StartTime",
-					"type": "string",
-					"description": "开始时间",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "EndTime",
-					"type": "string",
-					"description": "结束时间",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "Keyword",
-					"type": "string",
-					"description": "关键字",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量",
-					"default": 100,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/UpperDomains/cameras/state/report",
-			"tag": "UpperDomains",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "上报监控状态到上级域",
-			"version": "v1",
-			"methodName": "reportCameraStateToUpperDomains",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "upperId",
-					"type": "string",
-					"description": "上级域Id",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
 			"url": "/api/UpperDomains",
 			"tag": "UpperDomains",
 			"subBiz": null,
@@ -77122,6 +77869,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "incrementSyncRetainCount",
+					"type": "integer",
+					"description": "增量同步保留的记录次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "isUseDbSync",
 					"type": "boolean",
 					"description": "是否使用数据库同步",
@@ -77394,6 +78148,13 @@
 					"key": "dirSyncRetainCount",
 					"type": "integer",
 					"description": "指定目录同步保留的记录次数",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "incrementSyncRetainCount",
+					"type": "integer",
+					"description": "增量同步保留的记录次数",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -78113,6 +78874,200 @@
 				}
 			],
 			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/{id}/state/records",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取上级域状态变更记录",
+			"version": "v1",
+			"methodName": "getUpperDomainStateRecords",
+			"operationId": "GetUpperDomainStateRecords",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "Online",
+					"type": "boolean",
+					"description": "是否在线 true：在线，false：离线",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "StartTime",
+					"type": "string",
+					"description": "开始时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "EndTime",
+					"type": "string",
+					"description": "结束时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/cameras/state/records",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "条件查询监控状态变更上报记录",
+			"version": "v1",
+			"methodName": "getCamerasStateHistory",
+			"parameters": [
+				{
+					"key": "UpperId",
+					"type": "string",
+					"description": "上级域Id",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Online",
+					"type": "boolean",
+					"description": "监控在线状态,true-在线，false-离线",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ReportResult",
+					"type": "boolean",
+					"description": "上报结果:true-上报成功，false-上报失败",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "StartTime",
+					"type": "string",
+					"description": "开始时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "EndTime",
+					"type": "string",
+					"description": "结束时间",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "Keyword",
+					"type": "string",
+					"description": "关键字",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量",
+					"default": 100,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/UpperDomains/cameras/state/report",
+			"tag": "UpperDomains",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "上报监控状态到上级域",
+			"version": "v1",
+			"methodName": "reportCameraStateToUpperDomains",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "upperId",
+					"type": "string",
+					"description": "上级域Id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/VideoConferences/{conferenceNumber}/invite_camera",
@@ -82060,6 +83015,12 @@
 					"type": "boolean",
 					"description": "是否演讲者模式",
 					"required": false
+				},
+				{
+					"key": "bingSip",
+					"type": "string",
+					"description": "会议室绑定的sip号码",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -84794,6 +85755,12 @@
 					"required": false
 				},
 				{
+					"key": "number",
+					"type": "string",
+					"description": "号码",
+					"required": false
+				},
+				{
 					"key": "assetType",
 					"description": "",
 					"required": false,
@@ -84824,6 +85791,12 @@
 					"required": false
 				},
 				{
+					"key": "contactTitle",
+					"type": "string",
+					"description": "联系人职位",
+					"required": false
+				},
+				{
 					"key": "contactDepartment",
 					"type": "string",
 					"description": "联系人部门",
@@ -84851,6 +85824,12 @@
 					"key": "relateTypeId",
 					"type": "string",
 					"description": "关联类型",
+					"required": false
+				},
+				{
+					"key": "relateCameraId",
+					"type": "string",
+					"description": "关联监控ID",
 					"required": false
 				},
 				{
@@ -85411,6 +86390,327 @@
 			],
 			"responses": null,
 			"requestBody": null
+		},
+		{
+			"url": "/api/AssetTypes/{id}",
+			"tag": "AssetTypes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取",
+			"version": "v1",
+			"methodName": "getAssetTypeById",
+			"operationId": "GetAssetType",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "类型名",
+					"required": false
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型",
+					"required": false
+				},
+				{
+					"key": "functionTypes",
+					"type": "integer",
+					"description": "资产功能分类1:Normal,普通; 2:GPS,定位; 4:Camera,监控; 8:Number,号码; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "configType",
+					"type": "integer",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "isSubType",
+					"type": "boolean",
+					"description": "是否有子级类型",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/AssetTypes/{id}",
+			"tag": "AssetTypes",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "更新",
+			"version": "v1",
+			"methodName": "editAssetType",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "类型名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "functionTypes",
+					"type": "integer",
+					"description": "资产功能分类1:Normal,普通; 2:GPS,定位; 4:Camera,监控; 8:Number,号码; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "configType",
+					"type": "integer",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/AssetTypes/{id}",
+			"tag": "AssetTypes",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除",
+			"version": "v1",
+			"methodName": "deleteAssetType",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/AssetTypes",
+			"tag": "AssetTypes",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "搜索",
+			"version": "v1",
+			"methodName": "getAssetTypes",
+			"operationId": "GetAssetTypes",
+			"parameters": [
+				{
+					"key": "FunctionTypes",
+					"description": "功能分类【默认查询全部】",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "AssetType",
+					"description": "一级类型",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/AssetTypes",
+			"tag": "AssetTypes",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增",
+			"version": "v1",
+			"methodName": "addAssetType",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "ID",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "类型名",
+					"required": false
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型",
+					"required": false
+				},
+				{
+					"key": "functionTypes",
+					"type": "integer",
+					"description": "资产功能分类1:Normal,普通; 2:GPS,定位; 4:Camera,监控; 8:Number,号码; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "configType",
+					"type": "integer",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "isSubType",
+					"type": "boolean",
+					"description": "是否有子级类型",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "name",
+					"type": "string",
+					"description": "类型名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "secondaryAssetType",
+					"type": "integer",
+					"description": "二级资产类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "functionTypes",
+					"type": "integer",
+					"description": "资产功能分类1:Normal,普通; 2:GPS,定位; 4:Camera,监控; 8:Number,号码; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "configType",
+					"type": "integer",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/Client",
@@ -91798,6 +93098,71 @@
 			]
 		},
 		{
+			"url": "/api/Statistics/AssetType",
+			"tag": "Statistics",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "资产类型统计",
+			"version": "v1",
+			"methodName": "getAssetTypeStatistics",
+			"operationId": "GetAssetTypeCount",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "prefixAreaCodes",
+					"type": "array",
+					"description": "行政区域前缀",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "functionTypes",
+					"type": "integer",
+					"description": "资产功能分类1:Normal,普通; 2:GPS,定位; 4:Camera,监控; 8:Number,号码; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "assetType",
+					"type": "integer",
+					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
+					"required": false,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isMatchNullAreaCode",
+					"type": "boolean",
+					"description": "是否匹配空行政区域码",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Terminals",
 			"tag": "Terminals",
 			"subBiz": null,
@@ -93535,7 +94900,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,summary; ",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
 					"required": false,
 					"details": null
 				}
@@ -93586,7 +94951,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,summary; ",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
 					"required": true,
 					"details": null,
 					"in": "requestBody"
@@ -93728,7 +95093,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,summary; ",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
 					"required": false,
 					"details": null
 				}
@@ -93751,7 +95116,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,summary; ",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
 					"required": true,
 					"details": null,
 					"in": "requestBody"
@@ -93822,7 +95187,7 @@
 				{
 					"key": "type",
 					"type": "integer",
-					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,summary; ",
+					"description": "配置类型0:MonitorDevice,监测设备终端; 1:IntercomTerminal,对讲终端; 2:OtherTerminal,其他终端; ",
 					"required": false,
 					"details": null,
 					"in": "requestBody"
@@ -100279,6 +101644,12 @@
 					"in": "query"
 				},
 				{
+					"key": "OrderRule",
+					"description": "排序规则,0-更新时间降序,1-更新时间升序,2-数据同步量降序,3-数据同步量升序,4-耗时降序,5-耗时升序",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -105168,6 +106539,13 @@
 					"in": "query"
 				},
 				{
+					"key": "scene",
+					"type": "string",
+					"description": "场景",
+					"default": null,
+					"in": "query"
+				},
+				{
 					"key": "page",
 					"type": "integer",
 					"description": "页码, 从1开始",
@@ -105324,6 +106702,60 @@
 					"key": "recipients",
 					"type": "array",
 					"description": "模板默认接收人",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/NotifyConfigs/types",
+			"tag": "NotifyConfigs",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取全部通知类型",
+			"version": "v1",
+			"methodName": "getNotifyConfigTypes",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/NotifyConfigs/{id}/enable",
+			"tag": "NotifyConfigs",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "启用通知配置",
+			"version": "v1",
+			"methodName": "openNotifyConfig",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "isEnable",
+					"type": "boolean",
+					"description": "是否启用",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -106003,6 +107435,13 @@
 					"details": null
 				},
 				{
+					"key": "analysisType",
+					"type": "integer",
+					"description": "解析类型",
+					"required": false,
+					"details": null
+				},
+				{
 					"key": "isDynamicRangeValue",
 					"type": "boolean",
 					"description": "是否动态的值范围",
@@ -106229,6 +107668,13 @@
 					"key": "operator",
 					"type": "integer",
 					"description": "操作符类型",
+					"required": false,
+					"details": null
+				},
+				{
+					"key": "analysisType",
+					"type": "integer",
+					"description": "解析类型",
 					"required": false,
 					"details": null
 				},
