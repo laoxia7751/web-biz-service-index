@@ -2801,12 +2801,6 @@
 			],
 			"responses": [
 				{
-					"key": "id",
-					"type": "string",
-					"description": "标识",
-					"required": false
-				},
-				{
 					"key": "assetType",
 					"type": "integer",
 					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
@@ -2814,15 +2808,15 @@
 					"details": null
 				},
 				{
-					"key": "assetMetrics",
-					"type": "array",
-					"description": "指标",
+					"key": "id",
+					"type": "string",
+					"description": "标识",
 					"required": false
 				},
 				{
-					"key": "alertRecords",
-					"type": "array",
-					"description": "告警记录",
+					"key": "resourceId",
+					"type": "string",
+					"description": "来源Id",
 					"required": false
 				},
 				{
@@ -2850,9 +2844,15 @@
 					"required": false
 				},
 				{
-					"key": "resourceId",
-					"type": "string",
-					"description": "来源Id",
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
+					"required": false
+				},
+				{
+					"key": "alertRecords",
+					"type": "array",
+					"description": "告警记录",
 					"required": false
 				}
 			],
@@ -6595,20 +6595,6 @@
 			"methodName": "getRunningEvents",
 			"parameters": [
 				{
-					"key": "page",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"default": 1,
-					"in": "query"
-				},
-				{
-					"key": "per_page",
-					"type": "integer",
-					"description": "页容量, [1, 128]",
-					"default": 100,
-					"in": "query"
-				},
-				{
 					"key": "keyword",
 					"type": "string",
 					"description": "模糊匹配关键字",
@@ -6669,6 +6655,20 @@
 					"type": "string",
 					"description": "结束时间",
 					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"default": 1,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"type": "integer",
+					"description": "页容量, [1, 128]",
+					"default": 100,
 					"in": "query"
 				},
 				{
@@ -8001,6 +8001,26 @@
 					"type": "string",
 					"description": "流媒体映射地址",
 					"required": false
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -8240,6 +8260,27 @@
 						},
 						{
 							"key": "4"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -8511,6 +8552,26 @@
 					"type": "string",
 					"description": "流媒体映射地址",
 					"required": false
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -8755,6 +8816,27 @@
 						},
 						{
 							"key": "4"
+						}
+					],
+					"in": "requestBody"
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
 						}
 					],
 					"in": "requestBody"
@@ -30156,6 +30238,39 @@
 			"summary": "根据联系人集合批量查询联系人信息",
 			"version": "v2",
 			"methodName": "searchContacts",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": []
+		},
+		{
+			"url": "/api/search/groups/batch",
+			"tag": "Search",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据组集合批量查询组信息",
+			"version": "v2",
+			"methodName": "searchGroupsV2",
 			"parameters": [
 				{
 					"key": "X-version",
@@ -71164,19 +71279,6 @@
 					"required": false
 				},
 				{
-					"key": "parentId",
-					"type": "string",
-					"description": "父Id",
-					"required": false
-				},
-				{
-					"key": "type",
-					"type": "integer",
-					"description": "收藏类型",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "labels",
 					"type": "array",
 					"description": "监控标签",
@@ -71250,6 +71352,19 @@
 					"type": "string",
 					"description": "收藏项名称（只有收藏组有名称）",
 					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "收藏类型",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "subType",
@@ -71440,19 +71555,6 @@
 					"required": false
 				},
 				{
-					"key": "parentId",
-					"type": "string",
-					"description": "父Id",
-					"required": false
-				},
-				{
-					"key": "type",
-					"type": "integer",
-					"description": "收藏类型",
-					"required": false,
-					"details": null
-				},
-				{
 					"key": "labels",
 					"type": "array",
 					"description": "监控标签",
@@ -71526,6 +71628,19 @@
 					"type": "string",
 					"description": "收藏项名称（只有收藏组有名称）",
 					"required": false
+				},
+				{
+					"key": "parentId",
+					"type": "string",
+					"description": "父Id",
+					"required": false
+				},
+				{
+					"key": "type",
+					"type": "integer",
+					"description": "收藏类型",
+					"required": false,
+					"details": null
 				},
 				{
 					"key": "subType",
@@ -72028,6 +72143,27 @@
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					],
+					"in": "requestBody"
 				}
 			]
 		},
@@ -72289,6 +72425,26 @@
 					"type": "boolean",
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -72590,6 +72746,26 @@
 					"type": "boolean",
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -72807,6 +72983,27 @@
 					"type": "boolean",
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					],
 					"in": "requestBody"
 				}
 			]
@@ -75111,6 +75308,27 @@
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					],
+					"in": "requestBody"
 				}
 			]
 		},
@@ -75373,6 +75591,26 @@
 					"type": "boolean",
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
 				}
 			],
 			"requestBody": null
@@ -75676,6 +75914,26 @@
 					"type": "boolean",
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					]
 				}
 			],
 			"requestBody": [
@@ -75893,6 +76151,27 @@
 					"type": "boolean",
 					"description": "是否开启ssrc检验0-否1-是默认0",
 					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "expirationPolicyConfig",
+					"type": "object",
+					"description": "过期数据处理策略配置",
+					"required": false,
+					"details": [
+						{
+							"key": "0"
+						},
+						{
+							"key": "1"
+						},
+						{
+							"key": "2"
+						},
+						{
+							"key": "3"
+						}
+					],
 					"in": "requestBody"
 				}
 			]
@@ -95473,6 +95752,13 @@
 					"description": "是否匹配空行政区域码",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "isIncludeIntercomGroup",
+					"type": "boolean",
+					"description": "是否包含对讲组（默认包含）",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		},
@@ -103416,6 +103702,54 @@
 			]
 		},
 		{
+			"url": "/api/Departments/{id}/move",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "移动位置",
+			"version": "v1",
+			"methodName": "moveDepartment",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "beforeId",
+					"type": "string",
+					"description": "移入位置前面的id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "afterId",
+					"type": "string",
+					"description": "移入位置后面的id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Departments/DataUpgrade",
+			"tag": "Departments",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "数据升级",
+			"version": "v1",
+			"methodName": "upgradeData",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/Districts",
 			"tag": "Districts",
 			"subBiz": null,
@@ -111052,6 +111386,13 @@
 					"description": "业务ID",
 					"required": false,
 					"in": "requestBody"
+				},
+				{
+					"key": "commonBizId",
+					"type": "string",
+					"description": "通用业务ID",
+					"required": false,
+					"in": "requestBody"
 				}
 			]
 		}
@@ -111936,7 +112277,7 @@
 			]
 		},
 		{
-			"url": "/api/Conversations/{id}/unread_state",
+			"url": "/api/Conversations/{id}/unread_state/{number}",
 			"tag": "Conversations",
 			"subBiz": null,
 			"methods": "put",
@@ -111958,7 +112299,7 @@
 					"description": "当前登录人发送短信的号码",
 					"required": true,
 					"default": null,
-					"in": "query"
+					"in": "path"
 				}
 			],
 			"responses": null,
@@ -112092,6 +112433,31 @@
 					"key": "records",
 					"type": "array",
 					"description": "",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Conversations/unread/conversations",
+			"tag": "Conversations",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取未读会话列表(返回前5条数据)",
+			"version": "v1",
+			"methodName": "getUnreadConversations",
+			"parameters": null,
+			"responses": [
+				{
+					"key": "unReadTotal",
+					"type": "integer",
+					"description": "总数未读",
+					"required": false
+				},
+				{
+					"key": "unReadConversations",
+					"type": "array",
+					"description": "未读会话集合",
 					"required": false
 				}
 			],
