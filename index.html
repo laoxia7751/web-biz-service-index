@@ -1,316 +1,307 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="stylesheet" href="./assets/index.css" />
-    <link href="./assets/tailwind.min.css" rel="stylesheet" />
-    <link href="./assets/style.css" rel="stylesheet" />
-    <script src="./assets/vue.global.js"></script>
-    <script src="./assets/index.full.js"></script>
-    <title>web-biz-service请求库方法汇总</title>
-  </head>
-  <body >
-    <div id="app">
-      <el-container style="height: 100vh">
-        <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
-          <el-menu class="el-menu-vertical-demo" :default-active="activeBizName">
-            <el-menu-item :index="''" @click="menuClick('')">
-              <span>全部</span>
-            </el-menu-item>
-            <el-menu-item :index="bizName" v-for="(data, bizName, index) in descMap" :key="bizName" @click="menuClick(bizName)">
-              <span>{{bizName}}-{{data?.desc || ''}}</span>
-            </el-menu-item>
-          </el-menu>
-        </el-aside>
-        <el-container>
-          <el-header class="flex justify-center items-center relative">
-            <div class="w-1/3 flex justify-center items-center">
-              <div class="absolute top-1/2 left-10 transform -translate-y-2/4">
-                <el-tag class="version" type="danger">版本:1.8.23</el-tag>
-              </div>
-              <el-input
-                v-model="searchValue"
-                placeholder="请输入"
-                class="input-with-select"
-                clearable @change="search" @clear="search"
-              >
-                <template #prepend>
-                  <el-select v-model="searchType" placeholder="Select" style="width: 115px">
-                    <el-option label="请求名称" value="1"></el-option>
-                    <el-option label="请求URL" value="2"></el-option>
-                    <el-option label="请求描述" value="3"></el-option>
-                  </el-select>
-                </template>
-                <template #append>
-                  <el-button @click="search">搜索</el-button>
-                </template>
-              </el-input>
-            </div>
-            <div class="absolute top-1/2 right-10 transform -translate-y-2/4">
-              <el-link  type="info" href="https://greasyfork.org/zh-CN/scripts/450328-swaggerskiptocustommethods" target="_blank">油猴脚本工具</el-link>
-              &nbsp;
-              <el-switch
-                v-model="dark"
-                inline-prompt
-                active-text="☀️"
-                inactive-text="🌙"
-                @change="setDefaultShowType"
-              />
-            </div>
-          </el-header>
-          <el-main>
-            <el-table :data="tableData" row-key="methodName" :expand-row-keys="expands" @row-click="clickRowHandle" v-loading="loading">
-              <el-table-column type="expand">
-                <template v-slot="props">
-                  <el-row class="px-10 py-5">
-                    <el-col :span="24" class="mb-3">
-                      <h3 class="font-bold text-md mb-1">请求示例</h3>
-                      <code> {{getExample(props.row)}} </code>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-descriptions title="请求参数" :column="1">
-                        <el-descriptions-item :label="key" v-for="(value, key) in getParams(props.row)">{{value || ''}}</el-descriptions-item>
-                      </el-descriptions>
-                    </el-col>
-                    <el-col :span="12">
-                      <el-descriptions title="请求结果" :column="1">
-                        <el-descriptions-item :label="key" v-for="(value, key) in getResponse(props.row)">{{value || ''}}</el-descriptions-item>
-                      </el-descriptions>
-                    </el-col>
-                  </el-row>
-                </template>
-              </el-table-column>
-              <el-table-column label="请求名称" prop="methodName"> </el-table-column>
-              <el-table-column label="所属模块" prop="bizName" width="280px">
-                <template #default="scope">
-                  <el-tag>{{scope.row.subBiz || scope.row.bizName}}</el-tag> -
-                  <span class="text-sm muduleLabel">{{descMap[scope.row.subBiz || scope.row.bizName]?.desc || ''}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column label="请求描述" prop="summary"> </el-table-column>
-              <el-table-column label="请求URL" prop="url"> </el-table-column>
-              <el-table-column label="请求类型" prop="methods" width="150px">
-                <template #default="scope">
-                  <el-tag size="small" :type="methodColorType[scope.row.methods]" effect="dark">{{scope.row.methods.toUpperCase()}}</el-tag>
-                </template>
-              </el-table-column>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <link rel="stylesheet" href="./assets/index.css" />
+        <link href="./assets/tailwind.min.css" rel="stylesheet" />
+        <link href="./assets/style.css" rel="stylesheet" />
+        <script src="./assets/vue.global.js"></script>
+        <script src="./assets/index.full.js"></script>
+        <title>web-biz-service请求库方法汇总</title>
+    </head>
+    <body>
+        <div id="app">
+            <el-container style="height: 100vh">
+                <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
+                    <el-menu class="el-menu-vertical-demo" :default-active="activeBizName">
+                        <el-menu-item :index="''" @click="menuClick('')">
+                            <span>全部</span>
+                        </el-menu-item>
+                        <el-menu-item :index="bizName" v-for="(data, bizName, index) in descMap" :key="bizName" @click="menuClick(bizName)">
+                            <span>{{bizName}}-{{data?.desc || ''}}</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-container>
+                    <el-header class="flex justify-center items-center relative">
+                        <div class="w-1/3 flex justify-center items-center">
+                            <div class="absolute top-1/2 left-10 transform -translate-y-2/4">
+                                <el-tag class="version" type="danger">版本:1.8.24</el-tag>
+                            </div>
+                            <el-input v-model="searchValue" placeholder="请输入" class="input-with-select" clearable @change="search" @clear="search">
+                                <template #prepend>
+                                    <el-select v-model="searchType" placeholder="Select" style="width: 115px">
+                                        <el-option label="请求名称" value="1"></el-option>
+                                        <el-option label="请求URL" value="2"></el-option>
+                                        <el-option label="请求描述" value="3"></el-option>
+                                    </el-select>
+                                </template>
+                                <template #append>
+                                    <el-button @click="search">搜索</el-button>
+                                </template>
+                            </el-input>
+                        </div>
+                        <div class="absolute top-1/2 right-10 transform -translate-y-2/4">
+                            <el-link type="info" href="https://greasyfork.org/zh-CN/scripts/450328-swaggerskiptocustommethods" target="_blank">油猴脚本工具</el-link>
+                            &nbsp;
+                            <el-switch v-model="dark" inline-prompt active-text="☀️" inactive-text="🌙" @change="setDefaultShowType" />
+                        </div>
+                    </el-header>
+                    <el-main>
+                        <el-table :data="tableData" row-key="methodName" :expand-row-keys="expands" @row-click="clickRowHandle" v-loading="loading">
+                            <el-table-column type="expand">
+                                <template v-slot="props">
+                                    <el-row class="px-10 py-5">
+                                        <el-col :span="24" class="mb-3">
+                                            <h3 class="font-bold text-md mb-1">请求示例</h3>
+                                            <code> {{getExample(props.row)}} </code>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <el-descriptions title="请求参数" :column="1">
+                                                <el-descriptions-item :label="key" v-for="(value, key) in getParams(props.row)">{{value || ''}}</el-descriptions-item>
+                                            </el-descriptions>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <el-descriptions title="请求结果" :column="1">
+                                                <el-descriptions-item :label="key" v-for="(value, key) in getResponse(props.row)">{{value || ''}}</el-descriptions-item>
+                                            </el-descriptions>
+                                        </el-col>
+                                    </el-row>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="请求名称" prop="methodName"> </el-table-column>
+                            <el-table-column label="所属模块" prop="bizName" width="280px">
+                                <template #default="scope">
+                                    <el-tag>{{scope.row.subBiz || scope.row.bizName}}</el-tag> -
+                                    <span class="text-sm muduleLabel">{{descMap[scope.row.subBiz || scope.row.bizName]?.desc || ''}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="请求描述" prop="summary"> </el-table-column>
+                            <el-table-column label="请求URL" prop="url"> </el-table-column>
+                            <el-table-column label="请求类型" prop="methods" width="150px">
+                                <template #default="scope">
+                                    <el-tag size="small" :type="methodColorType[scope.row.methods]" effect="dark">{{scope.row.methods.toUpperCase()}}</el-tag>
+                                </template>
+                            </el-table-column>
 
-              <el-table-column label="请求版本" align="center" width="120px">
-                <template #default="scope">
-                  <el-tag>{{scope.row.version}}</el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" align="center" width="150px">
-                <template #default="scope">
-                  <el-button size="small" type="primary" @click.stop="skipSwagger(scope.row)" v-if="descMap[scope.row.bizName]?.doc">查看</el-button>
-                  <el-button size="small" type="warning"  @click.stop="copyName(scope.row)" v-if="descMap[scope.row.bizName]?.doc">复制</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-main>
-        </el-container>
-      </el-container>
-    </div>
+                            <el-table-column label="请求版本" align="center" width="120px">
+                                <template #default="scope">
+                                    <el-tag>{{scope.row.version}}</el-tag>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" align="center" width="150px">
+                                <template #default="scope">
+                                    <el-button size="small" type="primary" @click.stop="skipSwagger(scope.row)" v-if="descMap[scope.row.bizName]?.doc">查看</el-button>
+                                    <el-button size="small" type="warning" @click.stop="copyName(scope.row)" v-if="descMap[scope.row.bizName]?.doc">复制</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-main>
+                </el-container>
+            </el-container>
+        </div>
 
-    <script>
-      const App = {
-        mounted() {
-          fetch('biz.json', { cache: 'no-cache', headers: { 'cache-control': 'no-cache' } })
-            .then((res) => res.json())
-            .then((res) => {
-              this.bizData = res;
-              this.search();
-              this.loading = false;
-            });
-            document.querySelector('html').setAttribute('data-theme', this.dark ? 'dark' : 'light');
-        },
-        data() {
-          return {
-            // 当前选中biz模块
-            activeBizName: 'gcsBiz',
-            // json数据
-            bizData: {},
-            // 搜索类型
-            searchType: '1',
-            // 搜索值
-            searchValue: '',
-            // 最终展示结果
-            tableData: [],
-            // 要展开的行，数值的元素是row的key值
-            expands: [],
-            // 加载
-            loading: true,
-            // 暗黑模式
-            dark: localStorage.getItem('dark') === 'true',
-          };
-        },
-        computed: {
-          // biz模块信息说明
-          descMap() {
-            return {
-              aggsBiz: { noSwagger:true, desc: '聚合查询服务', doc: 'http://10.8.109.235:3885' },
-              alarmBiz: { noSwagger:false, desc: '告警服务', doc: 'http://10.8.109.235:20173' },
-              alertsPlatformBiz: { noSwagger:false, desc: '告警平台服务', doc: 'http://10.8.109.235:20080' },
-              assetBiz: { noSwagger:true, desc: '资产服务', doc: 'http://10.8.109.235:13735' },
-              associatedBiz: { noSwagger:true, desc: '事件服务-事件关联', doc: 'http://10.8.109.235:3088' },
-              auditBiz: { noSwagger:false, desc: '审计服务', doc: 'http://10.8.109.233:32537' },
-              authBiz: { noSwagger:false, desc: '认证授权服务', doc: 'http://10.8.109.235:9810' },
-              cgsBiz: { noSwagger:false, desc: '认知服务(文字转语音)', doc: 'http://10.8.109.235:3378' },
-              dcsBiz: { noSwagger:false, desc: '数据中台服务', doc: 'http://10.8.109.235:3079' },
-              edmsBiz: { noSwagger:false, desc: '调度服务', doc: 'http://10.8.109.235:3333' },
-              eventBiz: { noSwagger:true, desc: '事件服务', doc: 'http://10.8.109.235:3088' },
-              fileStorageBiz: { noSwagger:false, desc: '文件存储服务', doc: 'http://10.8.109.235:17591' },
-              gcsBiz: { noSwagger:false, desc: 'GPS点位服务', doc: 'http://10.8.109.235:7319' },
-              geoAnalysisBiz: { noSwagger:false, desc: '地理分析服务', doc: 'http://10.8.109.235:3099' },
-              geoDataBiz: { noSwagger:false, desc: '地理数据服务', doc: 'http://10.8.109.233:3098' },
-              mmtBiz: { noSwagger:false, desc: '拍传服务', doc: 'http://10.8.109.235:17599' },
-              modelAnalysisBiz: { noSwagger:false, desc: '模型分析服务', doc: 'http://10.8.109.235:20175' },
-              msgBiz: { noSwagger:false, desc: '短信服务', doc: 'http://10.8.109.235:3398' },
-              ntsBiz: { noSwagger:false, desc: '通知服务', doc: 'http://10.8.109.235:50078' },
-              orgsBiz: { noSwagger:false, desc: '组织架构服务', doc: 'http://10.8.109.232:10270' },
-              preplanAnalysisBiz: { noSwagger:false, desc: '预案分析服务', doc: 'http://10.8.109.235:3089' },
-              preplanBiz: { noSwagger:true, desc: '事件服务-预案', doc: 'http://10.8.109.235:3088' },
-              quartzBiz: { noSwagger:false, desc: '定时任务服务', doc: 'http://10.8.109.235:5198' },
-              resourceBiz: { noSwagger:false, desc: '静态资源服务', doc: '' },
-              rrsBiz: { noSwagger:false, desc: '资源关联服务', doc: 'http://10.8.109.235:54229' },
-              scheduleBiz: { noSwagger:false, desc: '日程服务', doc: 'http://10.8.109.235:38839' },
-              taskBiz: { noSwagger:true, desc: '事件服务-任务', doc: 'http://10.8.109.235:3088' },
-              vcsBiz: { noSwagger:false, desc: '视频会议服务', doc: 'http://10.8.109.235:41303' },
-              videoFusionServiceBiz: { noSwagger:false, desc: '视频融合服务', doc: 'http://10.8.109.235:3078' },
-              viscsBiz: { noSwagger:false, desc: '可视化配置服务', doc: 'http://10.8.109.231:12360' },
-              wxBiz: { noSwagger:false, desc: '气象服务', doc: 'http://10.8.109.235:52551' },
+        <script>
+            const App = {
+                mounted() {
+                    fetch('biz.json', { cache: 'no-cache', headers: { 'cache-control': 'no-cache' } })
+                        .then((res) => res.json())
+                        .then((res) => {
+                            this.bizData = res;
+                            this.search();
+                            this.loading = false;
+                        });
+                    document.querySelector('html').setAttribute('data-theme', this.dark ? 'dark' : 'light');
+                },
+                data() {
+                    return {
+                        // 当前选中biz模块
+                        activeBizName: 'gcsBiz',
+                        // json数据
+                        bizData: {},
+                        // 搜索类型
+                        searchType: '1',
+                        // 搜索值
+                        searchValue: '',
+                        // 最终展示结果
+                        tableData: [],
+                        // 要展开的行，数值的元素是row的key值
+                        expands: [],
+                        // 加载
+                        loading: true,
+                        // 暗黑模式
+                        dark: localStorage.getItem('dark') === 'true',
+                    };
+                },
+                computed: {
+                    // biz模块信息说明
+                    descMap() {
+                        return {
+                            aggsBiz: { noSwagger: true, desc: '聚合查询服务', doc: 'http://10.8.109.235:3885' },
+                            alarmBiz: { noSwagger: false, desc: '告警服务', doc: 'http://10.8.109.235:20173' },
+                            alertsPlatformBiz: { noSwagger: false, desc: '告警平台服务', doc: 'http://10.8.109.235:20080' },
+                            assetBiz: { noSwagger: true, desc: '资产服务', doc: 'http://10.8.109.235:13735' },
+                            associatedBiz: { noSwagger: true, desc: '事件服务-事件关联', doc: 'http://10.8.109.235:3088' },
+                            auditBiz: { noSwagger: false, desc: '审计服务', doc: 'http://10.8.109.233:32537' },
+                            authBiz: { noSwagger: false, desc: '认证授权服务', doc: 'http://10.8.109.235:9810' },
+                            cgsBiz: { noSwagger: false, desc: '认知服务(文字转语音)', doc: 'http://10.8.109.235:3378' },
+                            dcsBiz: { noSwagger: false, desc: '数据中台服务', doc: 'http://10.8.109.235:3079' },
+                            edmsBiz: { noSwagger: false, desc: '调度服务', doc: 'http://10.8.109.235:3333' },
+                            eventBiz: { noSwagger: true, desc: '事件服务', doc: 'http://10.8.109.235:3088' },
+                            fileStorageBiz: { noSwagger: false, desc: '文件存储服务', doc: 'http://10.8.109.235:17591' },
+                            gcsBiz: { noSwagger: false, desc: 'GPS点位服务', doc: 'http://10.8.109.235:7319' },
+                            geoAnalysisBiz: { noSwagger: false, desc: '地理分析服务', doc: 'http://10.8.109.235:3099' },
+                            geoDataBiz: { noSwagger: false, desc: '地理数据服务', doc: 'http://10.8.109.233:3098' },
+                            mmtBiz: { noSwagger: false, desc: '拍传服务', doc: 'http://10.8.109.235:17599' },
+                            modelAnalysisBiz: { noSwagger: false, desc: '模型分析服务', doc: 'http://10.8.109.235:20175' },
+                            msgBiz: { noSwagger: false, desc: '短信服务', doc: 'http://10.8.109.235:3398' },
+                            ntsBiz: { noSwagger: false, desc: '通知服务', doc: 'http://10.8.109.235:50078' },
+                            orgsBiz: { noSwagger: false, desc: '组织架构服务', doc: 'http://10.8.109.232:10270' },
+                            preplanAnalysisBiz: { noSwagger: false, desc: '预案分析服务', doc: 'http://10.8.109.235:3089' },
+                            preplanBiz: { noSwagger: true, desc: '事件服务-预案', doc: 'http://10.8.109.235:3088' },
+                            quartzBiz: { noSwagger: false, desc: '定时任务服务', doc: 'http://10.8.109.235:5198' },
+                            resourceBiz: { noSwagger: false, desc: '静态资源服务', doc: '' },
+                            rrsBiz: { noSwagger: false, desc: '资源关联服务', doc: 'http://10.8.109.235:54229' },
+                            scheduleBiz: { noSwagger: false, desc: '日程服务', doc: 'http://10.8.109.235:38839' },
+                            taskBiz: { noSwagger: true, desc: '事件服务-任务', doc: 'http://10.8.109.235:3088' },
+                            vcsBiz: { noSwagger: false, desc: '视频会议服务', doc: 'http://10.8.109.235:41303' },
+                            videoFusionServiceBiz: { noSwagger: false, desc: '视频融合服务', doc: 'http://10.8.109.235:3078' },
+                            viscsBiz: { noSwagger: false, desc: '可视化配置服务', doc: 'http://10.8.109.231:12360' },
+                            wxBiz: { noSwagger: false, desc: '气象服务', doc: 'http://10.8.109.235:52551' },
+                            pemsBiz: { noSwagger: false, desc: 'pems服务', doc: 'http://10.8.109.231:34930' },
+                            gmeetBiz: { noSwagger: false, desc: 'gmeetBiz服务', doc: 'https://10.8.106.125' },
+                        };
+                    },
+                    // 搜索关系映射
+                    searchKeyMap() {
+                        return { 1: 'methodName', 2: 'url', 3: 'summary' }[this.searchType];
+                    },
+                    // 请求类型演示映射
+                    methodColorType: () => ({ get: 'info', post: 'success', put: 'warning', delete: 'danger' }),
+                },
+
+                methods: {
+                    // 搜索
+                    search() {
+                        this.expands = [];
+                        const specialBiz = ['preplanBiz', 'taskBiz', 'associatedBiz', 'eventBiz'];
+                        let list = Object.entries(this.bizData).reduce((pre, [bizName, fnList]) => pre.concat(fnList.map((i) => ({ ...i, bizName }))), []);
+                        if (this.activeBizName) {
+                            list = specialBiz.includes(this.activeBizName) ? list.filter((i) => i.subBiz === this.activeBizName) : this.bizData[this.activeBizName].map((i) => ({ ...i, bizName: this.activeBizName }));
+                        }
+                        if (this.searchValue) {
+                            list = list
+                                .reduce((pre, item) => {
+                                    const { flag, compatTotal } = this.fuzzyMatch(item[this.searchKeyMap], this.searchValue);
+                                    return flag ? [...pre, { ...item, compatTotal }] : pre;
+                                }, [])
+                                .sort((a, b) => b.compatTotal - a.compatTotal);
+                        }
+                        this.tableData = list;
+                    },
+                    // 重置
+                    reset() {
+                        this.searchValue = '';
+                        this.search();
+                    },
+                    // 参数格式化
+                    getParams(data) {
+                        const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
+                        return formatParamsData.reduce((obj, i) => {
+                            let str = `参数类型：${i?.in === 'header' ? 'headers' : i.type} 参数说明：${i?.description || '空'} ${i?.default ? ' 默认值：' + i?.default : ''} ${i?.required ? '（必填）' : ''}`;
+                            return { ...obj, [i.key]: str };
+                        }, {});
+                    },
+                    // 响应格式化
+                    getResponse(data) {
+                        if (!data.responses) return {};
+                        return data.responses.reduce((pre, i) => ({ ...pre, [i.key]: i.description }), {});
+                    },
+                    // 请求示例生成
+                    getExample(data) {
+                        const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
+                        const requiredParams = formatParamsData.filter((i) => i.required);
+                        return `this.${data.subBiz || data.bizName}.${data.methodName}(${!formatParamsData.length ? '' : requiredParams.length === 1 ? requiredParams?.[0]?.key : 'params'})`;
+                    },
+                    // 跳转文档地址
+                    skipSwagger(data) {
+                        console.log('skipSwagger ~ data', data);
+                        if (this.descMap[data.bizName]?.noSwagger) {
+                            let url = data.operationId
+                                ? `${this.descMap[data.bizName]?.doc}/index.html#/${data.version}/${data.tag}/${data.operationId}?x=1&methodName=${data.bizName}.${data.methodName}`
+                                : `${this.descMap[data.bizName]?.doc}/index.html#/?x=1&version=${data.version}&tag=${data.tag}&url=${data.url}&requestType=${data.methods.toUpperCase()}&methodName=${data.bizName}.${data.methodName}`;
+                            window.open(url);
+                        } else {
+                            try {
+                                let hash = `#operations-${data.tag}-${data?.operationId || data.methods + data.url.replace(/\/|\{|\}/g, '_')}`;
+                                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}${hash}&methodName=${data.bizName}.${data.methodName}`);
+                            } catch (error) {
+                                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}&methodName=${data.bizName}.${data.methodName}`);
+                            }
+                        }
+                    },
+                    // 模糊匹配
+                    fuzzyMatch(str, key) {
+                        let index = -1,
+                            flag = false,
+                            compatTotal = str.split(key)?.length ?? 0;
+
+                        for (let i = 0, arr = key.split(''); i < arr.length; i++) {
+                            if (str.indexOf(arr[i]) < 0) {
+                                break;
+                            } else {
+                                let match = str.matchAll(RegExp(arr[i], 'gi'));
+                                let next = match.next();
+                                while (!next.done) {
+                                    if (next.value.index > index) {
+                                        index = next.value.index;
+                                        if (i === arr.length - 1) {
+                                            flag = true;
+                                        }
+                                        break;
+                                    }
+                                    next = match.next();
+                                }
+                            }
+                        }
+                        return { flag, compatTotal };
+                    },
+                    // 左侧菜单点击
+                    menuClick(val) {
+                        this.activeBizName = val;
+                        this.search();
+                    },
+                    // 表格行点击
+                    clickRowHandle(row, column, event) {
+                        if (column.label === '文档地址') return;
+                        if (this.expands.includes(row.methodName)) {
+                            this.expands = this.expands.filter((val) => val !== row.methodName);
+                        } else {
+                            this.expands.push(row.methodName);
+                        }
+                    },
+                    // 复制函数名
+                    async copyName({ bizName, methodName }) {
+                        try {
+                            await navigator.clipboard.writeText(bizName + '.' + methodName + '()');
+                            this.$message({
+                                type: 'success',
+                                message: '复制成功',
+                                duration: 1800,
+                            });
+                        } catch (err) {
+                            console.error('Failed to copy: ', err);
+                        }
+                    },
+                    // 修改显示模式
+                    setDefaultShowType(val) {
+                        this.dark = val;
+                        localStorage.setItem('dark', val);
+                        document.querySelector('html').setAttribute('data-theme', val ? 'dark' : 'light');
+                    },
+                },
             };
-          },
-          // 搜索关系映射
-          searchKeyMap() {
-            return { 1: 'methodName', 2: 'url', 3: 'summary' }[this.searchType];
-          },
-          // 请求类型演示映射
-          methodColorType: () => ({ get: 'info', post: 'success', put: 'warning', delete: 'danger' }),
-        },
-
-        methods: {
-          // 搜索
-          search() {
-            this.expands = [];
-            const specialBiz = ['preplanBiz', 'taskBiz', 'associatedBiz', 'eventBiz'];
-            let list = Object.entries(this.bizData).reduce((pre, [bizName, fnList]) => pre.concat(fnList.map((i) => ({ ...i, bizName }))), []);
-            if (this.activeBizName) {
-              list = specialBiz.includes(this.activeBizName) ? list.filter((i) => i.subBiz === this.activeBizName) : this.bizData[this.activeBizName].map((i) => ({ ...i, bizName: this.activeBizName }));
-            }
-            if (this.searchValue) {
-              list = list
-                .reduce((pre, item) => {
-                  const { flag, compatTotal } = this.fuzzyMatch(item[this.searchKeyMap], this.searchValue);
-                  return flag ? [...pre, { ...item, compatTotal }] : pre;
-                }, [])
-                .sort((a, b) => b.compatTotal - a.compatTotal);
-            }
-            this.tableData = list;
-          },
-          // 重置
-          reset() {
-            this.searchValue = '';
-            this.search();
-          },
-          // 参数格式化
-          getParams(data) {
-            const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
-            return formatParamsData.reduce((obj, i) => {
-              let str = `参数类型：${i?.in === 'header' ? 'headers' : i.type} 参数说明：${i?.description || '空'} ${i?.default ? ' 默认值：' + i?.default : ''} ${i?.required ? '（必填）' : ''}`;
-              return { ...obj, [i.key]: str };
-            }, {});
-          },
-          // 响应格式化
-          getResponse(data) {
-            if (!data.responses) return {};
-            return data.responses.reduce((pre, i) => ({ ...pre, [i.key]: i.description }), {});
-          },
-          // 请求示例生成
-          getExample(data) {
-            const formatParamsData = data.methods === 'get' ? data.parameters || [] : [].concat(data.parameters || [], data.requestBody || []) || [];
-            const requiredParams = formatParamsData.filter((i) => i.required);
-            return `this.${data.subBiz || data.bizName}.${data.methodName}(${!formatParamsData.length ? '' : requiredParams.length === 1 ? requiredParams?.[0]?.key : 'params'})`;
-          },
-          // 跳转文档地址
-          skipSwagger(data) {
-           console.log("skipSwagger ~ data", data)
-            if(this.descMap[data.bizName]?.noSwagger){
-              let url = data.operationId ? 
-              `${this.descMap[data.bizName]?.doc}/index.html#/${data.version}/${data.tag}/${data.operationId}?x=1&methodName=${data.bizName}.${data.methodName}` : 
-              `${this.descMap[data.bizName]?.doc}/index.html#/?x=1&version=${data.version}&tag=${data.tag}&url=${data.url}&requestType=${data.methods.toUpperCase()}&methodName=${data.bizName}.${data.methodName}`
-              window.open(url);
-            } else {
-              try {
-                let hash = `#operations-${data.tag}-${data?.operationId || data.methods + data.url.replace(/\/|\{|\}/g, '_')}`;
-                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}${hash}&methodName=${data.bizName}.${data.methodName}`);
-              } catch (error) {
-                window.open(`${this.descMap[data.bizName]?.doc}/swagger/index.html${data.version !== 'v1' ? '?urls.primaryName=' + data.version : ''}&methodName=${data.bizName}.${data.methodName}`);
-              }
-            }
-          },
-          // 模糊匹配
-          fuzzyMatch(str, key) {
-            let index = -1,
-              flag = false,
-              compatTotal = str.split(key)?.length ?? 0;
-
-            for (let i = 0, arr = key.split(''); i < arr.length; i++) {
-              if (str.indexOf(arr[i]) < 0) {
-                break;
-              } else {
-                let match = str.matchAll(RegExp(arr[i], 'gi'));
-                let next = match.next();
-                while (!next.done) {
-                  if (next.value.index > index) {
-                    index = next.value.index;
-                    if (i === arr.length - 1) {
-                      flag = true;
-                    }
-                    break;
-                  }
-                  next = match.next();
-                }
-              }
-            }
-            return { flag, compatTotal };
-          },
-          // 左侧菜单点击
-          menuClick(val) {
-            this.activeBizName = val;
-            this.search();
-          },
-          // 表格行点击
-          clickRowHandle(row, column, event) {
-            if (column.label === '文档地址') return;
-            if (this.expands.includes(row.methodName)) {
-              this.expands = this.expands.filter((val) => val !== row.methodName);
-            } else {
-              this.expands.push(row.methodName);
-            }
-          },
-          // 复制函数名
-          async copyName({bizName,methodName}){
-            try {
-              await navigator.clipboard.writeText(bizName+'.'+methodName+'()');
-              this.$message({
-                type:'success',
-                message: '复制成功',
-                duration: 1800
-              });
-            } catch (err) {
-              console.error('Failed to copy: ', err);
-            }
-          },
-          // 修改显示模式
-          setDefaultShowType(val) {
-            this.dark = val;
-            localStorage.setItem('dark', val);
-            document.querySelector('html').setAttribute('data-theme', val ? 'dark' : 'light');
-          }
-        },
-      };
-      Vue.createApp(App).use(ElementPlus).mount('#app');
-    </script>
-  </body>
+            Vue.createApp(App).use(ElementPlus).mount('#app');
+        </script>
+    </body>
 </html>
