@@ -2838,6 +2838,12 @@
 			],
 			"responses": [
 				{
+					"key": "id",
+					"type": "string",
+					"description": "标识",
+					"required": false
+				},
+				{
 					"key": "assetType",
 					"type": "integer",
 					"description": "资产类型0:Device,设备; 1:Client,客户端; 2:Terminal,终端; 3:Network,网络; 4:ThirdPlatform,第三方平台; 5:PositionEquipment,定位装备; ",
@@ -2845,15 +2851,15 @@
 					"details": null
 				},
 				{
-					"key": "id",
-					"type": "string",
-					"description": "标识",
+					"key": "assetMetrics",
+					"type": "array",
+					"description": "指标",
 					"required": false
 				},
 				{
-					"key": "resourceId",
-					"type": "string",
-					"description": "来源Id",
+					"key": "alertRecords",
+					"type": "array",
+					"description": "告警记录",
 					"required": false
 				},
 				{
@@ -2881,15 +2887,9 @@
 					"required": false
 				},
 				{
-					"key": "assetMetrics",
-					"type": "array",
-					"description": "指标",
-					"required": false
-				},
-				{
-					"key": "alertRecords",
-					"type": "array",
-					"description": "告警记录",
+					"key": "resourceId",
+					"type": "string",
+					"description": "来源Id",
 					"required": false
 				}
 			],
@@ -53710,6 +53710,18 @@
 					"type": "array",
 					"description": "地图服务底图图层集合",
 					"required": false
+				},
+				{
+					"key": "layerEffectConfigs",
+					"type": "array",
+					"description": "图层效果配置集合",
+					"required": false
+				},
+				{
+					"key": "mapCenters",
+					"type": "array",
+					"description": "地图中心点集合",
+					"required": false
 				}
 			],
 			"requestBody": [
@@ -53781,6 +53793,20 @@
 					"key": "mapTypeOverlays",
 					"type": "array",
 					"description": "地图服务底图图层集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "layerEffectConfigs",
+					"type": "array",
+					"description": "图层效果配置集合",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mapCenters",
+					"type": "array",
+					"description": "地图中心点集合",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -64758,6 +64784,822 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/Cameras/{id}/favorite_groups",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取监控所在的所有收藏组",
+			"version": "v1",
+			"methodName": "getFavoriteGroupsById",
+			"operationId": "GetFavoriteGroupsByCameraId",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "subId",
+					"type": "string",
+					"description": "subId",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "subType",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": null
+		},
+		{
+			"url": "/api/Cameras",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加监控设备",
+			"version": "v1",
+			"methodName": "addCameras",
+			"operationId": "CreateCamera",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "cameraId",
+					"type": "string",
+					"description": "设备Id",
+					"required": false
+				},
+				{
+					"key": "accessType",
+					"type": "integer",
+					"description": "相机接入协议类型（0：国标协议，1：onvif协议，2：DVR协议，3：RTSP协议）",
+					"required": false
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "安装地址",
+					"required": false
+				},
+				{
+					"key": "block",
+					"type": "string",
+					"description": "警区（可选）",
+					"required": false
+				},
+				{
+					"key": "businessgroupid",
+					"type": "string",
+					"description": "虚拟组织所属的业务分组ID",
+					"required": false
+				},
+				{
+					"key": "certifiable",
+					"type": "integer",
+					"description": "证书有效标识（有证书的设备必选）缺省为0， 0 无效， 1 有效",
+					"required": false
+				},
+				{
+					"key": "certnum",
+					"type": "string",
+					"description": "证书序列ar号（有证书的设备必选）",
+					"required": false
+				},
+				{
+					"key": "channelId",
+					"type": "integer",
+					"description": "通道号",
+					"required": false
+				},
+				{
+					"key": "civilcode",
+					"type": "string",
+					"description": "行政区域",
+					"required": false
+				},
+				{
+					"key": "comefrom",
+					"type": "string",
+					"description": "相机来自哪里",
+					"required": false
+				},
+				{
+					"key": "connectType",
+					"type": "integer",
+					"description": "直连方式：1 视频直连相机； 0 视频经流媒体连接",
+					"required": false
+				},
+				{
+					"key": "directiontype",
+					"type": "integer",
+					"description": "摄像机监视方位属性",
+					"required": false
+				},
+				{
+					"key": "downloadspeed",
+					"type": "string",
+					"description": "下载倍速范围",
+					"required": false
+				},
+				{
+					"key": "endtime",
+					"type": "string",
+					"description": "证书终止有效期（有证书的设备必选）",
+					"required": false
+				},
+				{
+					"key": "errcode",
+					"type": "integer",
+					"description": "无效原因（有证书且证书无效的设备必选）",
+					"required": false
+				},
+				{
+					"key": "highDefinition",
+					"type": "integer",
+					"description": "是否高清相机 1 高清相机；0 非高清相机",
+					"required": false
+				},
+				{
+					"key": "ipaddress",
+					"type": "string",
+					"description": "IP地址",
+					"required": false
+				},
+				{
+					"key": "isCollection",
+					"type": "integer",
+					"description": "是否收藏 值是0和1。0代表未收藏；1代表已收藏，默认是0",
+					"required": false
+				},
+				{
+					"key": "isPublicnNetwork",
+					"type": "integer",
+					"description": "是否公网",
+					"required": false
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false
+				},
+				{
+					"key": "mainSubStream",
+					"type": "string",
+					"description": "主子流设置",
+					"required": false
+				},
+				{
+					"key": "manufacture",
+					"type": "string",
+					"description": "设备厂商",
+					"required": false
+				},
+				{
+					"key": "model",
+					"type": "string",
+					"description": "设备型号",
+					"required": false
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": false
+				},
+				{
+					"key": "onvifAddress",
+					"type": "string",
+					"description": "onvif 服务地址",
+					"required": false
+				},
+				{
+					"key": "orderby",
+					"type": "string",
+					"description": "排序依据",
+					"required": false
+				},
+				{
+					"key": "owner",
+					"type": "string",
+					"description": "设备归属",
+					"required": false
+				},
+				{
+					"key": "parental",
+					"type": "integer",
+					"description": "是否有子设备  0没有 1 有",
+					"required": false
+				},
+				{
+					"key": "parentid",
+					"type": "string",
+					"description": "父节点ID",
+					"required": false
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false
+				},
+				{
+					"key": "port",
+					"type": "string",
+					"description": "端口",
+					"required": false
+				},
+				{
+					"key": "positiontype",
+					"type": "integer",
+					"description": "摄像机位置类型",
+					"required": false
+				},
+				{
+					"key": "ptztype",
+					"type": "integer",
+					"description": "摄像机类型 1 球机， 2 半球， 3 固定枪机， 4 遥控枪机",
+					"required": false
+				},
+				{
+					"key": "regionId",
+					"type": "string",
+					"description": "对于直接接入本级域的相机，该字段填写本级gcserver的id；如果是下级平台接入的相机，该字段为空值",
+					"required": false
+				},
+				{
+					"key": "registerway",
+					"type": "integer",
+					"description": "注册方式，缺省为1；1 符合sip3261标准的认证注册模式； 2 基于口令的双向认证注册方式； 3 基于数字证书的双向认证注册方式",
+					"required": false
+				},
+				{
+					"key": "resolution",
+					"type": "string",
+					"description": "摄像机支持的分辨率",
+					"required": false
+				},
+				{
+					"key": "rights",
+					"type": "integer",
+					"description": "相机权限",
+					"required": false
+				},
+				{
+					"key": "roomtype",
+					"type": "integer",
+					"description": "摄像机安装位置室外，室内属性",
+					"required": false
+				},
+				{
+					"key": "safetyway",
+					"type": "integer",
+					"description": "信令安全模式（可选）。缺省为0； 0 不采用； 2 S/MIME签名方式； 3 S/MIME加密签名同时采用方式； 4 数字摘要方式",
+					"required": false
+				},
+				{
+					"key": "secrecy",
+					"type": "integer",
+					"description": "保密属性  0不涉密  1涉密",
+					"required": false
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "1：离线，2：在线",
+					"required": false
+				},
+				{
+					"key": "streamId",
+					"type": "integer",
+					"description": "码流id",
+					"required": false
+				},
+				{
+					"key": "streamPacketType",
+					"type": "integer",
+					"description": "媒体流打包格式",
+					"required": false
+				},
+				{
+					"key": "supplylighttype",
+					"type": "integer",
+					"description": "摄像机补光属性",
+					"required": false
+				},
+				{
+					"key": "svcspacesupportmode",
+					"type": "integer",
+					"description": "空域编码能力",
+					"required": false
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名",
+					"required": false
+				},
+				{
+					"key": "usetype",
+					"type": "integer",
+					"description": "摄像机用途属性",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "accessType",
+					"type": "integer",
+					"description": "相机接入协议类型（0：国标协议，1：onvif协议，2：DVR协议，3：RTSP协议）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "address",
+					"type": "string",
+					"description": "安装地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "block",
+					"type": "string",
+					"description": "警区（可选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "businessgroupid",
+					"type": "string",
+					"description": "虚拟组织所属的业务分组ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "certifiable",
+					"type": "integer",
+					"description": "证书有效标识（有证书的设备必选）缺省为0， 0 无效， 1 有效",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "certnum",
+					"type": "string",
+					"description": "证书序列ar号（有证书的设备必选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "channelId",
+					"type": "integer",
+					"description": "通道号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "civilcode",
+					"type": "string",
+					"description": "行政区域",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "comefrom",
+					"type": "string",
+					"description": "相机来自哪里",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "connectType",
+					"type": "integer",
+					"description": "直连方式：1 视频直连相机； 0 视频经流媒体连接",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "directiontype",
+					"type": "integer",
+					"description": "摄像机监视方位属性",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "downloadspeed",
+					"type": "string",
+					"description": "下载倍速范围",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "endtime",
+					"type": "string",
+					"description": "证书终止有效期（有证书的设备必选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "errcode",
+					"type": "integer",
+					"description": "无效原因（有证书且证书无效的设备必选）",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "highDefinition",
+					"type": "integer",
+					"description": "是否高清相机 1 高清相机；0 非高清相机",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ipaddress",
+					"type": "string",
+					"description": "IP地址",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isCollection",
+					"type": "integer",
+					"description": "是否收藏 值是0和1。0代表未收藏；1代表已收藏，默认是0",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "isPublicnNetwork",
+					"type": "integer",
+					"description": "是否公网",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "mainSubStream",
+					"type": "string",
+					"description": "主子流设置",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "manufacture",
+					"type": "string",
+					"description": "设备厂商",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "model",
+					"type": "string",
+					"description": "设备型号",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "name",
+					"type": "string",
+					"description": "名称",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "onvifAddress",
+					"type": "string",
+					"description": "onvif 服务地址",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "orderby",
+					"type": "string",
+					"description": "排序依据",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "owner",
+					"type": "string",
+					"description": "设备归属",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "parental",
+					"type": "integer",
+					"description": "是否有子设备  0没有 1 有",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "parentid",
+					"type": "string",
+					"description": "父节点ID",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "password",
+					"type": "string",
+					"description": "密码",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "port",
+					"type": "string",
+					"description": "端口",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "positiontype",
+					"type": "integer",
+					"description": "摄像机位置类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "ptztype",
+					"type": "integer",
+					"description": "摄像机类型 1 球机， 2 半球， 3 固定枪机， 4 遥控枪机",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "regionId",
+					"type": "string",
+					"description": "对于直接接入本级域的相机，该字段填写本级gcserver的id；如果是下级平台接入的相机，该字段为空值",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "registerway",
+					"type": "integer",
+					"description": "注册方式，缺省为1；1 符合sip3261标准的认证注册模式； 2 基于口令的双向认证注册方式； 3 基于数字证书的双向认证注册方式",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "resolution",
+					"type": "string",
+					"description": "摄像机支持的分辨率",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "rights",
+					"type": "integer",
+					"description": "相机权限",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "roomtype",
+					"type": "integer",
+					"description": "摄像机安装位置室外，室内属性",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "safetyway",
+					"type": "integer",
+					"description": "信令安全模式（可选）。缺省为0； 0 不采用； 2 S/MIME签名方式； 3 S/MIME加密签名同时采用方式； 4 数字摘要方式",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "secrecy",
+					"type": "integer",
+					"description": "保密属性  0不涉密  1涉密",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "status",
+					"type": "integer",
+					"description": "1：离线，2：在线",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "streamId",
+					"type": "integer",
+					"description": "码流id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "streamPacketType",
+					"type": "integer",
+					"description": "媒体流打包格式",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "supplylighttype",
+					"type": "integer",
+					"description": "摄像机补光属性",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "svcspacesupportmode",
+					"type": "integer",
+					"description": "空域编码能力",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "userName",
+					"type": "string",
+					"description": "用户名",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "usetype",
+					"type": "integer",
+					"description": "摄像机用途属性",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "idType",
+					"type": "integer",
+					"description": "需要申请id类型",
+					"required": true,
+					"details": null,
+					"in": "requestBody"
+				},
+				{
+					"key": "isSupportPTZ",
+					"type": "boolean",
+					"description": "是否可以云台控制true-可以false-不可以",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/{id}/location",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "监控位置变更",
+			"version": "v1",
+			"methodName": "editCameraLocation",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "longitude",
+					"type": "number",
+					"description": "经度",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "latitude",
+					"type": "number",
+					"description": "纬度",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
+			"url": "/api/Cameras/search/label",
+			"tag": "Cameras",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据标签Id查找监控",
+			"version": "v1",
+			"methodName": "searchCamerasByLabel",
+			"parameters": [
+				{
+					"key": "X-version",
+					"type": "string",
+					"description": "",
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": [
+				{
+					"key": "totalCount",
+					"type": "integer",
+					"description": "总数",
+					"required": false
+				},
+				{
+					"key": "records",
+					"type": "array",
+					"description": "记录",
+					"required": false
+				}
+			],
+			"requestBody": [
+				{
+					"key": "labelIds",
+					"type": "array",
+					"description": "标签Id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "keyword",
+					"type": "string",
+					"description": "关键字",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageIndex",
+					"type": "integer",
+					"description": "页码, 从1开始",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页容量",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/Cameras/import",
 			"tag": "Cameras",
 			"subBiz": null,
@@ -67617,822 +68459,6 @@
 				}
 			],
 			"requestBody": null
-		},
-		{
-			"url": "/api/Cameras/{id}/favorite_groups",
-			"tag": "Cameras",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取监控所在的所有收藏组",
-			"version": "v1",
-			"methodName": "getFavoriteGroupsById",
-			"operationId": "GetFavoriteGroupsByCameraId",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "subId",
-					"type": "string",
-					"description": "subId",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "subType",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "query"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": null
-		},
-		{
-			"url": "/api/Cameras",
-			"tag": "Cameras",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "添加监控设备",
-			"version": "v1",
-			"methodName": "addCameras",
-			"operationId": "CreateCamera",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "cameraId",
-					"type": "string",
-					"description": "设备Id",
-					"required": false
-				},
-				{
-					"key": "accessType",
-					"type": "integer",
-					"description": "相机接入协议类型（0：国标协议，1：onvif协议，2：DVR协议，3：RTSP协议）",
-					"required": false
-				},
-				{
-					"key": "address",
-					"type": "string",
-					"description": "安装地址",
-					"required": false
-				},
-				{
-					"key": "block",
-					"type": "string",
-					"description": "警区（可选）",
-					"required": false
-				},
-				{
-					"key": "businessgroupid",
-					"type": "string",
-					"description": "虚拟组织所属的业务分组ID",
-					"required": false
-				},
-				{
-					"key": "certifiable",
-					"type": "integer",
-					"description": "证书有效标识（有证书的设备必选）缺省为0， 0 无效， 1 有效",
-					"required": false
-				},
-				{
-					"key": "certnum",
-					"type": "string",
-					"description": "证书序列ar号（有证书的设备必选）",
-					"required": false
-				},
-				{
-					"key": "channelId",
-					"type": "integer",
-					"description": "通道号",
-					"required": false
-				},
-				{
-					"key": "civilcode",
-					"type": "string",
-					"description": "行政区域",
-					"required": false
-				},
-				{
-					"key": "comefrom",
-					"type": "string",
-					"description": "相机来自哪里",
-					"required": false
-				},
-				{
-					"key": "connectType",
-					"type": "integer",
-					"description": "直连方式：1 视频直连相机； 0 视频经流媒体连接",
-					"required": false
-				},
-				{
-					"key": "directiontype",
-					"type": "integer",
-					"description": "摄像机监视方位属性",
-					"required": false
-				},
-				{
-					"key": "downloadspeed",
-					"type": "string",
-					"description": "下载倍速范围",
-					"required": false
-				},
-				{
-					"key": "endtime",
-					"type": "string",
-					"description": "证书终止有效期（有证书的设备必选）",
-					"required": false
-				},
-				{
-					"key": "errcode",
-					"type": "integer",
-					"description": "无效原因（有证书且证书无效的设备必选）",
-					"required": false
-				},
-				{
-					"key": "highDefinition",
-					"type": "integer",
-					"description": "是否高清相机 1 高清相机；0 非高清相机",
-					"required": false
-				},
-				{
-					"key": "ipaddress",
-					"type": "string",
-					"description": "IP地址",
-					"required": false
-				},
-				{
-					"key": "isCollection",
-					"type": "integer",
-					"description": "是否收藏 值是0和1。0代表未收藏；1代表已收藏，默认是0",
-					"required": false
-				},
-				{
-					"key": "isPublicnNetwork",
-					"type": "integer",
-					"description": "是否公网",
-					"required": false
-				},
-				{
-					"key": "latitude",
-					"type": "number",
-					"description": "纬度",
-					"required": false
-				},
-				{
-					"key": "longitude",
-					"type": "number",
-					"description": "经度",
-					"required": false
-				},
-				{
-					"key": "mainSubStream",
-					"type": "string",
-					"description": "主子流设置",
-					"required": false
-				},
-				{
-					"key": "manufacture",
-					"type": "string",
-					"description": "设备厂商",
-					"required": false
-				},
-				{
-					"key": "model",
-					"type": "string",
-					"description": "设备型号",
-					"required": false
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "名称",
-					"required": false
-				},
-				{
-					"key": "onvifAddress",
-					"type": "string",
-					"description": "onvif 服务地址",
-					"required": false
-				},
-				{
-					"key": "orderby",
-					"type": "string",
-					"description": "排序依据",
-					"required": false
-				},
-				{
-					"key": "owner",
-					"type": "string",
-					"description": "设备归属",
-					"required": false
-				},
-				{
-					"key": "parental",
-					"type": "integer",
-					"description": "是否有子设备  0没有 1 有",
-					"required": false
-				},
-				{
-					"key": "parentid",
-					"type": "string",
-					"description": "父节点ID",
-					"required": false
-				},
-				{
-					"key": "password",
-					"type": "string",
-					"description": "密码",
-					"required": false
-				},
-				{
-					"key": "port",
-					"type": "string",
-					"description": "端口",
-					"required": false
-				},
-				{
-					"key": "positiontype",
-					"type": "integer",
-					"description": "摄像机位置类型",
-					"required": false
-				},
-				{
-					"key": "ptztype",
-					"type": "integer",
-					"description": "摄像机类型 1 球机， 2 半球， 3 固定枪机， 4 遥控枪机",
-					"required": false
-				},
-				{
-					"key": "regionId",
-					"type": "string",
-					"description": "对于直接接入本级域的相机，该字段填写本级gcserver的id；如果是下级平台接入的相机，该字段为空值",
-					"required": false
-				},
-				{
-					"key": "registerway",
-					"type": "integer",
-					"description": "注册方式，缺省为1；1 符合sip3261标准的认证注册模式； 2 基于口令的双向认证注册方式； 3 基于数字证书的双向认证注册方式",
-					"required": false
-				},
-				{
-					"key": "resolution",
-					"type": "string",
-					"description": "摄像机支持的分辨率",
-					"required": false
-				},
-				{
-					"key": "rights",
-					"type": "integer",
-					"description": "相机权限",
-					"required": false
-				},
-				{
-					"key": "roomtype",
-					"type": "integer",
-					"description": "摄像机安装位置室外，室内属性",
-					"required": false
-				},
-				{
-					"key": "safetyway",
-					"type": "integer",
-					"description": "信令安全模式（可选）。缺省为0； 0 不采用； 2 S/MIME签名方式； 3 S/MIME加密签名同时采用方式； 4 数字摘要方式",
-					"required": false
-				},
-				{
-					"key": "secrecy",
-					"type": "integer",
-					"description": "保密属性  0不涉密  1涉密",
-					"required": false
-				},
-				{
-					"key": "status",
-					"type": "integer",
-					"description": "1：离线，2：在线",
-					"required": false
-				},
-				{
-					"key": "streamId",
-					"type": "integer",
-					"description": "码流id",
-					"required": false
-				},
-				{
-					"key": "streamPacketType",
-					"type": "integer",
-					"description": "媒体流打包格式",
-					"required": false
-				},
-				{
-					"key": "supplylighttype",
-					"type": "integer",
-					"description": "摄像机补光属性",
-					"required": false
-				},
-				{
-					"key": "svcspacesupportmode",
-					"type": "integer",
-					"description": "空域编码能力",
-					"required": false
-				},
-				{
-					"key": "userName",
-					"type": "string",
-					"description": "用户名",
-					"required": false
-				},
-				{
-					"key": "usetype",
-					"type": "integer",
-					"description": "摄像机用途属性",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "accessType",
-					"type": "integer",
-					"description": "相机接入协议类型（0：国标协议，1：onvif协议，2：DVR协议，3：RTSP协议）",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "address",
-					"type": "string",
-					"description": "安装地址",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "block",
-					"type": "string",
-					"description": "警区（可选）",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "businessgroupid",
-					"type": "string",
-					"description": "虚拟组织所属的业务分组ID",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "certifiable",
-					"type": "integer",
-					"description": "证书有效标识（有证书的设备必选）缺省为0， 0 无效， 1 有效",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "certnum",
-					"type": "string",
-					"description": "证书序列ar号（有证书的设备必选）",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "channelId",
-					"type": "integer",
-					"description": "通道号",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "civilcode",
-					"type": "string",
-					"description": "行政区域",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "comefrom",
-					"type": "string",
-					"description": "相机来自哪里",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "connectType",
-					"type": "integer",
-					"description": "直连方式：1 视频直连相机； 0 视频经流媒体连接",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "directiontype",
-					"type": "integer",
-					"description": "摄像机监视方位属性",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "downloadspeed",
-					"type": "string",
-					"description": "下载倍速范围",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "endtime",
-					"type": "string",
-					"description": "证书终止有效期（有证书的设备必选）",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "errcode",
-					"type": "integer",
-					"description": "无效原因（有证书且证书无效的设备必选）",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "highDefinition",
-					"type": "integer",
-					"description": "是否高清相机 1 高清相机；0 非高清相机",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "ipaddress",
-					"type": "string",
-					"description": "IP地址",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "isCollection",
-					"type": "integer",
-					"description": "是否收藏 值是0和1。0代表未收藏；1代表已收藏，默认是0",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "isPublicnNetwork",
-					"type": "integer",
-					"description": "是否公网",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "latitude",
-					"type": "number",
-					"description": "纬度",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "longitude",
-					"type": "number",
-					"description": "经度",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "mainSubStream",
-					"type": "string",
-					"description": "主子流设置",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "manufacture",
-					"type": "string",
-					"description": "设备厂商",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "model",
-					"type": "string",
-					"description": "设备型号",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "name",
-					"type": "string",
-					"description": "名称",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "onvifAddress",
-					"type": "string",
-					"description": "onvif 服务地址",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "orderby",
-					"type": "string",
-					"description": "排序依据",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "owner",
-					"type": "string",
-					"description": "设备归属",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "parental",
-					"type": "integer",
-					"description": "是否有子设备  0没有 1 有",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "parentid",
-					"type": "string",
-					"description": "父节点ID",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "password",
-					"type": "string",
-					"description": "密码",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "port",
-					"type": "string",
-					"description": "端口",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "positiontype",
-					"type": "integer",
-					"description": "摄像机位置类型",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "ptztype",
-					"type": "integer",
-					"description": "摄像机类型 1 球机， 2 半球， 3 固定枪机， 4 遥控枪机",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "regionId",
-					"type": "string",
-					"description": "对于直接接入本级域的相机，该字段填写本级gcserver的id；如果是下级平台接入的相机，该字段为空值",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "registerway",
-					"type": "integer",
-					"description": "注册方式，缺省为1；1 符合sip3261标准的认证注册模式； 2 基于口令的双向认证注册方式； 3 基于数字证书的双向认证注册方式",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "resolution",
-					"type": "string",
-					"description": "摄像机支持的分辨率",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "rights",
-					"type": "integer",
-					"description": "相机权限",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "roomtype",
-					"type": "integer",
-					"description": "摄像机安装位置室外，室内属性",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "safetyway",
-					"type": "integer",
-					"description": "信令安全模式（可选）。缺省为0； 0 不采用； 2 S/MIME签名方式； 3 S/MIME加密签名同时采用方式； 4 数字摘要方式",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "secrecy",
-					"type": "integer",
-					"description": "保密属性  0不涉密  1涉密",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "status",
-					"type": "integer",
-					"description": "1：离线，2：在线",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "streamId",
-					"type": "integer",
-					"description": "码流id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "streamPacketType",
-					"type": "integer",
-					"description": "媒体流打包格式",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "supplylighttype",
-					"type": "integer",
-					"description": "摄像机补光属性",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "svcspacesupportmode",
-					"type": "integer",
-					"description": "空域编码能力",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "userName",
-					"type": "string",
-					"description": "用户名",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "usetype",
-					"type": "integer",
-					"description": "摄像机用途属性",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "idType",
-					"type": "integer",
-					"description": "需要申请id类型",
-					"required": true,
-					"details": null,
-					"in": "requestBody"
-				},
-				{
-					"key": "isSupportPTZ",
-					"type": "boolean",
-					"description": "是否可以云台控制true-可以false-不可以",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/Cameras/{id}/location",
-			"tag": "Cameras",
-			"subBiz": null,
-			"methods": "put",
-			"summary": "监控位置变更",
-			"version": "v1",
-			"methodName": "editCameraLocation",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				},
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "longitude",
-					"type": "number",
-					"description": "经度",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "latitude",
-					"type": "number",
-					"description": "纬度",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/Cameras/search/label",
-			"tag": "Cameras",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "根据标签Id查找监控",
-			"version": "v1",
-			"methodName": "searchCamerasByLabel",
-			"parameters": [
-				{
-					"key": "X-version",
-					"type": "string",
-					"description": "",
-					"default": null,
-					"in": "header"
-				}
-			],
-			"responses": [
-				{
-					"key": "totalCount",
-					"type": "integer",
-					"description": "总数",
-					"required": false
-				},
-				{
-					"key": "records",
-					"type": "array",
-					"description": "记录",
-					"required": false
-				}
-			],
-			"requestBody": [
-				{
-					"key": "labelIds",
-					"type": "array",
-					"description": "标签Id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "keyword",
-					"type": "string",
-					"description": "关键字",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "pageIndex",
-					"type": "integer",
-					"description": "页码, 从1开始",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "pageSize",
-					"type": "integer",
-					"description": "页容量",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
 		},
 		{
 			"url": "/api/CameraVideos",
@@ -113727,6 +113753,76 @@
 			]
 		},
 		{
+			"url": "/api/v2/emerge/plan/page/keyword",
+			"tag": "4.0 应急预案",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "应急预案分页条件查询",
+			"version": "v1",
+			"methodName": "searchEmergencyPlansByPage",
+			"operationId": "getListByQueryUsingPOST",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "planLevel",
+					"type": "string",
+					"description": "预案级别",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "页面显示数量",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "planName",
+					"type": "string",
+					"description": "预案名称",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "planTypes",
+					"type": "array",
+					"description": "预案类型",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "planCategory",
+					"type": "string",
+					"description": "预案类别",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "pageNum",
+					"type": "integer",
+					"description": "当前页面",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "planTypePosterity",
+					"type": "boolean",
+					"description": "是否查询预案类型子孙级",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "divisionIds",
+					"type": "array",
+					"description": "行政区域",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
+		},
+		{
 			"url": "/api/v2/event/disposal/recommend/level",
 			"tag": "1.1 事件处置-辅助决策",
 			"subBiz": null,
@@ -114966,7 +115062,7 @@
 				},
 				{
 					"key": "id",
-					"type": "integer",
+					"type": "string",
 					"description": "",
 					"required": false,
 					"in": "requestBody"
@@ -115336,6 +115432,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "suffixContent",
+					"type": "string",
+					"description": "后缀内容：如附加的通知内容及跳转链接等信息，短信生效",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "remark",
 					"type": "string",
 					"description": "备注",
@@ -115377,16 +115480,16 @@
 			"tag": "1.1 事件处置-辅助决策",
 			"subBiz": null,
 			"methods": "get",
-			"summary": "根据事件id查询事件处置对象",
+			"summary": "获取事件处置对象",
 			"version": "v1",
 			"methodName": "getEventDisposalByEventId",
 			"operationId": "getEventDisposalByEidUsingGET",
 			"parameters": [
 				{
-					"key": "eId",
+					"key": "eventId",
 					"type": "string",
-					"description": "eId",
-					"required": false,
+					"description": "事件id",
+					"required": true,
 					"default": null,
 					"in": "query"
 				}
@@ -115535,6 +115638,28 @@
 					"type": "string",
 					"description": "query",
 					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/v2/event2/review",
+			"tag": "1.0 事件模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取事件回顾信息",
+			"version": "v1",
+			"methodName": "getEventReviewInfo",
+			"operationId": "getReviewEventUsingGET",
+			"parameters": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "事件Id",
+					"required": true,
 					"default": null,
 					"in": "query"
 				}
@@ -115746,13 +115871,6 @@
 					"key": "opertor",
 					"type": "string",
 					"description": "操作员",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "fileId",
-					"type": "string",
-					"description": "文件id",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -116588,6 +116706,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "suffixContent",
+					"type": "string",
+					"description": "后缀内容：如附加的通知内容及跳转链接等信息，短信生效",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "remark",
 					"type": "string",
 					"description": "备注",
@@ -116729,6 +116854,28 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/v2/event/progress/delete/{id}",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "删除事件事态发展",
+			"version": "v1",
+			"methodName": "deleteEventProgressById",
+			"operationId": "deleteByIdUsingPOST_1",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/v2/duty/holiday/year/{year}/{isReset}",
@@ -117171,6 +117318,97 @@
 			],
 			"responses": null,
 			"requestBody": null
+		},
+		{
+			"url": "/api/v2/event/progress/save",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "新增编辑事态发展",
+			"version": "v1",
+			"methodName": "saveOrUpdateEventProgress",
+			"operationId": "saveAndFlushUsingPOST_1",
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "所属事件id",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "operationId",
+					"type": "string",
+					"description": "操作源id，如：事件的信息报送id、事件的任务id等",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "directoryId",
+					"type": "string",
+					"description": "目录id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "operationType",
+					"type": "string",
+					"description": "操作类型、参考业务字典",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "remark",
+					"type": "string",
+					"description": "备注",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "category",
+					"type": "string",
+					"description": "分组",
+					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "title",
+					"type": "string",
+					"description": "标题",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "内容",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "extInfo",
+					"type": "string",
+					"description": "扩展信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "fileId",
+					"type": "string",
+					"description": "文件id",
+					"required": false,
+					"in": "requestBody"
+				}
+			]
 		},
 		{
 			"url": "/api/v2/event/disposal/page",
@@ -118004,6 +118242,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "extendInfo",
+					"type": "string",
+					"description": "扩展信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "dictType",
 					"type": "string",
 					"description": "字典类型",
@@ -118325,7 +118570,7 @@
 			"parameters": [
 				{
 					"key": "id",
-					"type": "integer",
+					"type": "string",
 					"description": "指标id",
 					"required": true,
 					"default": null,
@@ -118397,98 +118642,6 @@
 					"in": "requestBody"
 				}
 			]
-		},
-		{
-			"url": "/api/v2/eventProgress/add",
-			"tag": "1.3 事件事态发展模块",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "创建事件事态发展",
-			"version": "v1",
-			"methodName": "addEventProgress",
-			"operationId": "addEventProgressUsingPOST",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "eventId",
-					"type": "string",
-					"description": "所属事件id",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "relatedObject",
-					"type": "object",
-					"description": "相关对象",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "directoryId",
-					"type": "string",
-					"description": "目录Id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "remark",
-					"type": "string",
-					"description": "备注",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "title",
-					"type": "string",
-					"description": "标题",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "type",
-					"type": "string",
-					"description": "类型",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "extInfo",
-					"type": "string",
-					"description": "扩展字段",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "relatedId",
-					"type": "string",
-					"description": "相关id",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/v2/eventProgress/get/{id}",
-			"tag": "1.3 事件事态发展模块",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取事件事态发展",
-			"version": "v1",
-			"methodName": "getEventProgressById",
-			"operationId": "getEventProgressDetailUsingGET",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
-			"requestBody": null
 		},
 		{
 			"url": "/api/v2/resourceClassify/selectChildrenRes/{id}",
@@ -118919,6 +119072,13 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "instance",
+					"type": "boolean",
+					"description": "是否为实例，false 表示模板，true 表示实例",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "name",
 					"type": "string",
 					"description": "工作组名称",
@@ -118949,7 +119109,7 @@
 				{
 					"key": "contacts",
 					"type": "array",
-					"description": "负责部门",
+					"description": "默认：负责部门，为实例情况下为：负责人员",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -118961,6 +119121,82 @@
 					"in": "requestBody"
 				}
 			]
+		},
+		{
+			"url": "/api/v2/event/progress/event",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取事件事态发展信息",
+			"version": "v1",
+			"methodName": "getEventProgressByPage",
+			"operationId": "getByEventIdUsingGET",
+			"parameters": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "事件id",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "pageNum",
+					"type": "integer",
+					"description": "起始页",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "总数量",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/v2/event2/similar",
+			"tag": "1.0 事件模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取相似事件",
+			"version": "v1",
+			"methodName": "getSimilarEventsByPage",
+			"operationId": "getSimilarEventUsingGET",
+			"parameters": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "事件id",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "pageNum",
+					"type": "integer",
+					"description": "起始页",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "pageSize",
+					"type": "integer",
+					"description": "总数量",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
 		},
 		{
 			"url": "/api/v2/task/modify",
@@ -119568,7 +119804,7 @@
 			"summary": "关联资源",
 			"version": "v1",
 			"methodName": "associateRelatedResources",
-			"operationId": "saveAndFlushUsingPOST_2",
+			"operationId": "saveAndFlushUsingPOST_3",
 			"parameters": null,
 			"responses": null,
 			"requestBody": []
@@ -120120,28 +120356,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/v2/event2/getEmergePlanListByEvent/{eventId}",
-			"tag": "1.0 事件模块",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "获取事件处置预案",
-			"version": "v1",
-			"methodName": "getEmergencePlansByEventId",
-			"operationId": "getEmergePlanListByEventUsingGET",
-			"parameters": [
-				{
-					"key": "eventId",
-					"type": "string",
-					"description": "eventId",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
 			"url": "/api/v2/emerge/plan/quota/page",
 			"tag": "4.9 量化指标管理",
 			"subBiz": null,
@@ -120338,34 +120552,13 @@
 			"tag": "1.0 事件模块",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "创建事件",
+			"summary": "创建/修改事件",
 			"version": "v1",
 			"methodName": "createEvent",
 			"operationId": "insertEventUsingPOST",
 			"parameters": null,
 			"responses": null,
 			"requestBody": [
-				{
-					"key": "dutyOfficer",
-					"type": "string",
-					"description": "接报人",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "sourceId",
-					"type": "string",
-					"description": "衍生灾害事件id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "solveInfo",
-					"type": "string",
-					"description": "初步解决方法",
-					"required": false,
-					"in": "requestBody"
-				},
 				{
 					"key": "lng",
 					"type": "string",
@@ -120381,13 +120574,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "remark",
-					"type": "string",
-					"description": "备注",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "domainId",
 					"type": "string",
 					"description": "所属单位",
@@ -120395,24 +120581,10 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "externalEventId",
-					"type": "string",
-					"description": "外部事件id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "effect",
 					"type": "string",
 					"description": "事件影响后果",
 					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "eventStatus",
-					"type": "integer",
-					"description": "事件状态，对应业务字典",
-					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -120432,7 +120604,7 @@
 				{
 					"key": "typeId",
 					"type": "string",
-					"description": "事件类型、对应字典表",
+					"description": "事件类型、参考业务字典",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -120446,7 +120618,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "事件ID",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -120460,7 +120632,7 @@
 				{
 					"key": "category",
 					"type": "string",
-					"description": "事件分组，对应业务字典： WARNING - 预警 RECEIVE - 接报 TOPICS - 拍传 EXTERNAL - 外部第三方",
+					"description": "事件分组，参考业务字典： WARNING - 预警 RECEIVE - 接报 TOPICS - 拍传 EXTERNAL - 外部第三方",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -120483,13 +120655,6 @@
 					"type": "string",
 					"description": "事件详细描述",
 					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "reportTime",
-					"type": "integer",
-					"description": "接报时间",
-					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -120659,6 +120824,28 @@
 					"required": false,
 					"default": null,
 					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/v2/emerge/plan/resource/{id}",
+			"tag": "4.0 应急预案",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取应急预案详情及关联资源数据",
+			"version": "v1",
+			"methodName": "getEmergencyPlanDetailsWithResources",
+			"operationId": "getEmergePlanAndResourceByIdUsingGET",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
 				}
 			],
 			"responses": null,
@@ -121424,6 +121611,13 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "instance",
+					"type": "boolean",
+					"description": "是否为实例，false 表示模板，true 表示实例",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "name",
 					"type": "string",
 					"description": "工作组名称",
@@ -121454,7 +121648,7 @@
 				{
 					"key": "contacts",
 					"type": "array",
-					"description": "负责部门",
+					"description": "默认：负责部门，为实例情况下为：负责人员",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -121468,33 +121662,11 @@
 			]
 		},
 		{
-			"url": "/api/v2/eventProgress/getList",
-			"tag": "1.3 事件事态发展模块",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "事件事态发展全量查询",
-			"version": "v1",
-			"methodName": "getEventProgressList",
-			"operationId": "getEventProgressToListUsingGET",
-			"parameters": [
-				{
-					"key": "query",
-					"type": "string",
-					"description": "query",
-					"required": false,
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
 			"url": "/api/v2/event/disposal/plan/start",
 			"tag": "1.1 事件处置-辅助决策",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "辅助决策-启动预案/通知",
+			"summary": "辅助决策-启动预案通知",
 			"version": "v1",
 			"methodName": "startPlanOrNotify",
 			"operationId": "startEmergencyPlanUsingPOST",
@@ -121671,85 +121843,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/v2/eventProgress/update/{id}",
-			"tag": "1.3 事件事态发展模块",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "修改事件事态发展",
-			"version": "v1",
-			"methodName": "updateEventProgress",
-			"operationId": "updateEventProgressUsingPOST",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "eventId",
-					"type": "string",
-					"description": "所属事件id",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "relatedObject",
-					"type": "object",
-					"description": "相关对象",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "directoryId",
-					"type": "string",
-					"description": "目录Id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "remark",
-					"type": "string",
-					"description": "备注",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "title",
-					"type": "string",
-					"description": "标题",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "type",
-					"type": "string",
-					"description": "类型",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "extInfo",
-					"type": "string",
-					"description": "扩展字段",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "relatedId",
-					"type": "string",
-					"description": "相关id",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
 			"url": "/api/v2/event/disposal/plan",
 			"tag": "1.1 事件处置-辅助决策",
 			"subBiz": null,
@@ -121784,7 +121877,7 @@
 			"tag": "1.1 事件处置-辅助决策",
 			"subBiz": null,
 			"methods": "post",
-			"summary": "辅助决策-响应调整/通知",
+			"summary": "辅助决策-响应调整通知",
 			"version": "v1",
 			"methodName": "changeResponsePlan",
 			"operationId": "changeGradeLevelOfPlanDisposeUsingPOST_1",
@@ -121893,28 +121986,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/v2/eventProgress/getPage",
-			"tag": "1.3 事件事态发展模块",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "事件事态发展分页查询",
-			"version": "v1",
-			"methodName": "getEventProgressPage",
-			"operationId": "getEventProgressToPageUsingGET",
-			"parameters": [
-				{
-					"key": "query",
-					"type": "string",
-					"description": "query",
-					"required": false,
-					"default": null,
-					"in": "query"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
 			"url": "/api/v2/workShiftChange/getPageInfo",
 			"tag": "7.5 交接班模块",
 			"subBiz": null,
@@ -121935,62 +122006,6 @@
 			],
 			"responses": null,
 			"requestBody": null
-		},
-		{
-			"url": "/api/v2/emerge/plan/list",
-			"tag": "4.0 应急预案",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "应急预案条件查询",
-			"version": "v1",
-			"methodName": "getEmergencyPlans",
-			"operationId": "getListByQueryUsingPOST",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "planLevel",
-					"type": "string",
-					"description": "预案级别",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "planName",
-					"type": "string",
-					"description": "预案名称",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "planTypes",
-					"type": "array",
-					"description": "预案类型",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "planCategory",
-					"type": "string",
-					"description": "预案类别",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "planTypePosterity",
-					"type": "boolean",
-					"description": "是否查询预案类型子孙级",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "divisionIds",
-					"type": "array",
-					"description": "行政区域",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
 		},
 		{
 			"url": "/api/v2/duty/nuit/{id}",
@@ -122302,28 +122317,6 @@
 			"requestBody": null
 		},
 		{
-			"url": "/api/v2/eventProgress/delete/{id}",
-			"tag": "1.3 事件事态发展模块",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "删除事件事态发展",
-			"version": "v1",
-			"methodName": "deleteEventProgress",
-			"operationId": "deleteEventProgressUsingPOST",
-			"parameters": [
-				{
-					"key": "id",
-					"type": "string",
-					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "path"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
 			"url": "/api/v2/task/template/list",
 			"tag": "9.2 任务模版模块",
 			"subBiz": null,
@@ -122331,7 +122324,7 @@
 			"summary": "获取任务模板集合",
 			"version": "v1",
 			"methodName": "getTaskTemplates",
-			"operationId": "getListUsingGET",
+			"operationId": "getListUsingGET_1",
 			"parameters": [
 				{
 					"key": "keyWord",
@@ -122353,7 +122346,7 @@
 			"summary": "修改记录",
 			"version": "v1",
 			"methodName": "saveAndUpdateRecord",
-			"operationId": "saveAndFlushUsingPOST_1",
+			"operationId": "saveAndFlushUsingPOST_2",
 			"parameters": null,
 			"responses": null,
 			"requestBody": [
@@ -122772,6 +122765,28 @@
 			]
 		},
 		{
+			"url": "/api/v2/event/progress/{id}",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取事态发展详情",
+			"version": "v1",
+			"methodName": "getEventProgressDetails",
+			"operationId": "getByIdUsingGET_8",
+			"parameters": [
+				{
+					"key": "id",
+					"type": "string",
+					"description": "id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/v2/emerge/plan/level/quota/batch",
 			"tag": "4.3 应急响应-响应指标",
 			"subBiz": null,
@@ -122954,6 +122969,13 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "instance",
+					"type": "boolean",
+					"description": "是否为实例，false 表示模板，true 表示实例",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "responsibility",
 					"type": "string",
 					"description": "职责描述",
@@ -122989,6 +123011,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "contacts",
+					"type": "array",
+					"description": "会议终端信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "domainId",
 					"type": "string",
 					"description": "单位",
@@ -123005,7 +123034,7 @@
 			"summary": "获取任务模板分页",
 			"version": "v1",
 			"methodName": "getTaskTemplatePage",
-			"operationId": "getPageUsingGET_5",
+			"operationId": "getPageUsingGET_6",
 			"parameters": [
 				{
 					"key": "keyWord",
@@ -123178,6 +123207,28 @@
 					"key": "contactType",
 					"type": "string",
 					"description": "联系类型",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/api/v2/event/progress/page",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "事件事态发展分页查询",
+			"version": "v1",
+			"methodName": "getEventProgressByPage",
+			"operationId": "getPageUsingGET_5",
+			"parameters": [
+				{
+					"key": "query",
+					"type": "string",
+					"description": "query",
 					"required": false,
 					"default": null,
 					"in": "query"
@@ -123438,6 +123489,13 @@
 			"responses": null,
 			"requestBody": [
 				{
+					"key": "instance",
+					"type": "boolean",
+					"description": "是否为实例，false 表示模板，true 表示实例",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "responsibility",
 					"type": "string",
 					"description": "职责描述",
@@ -123473,6 +123531,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "contacts",
+					"type": "array",
+					"description": "会议终端信息",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "domainId",
 					"type": "string",
 					"description": "单位",
@@ -123503,7 +123568,7 @@
 				{
 					"key": "event",
 					"type": "object",
-					"description": "事件信息",
+					"description": "",
 					"required": true,
 					"details": [
 						{
@@ -123547,27 +123612,6 @@
 						},
 						{
 							"key": "13"
-						},
-						{
-							"key": "14"
-						},
-						{
-							"key": "15"
-						},
-						{
-							"key": "16"
-						},
-						{
-							"key": "17"
-						},
-						{
-							"key": "18"
-						},
-						{
-							"key": "19"
-						},
-						{
-							"key": "20"
 						}
 					],
 					"in": "requestBody"
@@ -123594,27 +123638,6 @@
 			"responses": null,
 			"requestBody": [
 				{
-					"key": "dutyOfficer",
-					"type": "string",
-					"description": "接报人",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "sourceId",
-					"type": "string",
-					"description": "衍生灾害事件id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "solveInfo",
-					"type": "string",
-					"description": "初步解决方法",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "lng",
 					"type": "string",
 					"description": "事件发生经度",
@@ -123629,13 +123652,6 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "remark",
-					"type": "string",
-					"description": "备注",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "domainId",
 					"type": "string",
 					"description": "所属单位",
@@ -123643,24 +123659,10 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "externalEventId",
-					"type": "string",
-					"description": "外部事件id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
 					"key": "effect",
 					"type": "string",
 					"description": "事件影响后果",
 					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "eventStatus",
-					"type": "integer",
-					"description": "事件状态，对应业务字典",
-					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -123680,7 +123682,7 @@
 				{
 					"key": "typeId",
 					"type": "string",
-					"description": "事件类型、对应字典表",
+					"description": "事件类型、参考业务字典",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -123694,7 +123696,7 @@
 				{
 					"key": "id",
 					"type": "string",
-					"description": "",
+					"description": "事件ID",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -123708,7 +123710,7 @@
 				{
 					"key": "category",
 					"type": "string",
-					"description": "事件分组，对应业务字典： WARNING - 预警 RECEIVE - 接报 TOPICS - 拍传 EXTERNAL - 外部第三方",
+					"description": "事件分组，参考业务字典： WARNING - 预警 RECEIVE - 接报 TOPICS - 拍传 EXTERNAL - 外部第三方",
 					"required": true,
 					"in": "requestBody"
 				},
@@ -123731,13 +123733,6 @@
 					"type": "string",
 					"description": "事件详细描述",
 					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "reportTime",
-					"type": "integer",
-					"description": "接报时间",
-					"required": false,
 					"in": "requestBody"
 				}
 			]
@@ -123803,6 +123798,28 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/v2/event/progress/list",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "事件事态发展全量查询",
+			"version": "v1",
+			"methodName": "getAllEventProgress",
+			"operationId": "getListUsingGET",
+			"parameters": [
+				{
+					"key": "query",
+					"type": "string",
+					"description": "query",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/v2/operation/record",
 			"tag": "11.0 操作记录模块",
 			"subBiz": null,
@@ -123810,7 +123827,7 @@
 			"summary": "新增编辑操作记录",
 			"version": "v1",
 			"methodName": "saveOrUpdateOperationRecord",
-			"operationId": "saveAndFlushUsingPOST_3",
+			"operationId": "saveAndFlushUsingPOST_4",
 			"parameters": null,
 			"responses": null,
 			"requestBody": [
@@ -123902,6 +123919,28 @@
 			"requestBody": null
 		},
 		{
+			"url": "/api/v2/event/progress/event/file",
+			"tag": "1.3 事件事态发展模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取事件事态发展过程文件",
+			"version": "v1",
+			"methodName": "getEventProgressFiles",
+			"operationId": "getFileByEventIdUsingGET",
+			"parameters": [
+				{
+					"key": "eventId",
+					"type": "string",
+					"description": "事件id",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
 			"url": "/api/v2/duty/record/list",
 			"tag": "7.2 值班记录管理",
 			"subBiz": null,
@@ -123953,6 +123992,2535 @@
 					"required": true,
 					"default": null,
 					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		}
+	],
+	"gmeetBiz": [
+		{
+			"url": "/gmeet/api/v1/auth",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "登录认证",
+			"version": "v1",
+			"methodName": "authenticateUser",
+			"operationId": "authUsingPOST",
+			"parameters": [
+				{
+					"key": "auth",
+					"description": "auth",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/ercode/authinfo",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "客户端获取授权码",
+			"version": "v1",
+			"methodName": "getAuthCode",
+			"operationId": "getAuthInfoUsingGET",
+			"parameters": [
+				{
+					"key": "clientCode",
+					"description": "客户端唯一标识",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/erocde/authresult",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据授权码获取授权结果",
+			"version": "v1",
+			"methodName": "getAuthResult",
+			"operationId": "getAuthResultUsingGET",
+			"parameters": [
+				{
+					"key": "authCode",
+					"description": "授权码",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "clientCode",
+					"description": "客户端唯一标识",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/monitor/{room}",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取监视权限信息",
+			"version": "v1",
+			"methodName": "getMonitorPermission",
+			"operationId": "getMonitorInfoUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "room",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/shorten/url",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取分享短链接",
+			"version": "v1",
+			"methodName": "getShortenedUrl",
+			"operationId": "getShareTokenUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "expireDate",
+					"description": "有效时长（以毫秒为单位）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "roomId",
+					"description": "会议id",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/shorten/url/verify/{url}",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "验证分享短链接",
+			"version": "v1",
+			"methodName": "verifyShortenedUrl",
+			"operationId": "verifyShareTokenUsingPOST",
+			"parameters": [
+				{
+					"key": "url",
+					"description": "url",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/token",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "token校验",
+			"version": "v1",
+			"methodName": "validateToken",
+			"operationId": "tokenUsingPOST",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/auth/verify",
+			"tag": "1.0 认证模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "创建会议权限校验",
+			"version": "v1",
+			"methodName": "verifyCreateMeetingPermission",
+			"operationId": "verifyUsingPOST",
+			"parameters": [
+				{
+					"key": "token",
+					"description": "token",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/config/getRegion",
+			"tag": "5.0 配置模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据IP获取GVB节点",
+			"version": "v1",
+			"methodName": "getGvbNodeByIp",
+			"operationId": "getRegionUsingGET",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/config/license",
+			"tag": "5.0 配置模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取license",
+			"version": "v1",
+			"methodName": "getLicense",
+			"operationId": "getLicenseUsingGET",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/config/license",
+			"tag": "5.0 配置模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "更新license",
+			"version": "v1",
+			"methodName": "updateLicense",
+			"operationId": "loadLicenseUsingPOST",
+			"parameters": [
+				{
+					"key": "newLicense",
+					"description": "newLicense",
+					"required": true,
+					"default": null,
+					"in": "formData"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/config/{fileName}",
+			"tag": "5.0 配置模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据文件名获取配置信息",
+			"version": "v1",
+			"methodName": "getConfigByFileName",
+			"operationId": "getConfigUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "fileName",
+					"description": "配置文件名",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/config/{fileName}",
+			"tag": "5.0 配置模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据文件名设置配置信息",
+			"version": "v1",
+			"methodName": "setConfigByFileName",
+			"operationId": "setConfigUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "content",
+					"type": "string",
+					"description": "配置文件信息",
+					"required": true,
+					"default": null,
+					"in": "body"
+				},
+				{
+					"key": "fileName",
+					"description": "配置文件名",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/contact",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据组织架构获取联系人",
+			"version": "v1",
+			"methodName": "getContactsByOrgStructure",
+			"operationId": "getContactsByOrganizationIdUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": false,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "organizationId",
+					"description": "组织架构ID",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/destroy",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "结束会议",
+			"version": "v1",
+			"methodName": "endMeeting",
+			"operationId": "destroyUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/grantRole",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "角色授权",
+			"version": "v1",
+			"methodName": "grantRole",
+			"operationId": "grantRoleUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "jid",
+					"description": "用户jid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "role",
+					"description": "授予角色：owner，admin，member，outcast，none;",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/groups",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取群组信息",
+			"version": "v1",
+			"methodName": "getGroupsByPage",
+			"operationId": "groupsUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "page",
+					"description": "分页页码，从0开始，默认是0",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"description": "分页大小，默认是50",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/groups/{id}/contact/infos",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取群组成员详细信息",
+			"version": "v1",
+			"methodName": "getGroupMembersDetails",
+			"operationId": "groupsContactInfosUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "id",
+					"description": "群组ID",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/invite",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "邀请会场",
+			"version": "v1",
+			"methodName": "inviteToConference",
+			"operationId": "inviteEndpointUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "inviteEndpointList",
+					"type": "array",
+					"description": "inviteEndpointList",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/invite/tencent",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "邀请会场（腾讯会议）",
+			"version": "v1",
+			"methodName": "inviteToTencentConference",
+			"operationId": "inviteTencentUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "name",
+					"description": "显示名称",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "room",
+					"description": "房间号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "sipUser",
+					"description": "sip号码",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/invite/user",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "邀请成员（用户）",
+			"version": "v1",
+			"methodName": "inviteUserToConference",
+			"operationId": "inviteUserUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "inviteUserDto",
+					"description": "inviteUserDto",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/inviteSpeak",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "邀请发言",
+			"version": "v1",
+			"methodName": "inviteToSpeak",
+			"operationId": "inviteSpeakUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "memberId",
+					"description": "成员id(为name，非Jid)",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/isolation",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "屏蔽会议中的其他人",
+			"version": "v1",
+			"methodName": "isolateOtherParticipants",
+			"operationId": "isolationUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "isolationDto",
+					"description": "isolationDto",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/kicked",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "踢出成员",
+			"version": "v1",
+			"methodName": "kickOutMember",
+			"operationId": "kickedUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "jid",
+					"description": "用户jid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/layout",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "设置布局",
+			"version": "v1",
+			"methodName": "setLayout",
+			"operationId": "setLayoutUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "setLayoutInDto",
+					"description": "setLayoutInDto",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/modifyNick",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "修改会场昵称",
+			"version": "v1",
+			"methodName": "modifyConferenceNick",
+			"operationId": "modifyNickUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "memberId",
+					"description": "成员id(为name，非Jid)",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "nick",
+					"description": "昵称",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/modifySubject",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "修改会议名称",
+			"version": "v1",
+			"methodName": "modifyMeetingSubject",
+			"operationId": "modifySubjectUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "subject",
+					"description": "会议主题",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/mute",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "禁用音视频",
+			"version": "v1",
+			"methodName": "muteAudioVideo",
+			"operationId": "muteUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "doMute",
+					"description": "默认传true",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "mediaType",
+					"description": "禁用类型，`video` 或者 `audio`",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "other",
+					"description": "是否禁用其他人音视频",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "toBeMutedJid",
+					"description": "用户jid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/organization",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据父节点获取组织架构",
+			"version": "v1",
+			"methodName": "getOrganizationByParentNode",
+			"operationId": "getOrganizationByParentIdUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": false,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "parentId",
+					"description": "组织机构父节点id",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/search/user",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "模糊查询账户列表",
+			"version": "v1",
+			"methodName": "searchUsersByKeyword",
+			"operationId": "searchUserByKeywordUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": false,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字，默认空串",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "分页页码，从0开始，默认是0",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "per_page",
+					"description": "分页大小，默认是50",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/sendSms",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "发送邀请短信",
+			"version": "v1",
+			"methodName": "sendInviteSms",
+			"operationId": "sendSmsUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "phones",
+					"description": "号码",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/conference/setRoomPassword",
+			"tag": "2.0 会控模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "设置会议密码",
+			"version": "v1",
+			"methodName": "setMeetingPassword",
+			"operationId": "setRoomPasswordUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "password",
+					"description": "会议密码",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/audio",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "设置音频（设置某个或某些用户禁言或静音）",
+			"version": "v1",
+			"methodName": "setAudioMute",
+			"operationId": "audioUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "egress",
+					"description": "静音,false 关闭声音、true 开启声音",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "entities",
+					"description": "用户标识",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "ingress",
+					"description": "禁言,false 关闭发言、true开启发言",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/bind/sip",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "给指定的会议室绑定一个SIP客户， 接收SIP终端呼入指定会议室",
+			"version": "v1",
+			"methodName": "bindSipToConference",
+			"operationId": "bindSipUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "房间号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "sipUser",
+					"description": "SIP号码",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/kicked",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "vdg会场踢出成员",
+			"version": "v1",
+			"methodName": "kickOutVdgMember",
+			"operationId": "kickedUsingPOST_1",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "entity",
+					"description": "用户标识",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/memberList",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取vdg会场成员列表",
+			"version": "v1",
+			"methodName": "getVdgMemberList",
+			"operationId": "getVdgMemberListUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/prohibition",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "全体禁言",
+			"version": "v1",
+			"methodName": "muteAllParticipants",
+			"operationId": "prohibitionUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/unbind/sip",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "指定的会议室解绑定SIP",
+			"version": "v1",
+			"methodName": "unbindSipFromConference",
+			"operationId": "unbindSipUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "sipUser",
+					"description": "SIP号码",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/videoConstraints",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "将指定会场中的指定成员设置为主讲人视角推送给SIP终端（gmb）",
+			"version": "v1",
+			"methodName": "setSpeakerViewForVdgMember",
+			"operationId": "videoConstraintsUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "mucSipClientName",
+					"description": "sip客户端 name",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "name",
+					"description": "会场 name",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/ctrl/vdg/view",
+			"tag": "6.0 vdg模块",
+			"subBiz": null,
+			"methods": "put",
+			"summary": "设置vdg会场视图",
+			"version": "v1",
+			"methodName": "setVdgView",
+			"operationId": "setVdgViewUsingPUT",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "entity",
+					"description": "vdg 用户id, 设置等分模式不传entity",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "layout",
+					"description": "视图样式（全屏：Exclusive， 等分：Equality）",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/file/upload",
+			"tag": "9.0 文件模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "httpUpload",
+			"version": "v1",
+			"methodName": "httpUploadFile",
+			"operationId": "httpUploadUsingPOST",
+			"parameters": [
+				{
+					"key": "files",
+					"description": "files",
+					"required": true,
+					"default": null,
+					"in": "formData"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/invite/camera",
+			"tag": "10.0 邀请模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取监控列表",
+			"version": "v1",
+			"methodName": "getCameraMonitorList",
+			"operationId": "getCameraListUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/invite/camera/group/page",
+			"tag": "10.0 邀请模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取相机组",
+			"version": "v1",
+			"methodName": "getCameraGroupsByPage",
+			"operationId": "getCameraGroupByPageUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/invite/camera/page",
+			"tag": "10.0 邀请模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据相机组id分页获取相机",
+			"version": "v1",
+			"methodName": "getCamerasByGroupIdPage",
+			"operationId": "getCameraByPageUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "groupId",
+					"description": "相机组id",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/invite/camera/search",
+			"tag": "10.0 邀请模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据相机名称查找相机",
+			"version": "v1",
+			"methodName": "searchCameraByName",
+			"operationId": "searchUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "相机名称",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/invite/camera/tree/get",
+			"tag": "10.0 邀请模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "懒加载获取监控区域树",
+			"version": "v1",
+			"methodName": "getCameraRegionTreeLazyLoad",
+			"operationId": "getCameraNodeByPageUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "nodeId",
+					"description": "节点Id",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/invite/rtsp/{room}",
+			"tag": "10.0 邀请模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "邀请监控入会",
+			"version": "v1",
+			"methodName": "inviteMonitorToMeeting",
+			"operationId": "inviteRtspUsingPOST_1",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "房间号",
+					"required": false,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "streamList",
+					"description": "相机标识，国标ID（数组，用英文逗号分隔）",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/message",
+			"tag": "8.0 聊天模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据会议id获取聊天记录",
+			"version": "v1",
+			"methodName": "getChatMessagesByMeetingId",
+			"operationId": "getChatMessageUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "roomId",
+					"description": "roomId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据会议id获取录制文件地址",
+			"version": "v1",
+			"methodName": "getRecordingUrlByMeetingId",
+			"operationId": "getRecordUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "roomId",
+					"description": "roomId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "录制",
+			"version": "v1",
+			"methodName": "startRecording",
+			"operationId": "setRecordUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "action",
+					"description": "start: 启动录制，stop：停止录制",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "room",
+					"description": "会议号",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record/download",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "minio下载",
+			"version": "v1",
+			"methodName": "downloadFromMinio",
+			"operationId": "downloadUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "path",
+					"description": "path",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record/getAvailable",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取空闲数量",
+			"version": "v1",
+			"methodName": "getAvailableCount",
+			"operationId": "getAvailableUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record/getRecordStatus",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取录制状态",
+			"version": "v1",
+			"methodName": "getRecordingStatus",
+			"operationId": "getRecordStatusUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "房间号",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record/uploadVideo",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "会议中上传视频",
+			"version": "v1",
+			"methodName": "uploadVideoToMeeting",
+			"operationId": "uploadVideoUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "file",
+					"description": "文件",
+					"required": false,
+					"default": null,
+					"in": "formData"
+				},
+				{
+					"key": "room",
+					"description": "房间号",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/record/uploadVideo/end",
+			"tag": "7.0 录制模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "结束会议后上传视频",
+			"version": "v1",
+			"methodName": "uploadVideoAfterMeetingEnd",
+			"operationId": "endUploadVideoUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "file",
+					"description": "文件",
+					"required": false,
+					"default": null,
+					"in": "formData"
+				},
+				{
+					"key": "roomId",
+					"description": "会议id",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/reservation/conference",
+			"tag": "4.0 预约模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取与我相关的预约会议",
+			"version": "v1",
+			"methodName": "getRelatedReservedMeetings",
+			"operationId": "getAllReservationUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "type",
+					"description": "获取会议类型，预约会议：0， 固定会议：1，不传默认获取所有",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/reservation/conference",
+			"tag": "4.0 预约模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "预约&固定会议室",
+			"version": "v1",
+			"methodName": "reserveFixedConferenceRoom",
+			"operationId": "createReservationUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "reservationInDto",
+					"description": "reservationInDto",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/reservation/conference/page",
+			"tag": "4.0 预约模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取预约会议",
+			"version": "v1",
+			"methodName": "getReservedMeetingsByPage",
+			"operationId": "getPageUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "type",
+					"description": "获取会议类型，预约会议：0， 固定会议：1，不传默认获取所有",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/reservation/conference/{room}",
+			"tag": "4.0 预约模块",
+			"subBiz": null,
+			"methods": "delete",
+			"summary": "删除会议室",
+			"version": "v1",
+			"methodName": "deleteConferenceRoom",
+			"operationId": "deleteReservationUsingDELETE",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "room",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "GSS信息统计",
+			"version": "v1",
+			"methodName": "getGssStatistics",
+			"operationId": "getStatsUsingGET",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取进行中的会议",
+			"version": "v1",
+			"methodName": "getOngoingConferences",
+			"operationId": "getAllConferencesUsingGET_1",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/getPage",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "分页获取进行中的会议",
+			"version": "v1",
+			"methodName": "getOngoingConferencesByPage",
+			"operationId": "getAllConferencesUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/history",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "分页获取历史会议",
+			"version": "v1",
+			"methodName": "getHistoricalConferencesByPage",
+			"operationId": "getHistoryConferenceUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/history/{roomId}",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据会议id获取历史会议",
+			"version": "v1",
+			"methodName": "getHistoricalConferenceById",
+			"operationId": "getHistoryConferenceUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "roomId",
+					"description": "会议 id",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/pageByGid",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据会议gid获取会议详情(分页)",
+			"version": "v1",
+			"methodName": "getConferenceDetailsByGidPage",
+			"operationId": "getPageByGidUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/summary",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "获取会议统计信息",
+			"version": "v1",
+			"methodName": "getConferenceSummaryStats",
+			"operationId": "summaryUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/video/mute/{room}",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "根据房间号发起开启摄像头申请",
+			"version": "v1",
+			"methodName": "requestVideoMuteForRoom",
+			"operationId": "getConferenceVideoCntUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "room",
+					"description": "房间号",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/{gid}",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "根据会议gid获取会议详情",
+			"version": "v1",
+			"methodName": "getConferenceDetailsByGid",
+			"operationId": "getConferencesUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "gid",
+					"description": "会议gid",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/conference/{roomName}/stats",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取会议简要信息",
+			"version": "v1",
+			"methodName": "getConferenceSummaryByRoomName",
+			"operationId": "rootExistsUsingGET",
+			"parameters": [
+				{
+					"key": "roomName",
+					"description": "房间号",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/export/excel",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "历史会议详情excel导出",
+			"version": "v1",
+			"methodName": "exportHistoricalConferenceDetailsToExcel",
+			"operationId": "downloadUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "roomId",
+					"description": "roomId",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/gmb/call/trace",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取GMB呼叫过程",
+			"version": "v1",
+			"methodName": "getGmbCallTrace",
+			"operationId": "getGmbCallTraceUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "page",
+					"description": "页数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "size",
+					"description": "每页条数",
+					"required": true,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/gmb/sip/list/status",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取GMB SIP 状态列表",
+			"version": "v1",
+			"methodName": "getGmbSipStatusList",
+			"operationId": "getSipStatusListUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "keyword",
+					"description": "关键字",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/grn",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取GRN节点信息",
+			"version": "v1",
+			"methodName": "getGrnNodeInfo",
+			"operationId": "getGrnStatsUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/gvb",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "GVB网桥数据",
+			"version": "v1",
+			"methodName": "getGvbBridgeData",
+			"operationId": "getGvbUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/gvb/bandwidth/alarm/add",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "添加GVB流量警戒线",
+			"version": "v1",
+			"methodName": "addGvbBandwidthAlarm",
+			"operationId": "addGvbBandwidthAlarmUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "bandwidthAlarm",
+					"description": "bandwidthAlarm",
+					"required": true,
+					"default": null,
+					"in": "body"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/gvb/bandwidth/alarm/del/{id}",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "删除GVB流量警戒线",
+			"version": "v1",
+			"methodName": "deleteGvbBandwidthAlarmById",
+			"operationId": "deleteGvbBandwidthAlarmUsingPOST",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "id",
+					"description": "GVBID",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/gvb/stats/{relayId}/{when}",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "GVB网桥画像",
+			"version": "v1",
+			"methodName": "getGvbBridgeStatsSnapshotByRelayIdAndTime",
+			"operationId": "getGvbStatsUsingGET",
+			"parameters": [
+				{
+					"key": "X-Token",
+					"type": "string",
+					"description": "X-Token",
+					"required": true,
+					"default": null,
+					"in": "header"
+				},
+				{
+					"key": "lastTime",
+					"type": "integer",
+					"description": "real 时生效，上次接受到最后数据的时间戳",
+					"required": false,
+					"default": null,
+					"in": "body"
+				},
+				{
+					"key": "relayId",
+					"description": "GVBID",
+					"required": true,
+					"default": null,
+					"in": "path"
+				},
+				{
+					"key": "when",
+					"description": "real 或 日期 如2022-09-07",
+					"required": true,
+					"default": null,
+					"in": "path"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/stats/restart",
+			"tag": "3.0 状态模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "reqRestart",
+			"version": "v1",
+			"methodName": "requestRestartStats",
+			"operationId": "reqRestartUsingGET",
+			"parameters": null,
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/zmu/check",
+			"tag": "11.0 zmu模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "检查推流状态",
+			"version": "v1",
+			"methodName": "checkStreamStatus",
+			"operationId": "checkUsingGET",
+			"parameters": [
+				{
+					"key": "gid",
+					"description": "会议号",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/zmu/record",
+			"tag": "11.0 zmu模块",
+			"subBiz": null,
+			"methods": "post",
+			"summary": "录制",
+			"version": "v1",
+			"methodName": "startRecording",
+			"operationId": "recordUsingPOST",
+			"parameters": [
+				{
+					"key": "action",
+					"description": "0: 启动录制，1：停止录制",
+					"required": false,
+					"default": null,
+					"in": "query"
+				},
+				{
+					"key": "gid",
+					"description": "会议号",
+					"required": false,
+					"default": null,
+					"in": "query"
+				}
+			],
+			"responses": null,
+			"requestBody": null
+		},
+		{
+			"url": "/gmeet/api/v1/zmu/recordList",
+			"tag": "11.0 zmu模块",
+			"subBiz": null,
+			"methods": "get",
+			"summary": "获取录制列表",
+			"version": "v1",
+			"methodName": "getRecordingList",
+			"operationId": "recordListUsingGET",
+			"parameters": [
+				{
+					"key": "gid",
+					"description": "会议号",
+					"required": false,
+					"default": null,
+					"in": "query"
 				}
 			],
 			"responses": null,
