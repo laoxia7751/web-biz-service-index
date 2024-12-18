@@ -118983,6 +118983,13 @@
 					"in": "requestBody"
 				},
 				{
+					"key": "instance",
+					"type": "boolean",
+					"description": "是否为实例，false 表示模板，true 表示实例",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
 					"key": "flowNodeId",
 					"type": "string",
 					"description": "流程节点Id",
@@ -119032,17 +119039,17 @@
 					"in": "requestBody"
 				},
 				{
-					"key": "flowNodeInfo",
-					"type": "string",
-					"description": "流程节点信息，用于画布展示位置坐标同时含链接目录",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
 					"key": "noticeContent",
 					"type": "string",
 					"description": "通知内容",
 					"required": true,
+					"in": "requestBody"
+				},
+				{
+					"key": "suffixContent",
+					"type": "string",
+					"description": "后缀内容如：事件任务链接",
+					"required": false,
 					"in": "requestBody"
 				},
 				{
@@ -119069,7 +119076,7 @@
 				{
 					"key": "noticeWay",
 					"type": "string",
-					"description": "通知方式，参考业务字典",
+					"description": "通知方式，参考业务字典、多种方式英文逗号分开",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -119752,34 +119759,6 @@
 					"key": "divisionIds",
 					"type": "array",
 					"description": "行政区域",
-					"required": false,
-					"in": "requestBody"
-				}
-			]
-		},
-		{
-			"url": "/api/v2/event/disposal/recommend/level",
-			"tag": "1.1 事件处置-辅助决策",
-			"subBiz": null,
-			"methods": "get",
-			"summary": "辅助决策-推荐响应等级",
-			"version": "v1",
-			"methodName": "recommendResponseLevel",
-			"operationId": "getRecommendLevelUsingGET",
-			"parameters": null,
-			"responses": null,
-			"requestBody": [
-				{
-					"key": "quota",
-					"type": "object",
-					"description": "指标入参",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "eqId",
-					"type": "string",
-					"description": "预案ID",
 					"required": false,
 					"in": "requestBody"
 				}
@@ -124086,7 +124065,7 @@
 				{
 					"key": "level",
 					"type": "string",
-					"description": "响应等级",
+					"description": "响应等级ID",
 					"required": false,
 					"default": null,
 					"in": "query"
@@ -125019,28 +124998,6 @@
 					"required": true,
 					"default": null,
 					"in": "query"
-				}
-			],
-			"responses": null,
-			"requestBody": null
-		},
-		{
-			"url": "/api/v2/event/disposal/endDisposal/{disposalId}",
-			"tag": "1.1 事件处置-辅助决策",
-			"subBiz": null,
-			"methods": "post",
-			"summary": "结束处置",
-			"version": "v1",
-			"methodName": "endEventDisposalById",
-			"operationId": "endDisposalUsingPOST",
-			"parameters": [
-				{
-					"key": "disposalId",
-					"type": "string",
-					"description": "处置id",
-					"required": true,
-					"default": null,
-					"in": "path"
 				}
 			],
 			"responses": null,
@@ -126934,18 +126891,17 @@
 			"version": "v1",
 			"methodName": "checkDictionaryIdExists",
 			"operationId": "getChildLeafNodeByIdUsingPOST",
-			"parameters": [
+			"parameters": null,
+			"responses": null,
+			"requestBody": [
 				{
 					"key": "id",
 					"type": "string",
 					"description": "id",
-					"required": true,
-					"default": null,
-					"in": "query"
+					"required": false,
+					"in": "requestBody"
 				}
-			],
-			"responses": null,
-			"requestBody": null
+			]
 		},
 		{
 			"url": "/api/v2/duty/roster/findOnDutySignInAndALLCount",
@@ -128220,30 +128176,37 @@
 			"responses": null,
 			"requestBody": [
 				{
-					"key": "sourceId",
+					"key": "noticeContent",
 					"type": "string",
-					"description": "源id",
+					"description": "通知内容",
 					"required": true,
 					"in": "requestBody"
 				},
 				{
-					"key": "flowNodeId",
+					"key": "suffixContent",
 					"type": "string",
-					"description": "流程节点Id",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "flowContent",
-					"type": "string",
-					"description": "流程内容",
-					"required": true,
+					"description": "后缀内容如：事件任务链接",
+					"required": false,
 					"in": "requestBody"
 				},
 				{
 					"key": "remark",
 					"type": "string",
 					"description": "备注",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "id",
+					"type": "string",
+					"description": "流程节点id",
+					"required": false,
+					"in": "requestBody"
+				},
+				{
+					"key": "noticeWay",
+					"type": "string",
+					"description": "通知方式，参考业务字典、多种方式英文逗号分开",
 					"required": false,
 					"in": "requestBody"
 				},
@@ -128259,76 +128222,6 @@
 					"type": "string",
 					"description": "模板id",
 					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "flowName",
-					"type": "string",
-					"description": "流程名称",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "parentId",
-					"type": "string",
-					"description": "父节点Id，注：子流程时需要填写将父节点ID",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "flowNodeInfo",
-					"type": "string",
-					"description": "流程节点信息，用于画布展示位置坐标同时含链接目录",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "noticeContent",
-					"type": "string",
-					"description": "通知内容",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "groupIds",
-					"type": "array",
-					"description": "执行工作组",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "flowSort",
-					"type": "integer",
-					"description": "流程排序，用于实例后展示具体等级流程，数值越大越靠前",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "id",
-					"type": "string",
-					"description": "流程节点id",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "noticeWay",
-					"type": "string",
-					"description": "通知方式，参考业务字典",
-					"required": false,
-					"in": "requestBody"
-				},
-				{
-					"key": "levels",
-					"type": "array",
-					"description": "响应等级，参考业务字典",
-					"required": true,
-					"in": "requestBody"
-				},
-				{
-					"key": "flowType",
-					"type": "string",
-					"description": "流程类型，参考业务字典",
-					"required": true,
 					"in": "requestBody"
 				}
 			]
